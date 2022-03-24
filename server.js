@@ -80,7 +80,7 @@ app.delete('/quotes',(req,res)=>
     .catch(error=> console.error(error))
 });
 
-app.listen(process.env.PORT || 3000,function loadserver()
+app.listen(3000,function loadserver()
 {
     console.log('listening on 3000');
 });
