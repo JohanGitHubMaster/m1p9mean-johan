@@ -29,6 +29,15 @@ app.get('/',(req,res)=>
     
 });
 
+app.use('/listquotes',(req,res)=>
+{
+    db.collection('quotes').find().toArray().then(results =>
+        {
+            res.json(results);
+            console.log(results);
+        }).catch(error=> console.error(error));
+})
+
 app.post('/quotes', (req, res) => {
         db.collection('quotes').insertOne(req.body).then(result=>
             {
