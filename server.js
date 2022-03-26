@@ -9,7 +9,13 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.set('view engine','ejs');
 var db = {};
+var cors = require('cors');
 
+app.use(cors());
+var corsOptions = {
+    origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => {
     console.log('Connected to Database');
@@ -29,7 +35,7 @@ app.get('/',(req,res)=>
     
 });
 
-app.use('/listquotes',(req,res)=>
+app.use('/listquotes',cors(corsOptions),(req,res)=>
 {
     db.collection('quotes').find().toArray().then(results =>
         {
