@@ -1,0 +1,23 @@
+<p>read-quotes works!</p>
+<h3>{{titre}}</h3>
+<div *ngFor="let quote of quotes; let i=index">
+    <p>{{ quote.name }} : {{quote.quote}}</p>
+    <button (click)="delete(quote._id, i)">Delete</button>
+  </div>
+<br>
+<form [formGroup]="quoteform" (ngSubmit)="submitForm()">
+  <input type="text" placeholder="name"  formControlName="name">
+    <input type="text" placeholder="quote"  formControlName="quote">
+    <button class="button" type="submit">Purchase</button>
+</form>
+  <!-- <form (ngSubmit)="submitForm()">
+    <div class="form-group">
+        <input type="file" (change)="uploadFile($event)">
+    </div>
+    <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Name" formControlName="name">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-danger btn-block btn-lg">Create</button>
+    </div>
+</form> -->
