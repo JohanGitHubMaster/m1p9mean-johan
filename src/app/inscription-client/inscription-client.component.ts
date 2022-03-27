@@ -11,6 +11,7 @@ import { Client } from './client';
 export class InscriptionClientComponent implements OnInit {
   listclient?:Client[];
   BodyFormClientAdd:FormGroup;
+  display = true;
   constructor(private clientservice:ClientService,
               public formBuilder: FormBuilder) 
         { 
@@ -41,6 +42,7 @@ export class InscriptionClientComponent implements OnInit {
     this.clientservice.insertclient(this.BodyFormClientAdd.value).subscribe(()=>
       {
         console.log("inscription fait");
+        this.display=false;
         this.getclient();
       })
   }

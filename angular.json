@@ -24,12 +24,34 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/img"
             ],
-            "styles": [
+            
+            "styles": [             
+              "src/vendor/bootstrap/css/bootstrap.min.css",
+              "src/vendor/font-awesome/css/font-awesome.min.css",
+              "src/vendor/animate/animate.min.css",
+              "src/vendor/owlcarousel/assets/owl.carousel.min.css",
+              "src/vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [                            
+              "src/vendor/jquery/jquery.min.js",
+              "src/vendor/jquery/jquery-migrate.min.js",
+              "src/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/vendor/easing/easing.min.js",
+              "src/vendor/stickyjs/sticky.js",
+              "src/vendor/superfish/hoverIntent.js",
+              "src/vendor/superfish/superfish.min.js",
+              "src/vendor/owlcarousel/owl.carousel.min.js",
+              "src/vendor/tempusdominus/js/moment.min.js",
+              "src/vendor/tempusdominus/js/moment-timezone.min.js",
+              "src/vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js",
+              "src/js/main.js"
+            ]
+
+            
           },
           "configurations": {
             "production": {

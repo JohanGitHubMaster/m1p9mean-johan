@@ -10,6 +10,7 @@ import { InscriptionClientComponent } from './inscription-client/inscription-cli
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,7 @@ import { InscriptionClientComponent } from './inscription-client/inscription-cli
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
   ],
   providers: [],
   bootstrap: [AppComponent]

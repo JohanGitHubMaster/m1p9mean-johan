@@ -26,12 +26,12 @@ export class ReadQuotesComponent implements OnInit {
     private router: Router,
     // private ngZone: NgZone,
     private quoteService: QuotesService) 
-  { 
+    { 
     this.quoteform = this.formBuilder.group({
       name: [''],
       quote: ['']
     })
-  }
+    }
   
   getquote()
   {
