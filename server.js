@@ -12,6 +12,7 @@ app.set('view engine','ejs');
 var db = {};
 var cors = require('cors');
 var inscription = require('./inscription');
+var plats = require('./plats');
 app.use(cors());
 var corsOptions = {
     origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
@@ -140,6 +141,11 @@ app.post('/inscriptionclient',inscription.inscriptionclient);
 //listclient
 app.get('/listclient',cors(corsOptions),inscription.listclient);
 
+//insertionplat
+app.post('/insertionplats',plats.insertionplat);
+
+//liste des plats
+app.get('/listplats',cors(corsOptions),plats.listplats);
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {
