@@ -9,7 +9,7 @@
                     <img class="img-fluid" src="assets/image/{{item.image}}" />
                     <div>Ar{{item.prix}}</div>
                     <h4>{{item.nom}}</h4>
-                    <a href="" (click)="AddPlat(item)">Commander</a>
+                    <a (click)="AddPlat(item)">Commander</a>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                                 <td>{{item.prix}}</td>
                                 <td><div class="quantity"><input type="text" value="1"></div></td>
                                 <td>Ar{{item.prix}}</td>
-                                <td><a><i class="fa fa-trash-o"></i></a></td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
                             </tr>
                             <!-- <tr>
                                 <th scope="row">Proin Tortor</th>
