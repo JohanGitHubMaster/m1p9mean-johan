@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ReadQuotesComponent } from './read-quotes/read-quotes.component';
 import { InscriptionClientComponent } from './inscription-client/inscription-client.component';
+import { PlatComponent } from './plat/plat.component';
 
 
 
@@ -15,7 +16,8 @@ import { InscriptionClientComponent } from './inscription-client/inscription-cli
   declarations: [
     AppComponent,
     ReadQuotesComponent,
-    InscriptionClientComponent
+    InscriptionClientComponent,
+    PlatComponent
   ],
   imports: [
     BrowserModule,

@@ -1084,6 +1084,11 @@ body.mobile-nav-active #mobile-nav-toggle {
     box-shadow: none;
 }
 
+#textareawidth
+{
+    width: 100%;
+}
+
 #contact .contact-form input:focus,
 #contact .contact-form textarea:focus {
     border: 1px solid #353535;

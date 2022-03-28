@@ -39,6 +39,7 @@
   
   
         <!-- Login Section Start -->
+        <!-- <section id="login" *ngIf="false; else elseBlock"> -->
         <section id="login" *ngIf="display; else elseBlock">
           <div class="container">
               <div class="section-header">
@@ -98,11 +99,34 @@
       </section>
       <!-- Login Section End -->
       <ng-template #elseBlock>
-        <app-read-quotes></app-read-quotes>
-        <!-- <div *ngFor="let client of listclient; let i=index">
-            <p>{{ client.name }} : {{client.lastname}} : {{client.password}} : {{client.email}}</p>
-            
-            <button (click)="delete(quote._id, i)">Delete</button>
-          </div> -->
+        <section id="login">
+            <div class="container">
+                <div class="section-header">
+                    <h3>Login</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">                        
+                        <h2>E-Kaly</h2>                       
+                        <h3>Pour commander vos plats Veuiller se connecter</h3>
+                    </div>                    
+                    <div class="col-md-6">
+                        <div class="login-col-2">
+                            <div class="login-form">
+                                <form>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Your Email" required="required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="Your Password" required="required" />
+                                    </div>
+                                    <div><button type="submit">Se Connecter</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <app-plat></app-plat> -->
       </ng-template>
       
