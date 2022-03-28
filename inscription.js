@@ -28,3 +28,24 @@ function listclient(req, res,next){
         }).catch(error=> console.error(error));
 }
 exports.listclient = listclient;
+
+function findUser(req,res,next)
+{
+    console.log(req.body);
+    db.collection('inscription').findOne(
+        {
+            name:req.body.name,
+            password:req.body.password
+            //name:"Johan",
+            //password:"gg"
+        },
+        {}
+        ).then(result=>
+            {
+                
+                res.json(result);
+                console.log(result);
+            })
+    //console.log(req.body.name);
+}
+exports.findUser = findUser;

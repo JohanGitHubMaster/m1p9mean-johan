@@ -147,6 +147,9 @@ app.post('/insertionplats',plats.insertionplat);
 //liste des plats
 app.get('/listplats',cors(corsOptions),plats.listplats);
 
+//api finduser to connect
+app.post('/finduser',cors(corsOptions),inscription.findUser);
+
 app.listen(process.env.PORT || 3000,function loadserver()
 {
     console.log('listening on 3000');
