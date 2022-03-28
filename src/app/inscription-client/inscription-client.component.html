@@ -82,14 +82,16 @@
                   <div class="col-md-6">
                       <div class="login-col-2">
                           <div class="login-form">
-                              <form>
+                              <form [formGroup]="BodyFormFindClient" (ngSubmit)="login()">
                                   <div class="form-group">
-                                      <input type="email" class="form-control" placeholder="Your Email" required="required" />
+                                    <span class="text-danger">{{userinfo}}</span>
+                                      <input type="email" class="form-control" placeholder="Your Email" formControlName="name" required="required" />
                                   </div>
                                   <div class="form-group">
-                                      <input type="password" class="form-control" placeholder="Your Password" required="required" />
+                                    <span class="text-danger">{{passwordinfo}}</span>
+                                      <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
                                   </div>
-                                  <div><button type="submit">Send Message</button></div>
+                                  <div><button type="submit">Se connecter</button></div>
                               </form>
                           </div>
                       </div>
@@ -99,7 +101,7 @@
       </section>
       <!-- Login Section End -->
       <ng-template #elseBlock>
-        <section id="login">
+        <section id="login" *ngIf="displayform; else displaycommand">
             <div class="container">
                 <div class="section-header">
                     <h3>Login</h3>
@@ -108,16 +110,19 @@
                     <div class="col-md-6">                        
                         <h2>E-Kaly</h2>                       
                         <h3>Pour commander vos plats Veuiller se connecter</h3>
+                        <h3>{{userfind}}</h3>
                     </div>                    
                     <div class="col-md-6">
                         <div class="login-col-2">
                             <div class="login-form">
-                                <form>
+                                <form [formGroup]="BodyFormFindClient" (ngSubmit)="login()">
                                     <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="Your Email" required="required" />
+                                        <span class="text-danger">{{userinfo}}</span>
+                                        <input type="email" class="form-control" placeholder="Your Email" formControlName="name" required="required" />
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Your Password" required="required" />
+                                        <span class="text-danger">{{passwordinfo}}</span>
+                                        <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
                                     </div>
                                     <div><button type="submit">Se Connecter</button></div>
                                 </form>
@@ -128,5 +133,17 @@
             </div>
         </section>
         <!-- <app-plat></app-plat> -->
+      </ng-template>
+      <ng-template #displaycommand>
+                  <!-- Welcome Section Start -->
+        <div id="welcome">
+            <div class="container">
+                <h3>Welcome to Italian Cuisine</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas gravida sollicitudin turpis id posuere. Fusce nec rhoncus nibh. Fusce arcu libero, euismod eget commodo at, venenatis a nisi. Sed faucibus metus sed leo vulputate blandit.</p>
+                <a href="#">Book Now</a>
+            </div>
+        </div>
+        <!-- Welcome Section End -->
+        
       </ng-template>
       

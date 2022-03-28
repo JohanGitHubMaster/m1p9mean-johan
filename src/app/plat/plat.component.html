@@ -9,13 +9,68 @@
                     <img class="img-fluid" src="assets/image/{{item.image}}" />
                     <div>Ar{{item.prix}}</div>
                     <h4>{{item.nom}}</h4>
-                    <a href="order.html">Commander</a>
+                    <a href="" (click)="AddPlat(item)">Commander</a>
                 </div>
             </div>
 
         </div>
     </div>
 </section>
+
+
+<!-- Cart Section Start -->
+<section id="cart">
+    <div class="container">
+        <header class="section-header">
+            <h3>Liste de vos commandes</h3>
+        </header>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of listcommand">
+                            <tr>
+                                <th scope="row">{{item.nom}}</th>
+                                <td>{{item.prix}}</td>
+                                <td><div class="quantity"><input type="text" value="1"></div></td>
+                                <td>Ar{{item.prix}}</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <!-- <tr>
+                                <th scope="row">Proin Tortor</th>
+                                <td>$15</td>
+                                <td><div class="quantity"><input type="text" value="2"></div></td>
+                                <td>$30</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Aliquam Erat</th>
+                                <td>$20</td>
+                                <td><div class="quantity"><input type="text" value="3"></div></td>
+                                <td>$60</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="button">
+                    <button type="submit">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cart Section End -->
+
 
 <section id="login">
     <div class="container">
@@ -52,8 +107,7 @@
                             <div class="form-group">
                                 <textarea id="textareawidth" rows="5" placeholder="Description du plat ..." formControlName="description"></textarea>  
                             </div>
-                            
-                            
+                                                      
                             <div><button type="submit">Ajouter</button></div>
                         </form>
                     </div>
@@ -62,5 +116,7 @@
         </div>
     </div>
 </section>
+
+
 
 

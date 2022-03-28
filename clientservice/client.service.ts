@@ -18,4 +18,10 @@ export class ClientService {
   {
     return this.httpclient.post(this.baseurl+"inscriptionclient",client).pipe();
   }
+
+  public findusertoconnect(client:Client):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"finduser",client).pipe();
+  }
+
 }

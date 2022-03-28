@@ -11,6 +11,9 @@ import { plat } from './plat';
 export class PlatComponent implements OnInit {
   listplat?:plat[];
   BodyFormPlatAdd:FormGroup;
+
+  listcommand:Array<plat> = [];
+
   constructor(private platservice:PlatService,
   public formBuilder: FormBuilder) 
   {
@@ -47,6 +50,12 @@ export class PlatComponent implements OnInit {
         console.log("insertion plat fait");       
         this.getlistplat();
       });
+  }
+
+  AddPlat(platcommand:plat)
+  {
+    this.listcommand?.push(platcommand);  
+    console.log(typeof(platcommand));
   }
 
 }

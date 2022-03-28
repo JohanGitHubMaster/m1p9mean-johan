@@ -10,11 +10,22 @@ import { Client } from './client';
 })
 export class InscriptionClientComponent implements OnInit {
   listclient?:Client[];
+
+  userfind?:Client;
+
   BodyFormClientAdd:FormGroup;
+  BodyFormFindClient:FormGroup;
   display = true;
+  displayform  = true;
+
+  //valeur error
+  passwordinfo = "";
+  userinfo = "";
+
   constructor(private clientservice:ClientService,
               public formBuilder: FormBuilder) 
         { 
+          //insert client
           this.BodyFormClientAdd = this.formBuilder.group
           (
             {
@@ -22,6 +33,14 @@ export class InscriptionClientComponent implements OnInit {
               lastname: [''],
               email:[''],
               password:['']
+            }
+          )
+          //find client
+          this.BodyFormFindClient = this.formBuilder.group
+          (
+            {
+              name: [''],
+              password: [''],             
             }
           )
         }
@@ -33,8 +52,38 @@ export class InscriptionClientComponent implements OnInit {
          this.listclient = result;
       });
   }
+
+  getfinduser()
+  {
+
+  }
+
+
   ngOnInit(): void {
     this.getclient();
+  }
+
+
+  login():any
+  {
+    this.clientservice.findusertoconnect(this.BodyFormFindClient.value).subscribe(result=>
+      {
+        this.userfind = result;
+        console.log(result);
+        //action apres
+        if(result==null)
+        {
+          this.passwordinfo="le mot de passe est incorrect";
+          this.userinfo="le nom d'utilisateur est incorrect";
+        }
+        else
+        {
+          this.passwordinfo="";
+          this.userinfo="";
+          this.displayform = false;
+          this.display = false;
+        }
+      })
   }
 
   OnsubmitAdd():any
