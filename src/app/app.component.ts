@@ -22,7 +22,16 @@ export class AppComponent {
    delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
-
+deconnecter()
+{
+  var usersession = (sessionStorage.getItem('user'));
+  if(usersession!=null)
+  {
+    sessionStorage.removeItem('user');
+    console.log("deconnection fait");
+  }
+  console.log("test lien");
+}
             
             
 }

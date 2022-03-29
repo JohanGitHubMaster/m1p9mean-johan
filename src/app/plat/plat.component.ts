@@ -2,6 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PlatService } from 'platservice/plat.service';
+import { Client } from '../inscription-client/client';
+import { InscriptionClientComponent } from '../inscription-client/inscription-client.component';
 import { order } from './order';
 import { plat } from './plat';
 
@@ -11,14 +13,19 @@ import { plat } from './plat';
   styleUrls: ['./plat.component.css']
 })
 export class PlatComponent implements OnInit {
+  
   listplat?:plat[];
   BodyFormPlatAdd:FormGroup;
   disabledlinkorder = false;
   listcommand:Array<plat> = [];
+  public verification = this.verificationuser();
+  userconnect = new Client();
+
 
   //liste des commandes
   listorder?:order[];
  
+  usersession = (sessionStorage.getItem('user'));
 
   constructor(private _elementRef : ElementRef,private platservice:PlatService,
   public formBuilder: FormBuilder) 
@@ -36,6 +43,8 @@ export class PlatComponent implements OnInit {
         image: ['']
       }
     )
+    this.verification = this.verificationuser();
+    this.verificationuser();
   }
 
   getlistplat()
@@ -57,15 +66,35 @@ export class PlatComponent implements OnInit {
         this.getlistplat();
       });
   }
+ 
+  
+   
 
+  public verificationuser():any
+  {
+    this.usersession = (sessionStorage.getItem('user'));
+    console.log(this.usersession);
+    if(this.usersession!=null)
+    {
+      console.log(this.usersession)
+      this.userconnect = JSON.parse(this.usersession) as Client;
+      return true;
+    }
+    console.log("miditra verification");
+    return false;
+  }
   AddPlat($event:any,platcommand:plat)
   {
-    if($event.target.innerText != "Déja Commander")
+    if(this.verificationuser())
     {
-      this.disabledlinkorder = true;
-      this.listcommand?.push(platcommand);  
-      $event.target.innerText = "Déja Commander";
+      if($event.target.innerText != "Déja Commander")
+      {
+        this.disabledlinkorder = true;
+        this.listcommand?.push(platcommand);  
+        $event.target.innerText = "Déja Commander";
+      }
     }
+    
   }
 
   scroll(el: HTMLElement) {
@@ -86,12 +115,15 @@ export class PlatComponent implements OnInit {
 
 Insertcommand()
 {
+  if(this.verificationuser())
+  {
+
   for(let item of this.listcommand)
   {
     let ord = new order();
     ord.id_plat = item._id;
     ord.id_restaurant = item.id_restaurant;
-    ord.id_client = 4;
+    ord.id_client = this.userconnect._id;
     ord.id_contact = 0;
     ord.id_livraison = 0;
     ord.date_de_commande = new Date();
@@ -106,6 +138,7 @@ Insertcommand()
       console.log(ord);
     })
   }
+}
   // this.listorder?.push()
 }
 

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
+import { PlatComponent } from '../plat/plat.component';
 import { Client } from './client';
 
 @Component({
@@ -11,9 +12,10 @@ import { Client } from './client';
 export class InscriptionClientComponent implements OnInit {
   listclient?:Client[];
 
+  plat?:PlatComponent;
   userfind?:Client;
-  userconnect?:Client;
-  usersession?:Client;
+  usersession = new Client();
+
   BodyFormClientAdd:FormGroup;
   BodyFormFindClient:FormGroup;
   display = true;
@@ -23,6 +25,7 @@ export class InscriptionClientComponent implements OnInit {
   passwordinfo = "";
   userinfo = "";
 
+  
   constructor(private clientservice:ClientService,
               public formBuilder: FormBuilder) 
         { 
@@ -58,7 +61,7 @@ export class InscriptionClientComponent implements OnInit {
   {
 
   }
-
+  
 
   ngOnInit(): void {
     this.getclient();
@@ -79,16 +82,24 @@ export class InscriptionClientComponent implements OnInit {
         }
         else
         {
+          window.location.reload();
           this.passwordinfo="";
           this.userinfo="";
           this.displayform = false;
           this.display = false;
-          sessionStorage.setItem('userDetails', JSON.stringify(this.userfind));
-    
-          // Client u = JSON.parse(sessionStorage.getItem("userDetails")) as Client;
-          var us = JSON.stringify(sessionStorage.getItem('userDetails'));
+          console.log(this.plat?.verificationuser());    
+          sessionStorage.setItem('user', JSON.stringify(this.userfind));
+          var usersession = (sessionStorage.getItem('user'));    
           
-          console.log(this.usersession);
+          // console.log(PlatComponent.prototype.verification);
+          //var v = this.plat?.verificationuser();
+        
+         if(usersession!=null)
+         {
+          this.usersession = JSON.parse(usersession) as Client
+          console.log(JSON.parse(usersession));
+         }
+         
         }
       })
   }

@@ -22,9 +22,9 @@
 
 <!-- Cart Section Start -->
 <section id="cart" #target>
-    <div class="container">
+    <div class="container" *ngIf="verification">
         <header class="section-header">
-            <h3>Liste de vos commandes</h3>
+            <h3>Liste de vos commandes {{userconnect.name}}</h3>
         </header>
         <div class="row">
             <div class="col-md-12">
