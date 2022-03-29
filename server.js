@@ -13,6 +13,7 @@ var db = {};
 var cors = require('cors');
 var inscription = require('./inscription');
 var plats = require('./plats');
+var order = require('./order');
 app.use(cors());
 var corsOptions = {
     origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
@@ -150,7 +151,12 @@ app.get('/listplats',cors(corsOptions),plats.listplats);
 //api finduser to connect
 app.post('/finduser',cors(corsOptions),inscription.findUser);
 
+app.post('/insertorder',order.insertionorder);
+
+app.get('/findorderUser',order.findOrderUser);
+
 app.listen(process.env.PORT || 3000,function loadserver()
 {
     console.log('listening on 3000');
 });
+
