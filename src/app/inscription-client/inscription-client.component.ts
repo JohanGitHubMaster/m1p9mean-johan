@@ -12,7 +12,8 @@ export class InscriptionClientComponent implements OnInit {
   listclient?:Client[];
 
   userfind?:Client;
-
+  userconnect?:Client;
+  usersession?:Client;
   BodyFormClientAdd:FormGroup;
   BodyFormFindClient:FormGroup;
   display = true;
@@ -82,6 +83,12 @@ export class InscriptionClientComponent implements OnInit {
           this.userinfo="";
           this.displayform = false;
           this.display = false;
+          sessionStorage.setItem('userDetails', JSON.stringify(this.userfind));
+    
+          // Client u = JSON.parse(sessionStorage.getItem("userDetails")) as Client;
+          var us = JSON.stringify(sessionStorage.getItem('userDetails'));
+          
+          console.log(this.usersession);
         }
       })
   }

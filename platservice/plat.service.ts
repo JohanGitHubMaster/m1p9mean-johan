@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { order } from 'src/app/plat/order';
 import { plat } from 'src/app/plat/plat';
 
 @Injectable({
@@ -19,4 +20,8 @@ export class PlatService {
     return this.httpclient.post(this.baseurl+"insertionplats",client).pipe();
   }
 
+  public insertcommande(commande:order):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"insertorder",commande).pipe();
+  }
 }

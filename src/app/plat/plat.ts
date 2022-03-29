@@ -1,7 +1,7 @@
 export class plat {
     _id!:number;
     nom!: String;
-    prix!: String;
+    prix!: number;
     type!: String;
     description!: String;
     noteclient!: number;
