@@ -6,7 +6,6 @@ var db = {};
 MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => {
     console.log('Connected to Database');
     db = client.db('Ekaly');
-    var quotesCollection = db.collection('quotes');
     });
 
 function inscriptionclient(req, res,next){

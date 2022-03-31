@@ -14,6 +14,7 @@ var cors = require('cors');
 var inscription = require('./inscription');
 var plats = require('./plats');
 var order = require('./order');
+var restoadmin = require('./restaurant')
 app.use(cors());
 var corsOptions = {
     origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
@@ -154,6 +155,13 @@ app.post('/finduser',cors(corsOptions),inscription.findUser);
 app.post('/insertorder',order.insertionorder);
 
 app.get('/findorderUser',order.findOrderUser);
+
+//api restaurant
+app.post('/insertadminresto',restoadmin.inscriptionadminresto);
+
+app.post('/findUserAdminResto',restoadmin.findUserAdminResto);
+
+app.post('/platsbyresto',cors(corsOptions),plats.listplatsbyresto);
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {

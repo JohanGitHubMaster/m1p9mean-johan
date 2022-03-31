@@ -27,3 +27,13 @@ function listplats(req, res,next){
         }).catch(error=> console.error(error));
 }
 exports.listplats = listplats;
+
+function listplatsbyresto(req, res,next){
+
+    db.collection('plat').find({id_restaurant:req.body._id}).toArray().then(results =>
+        {
+            res.json(results);
+            console.log(results);
+        }).catch(error=> console.error(error));
+}
+exports.listplatsbyresto = listplatsbyresto;
