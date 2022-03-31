@@ -1,0 +1,226 @@
+<section id="login" *ngIf="displaylogin">
+    <div class="container">
+        <div class="section-header">
+            <h3>Admin Resto</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-6">                        
+                <h2>Restaurant</h2>                       
+                <h3>Pour Verifier vos plats Veuiller se connecter</h3>
+                <!-- <h3>{{userfind}}</h3> -->
+                <h3>cliquez ici pour <a (click)="displayinscription()">S'inscrire</a></h3>
+            </div>                    
+            <div class="col-md-6">
+                <div class="login-col-2">
+                    <div class="login-form" [formGroup]="BodyFormFindAdminResto" (ngSubmit)="Onsubmitlogged()">
+                        <form>
+                            <div class="form-group">
+                                <!-- <span class="text-danger">{{userinfo}}</span> -->
+                                <input type="text" class="form-control" formControlName="nom" placeholder="Your Email"  required="required" />
+                            </div>
+                            <div class="form-group">
+                                <!-- <span class="text-danger">{{passwordinfo}}</span> -->
+                                <input type="password" class="form-control" formControlName="password" placeholder="Your Password" required="required" />
+                            </div>
+                            <div><button type="submit">Se Connecter</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="login" *ngIf="displayadmin">
+    <div class="container">
+        <div class="section-header">
+            <h3>Inscription en tant qu'Administrateur</h3>
+        </div>
+        <div class="row">                              
+            <div class="col-md-12">
+                <div class="login-col-2">
+                    <div class="login-form">
+                        <form [formGroup]="BodyFormFindAddAdmin" (ngSubmit)="AddAdmin()">                         
+                            <!-- <input type="hidden" class="form-control" value="0" formControlName="noteclient" required="required" />
+                            <input type="hidden" class="form-control" value="0"  formControlName="id_restaurant" required="required" /> -->
+                            <div class="form-group" >
+                                <input type="text" class="form-control" placeholder="Nom du Restaurant" formControlName="nom" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Email du restaurant" formControlName="email" required="required" />
+                            </div>                           
+                                                  
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="number" class="form-control" placeholder="Numero du restaurant" formControlName="numero" required="required" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="password" class="form-control" placeholder="Mot de passe" formControlName="password" required="required" />
+                                </div>
+                            </div>                                                                              
+                            <div><button type="submit">S'inscrire</button></div>
+                           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <ng-template #adminconnect> -->
+
+    
+      <!-- Welcome Section Start -->
+      <div id="welcome" *ngIf="displayconfigadmin">
+        <div class="container">
+            <h3>Bienvenue l'Administrateur du restaurant {{userrestofind.nom}} </h3>
+            
+            <p>Vou pouvez ajouter,supprimer, modifier vos plats et voir vos Bénefice</p>
+            <a (click)="deconnection()">Se deconnecter</a>
+        </div>
+
+
+    </div>
+   
+    
+<!-- </ng-template> -->
+
+<!-- plat par restaurant -->
+<section id="food-menu" *ngIf="descriptionplat; else desc">
+    <div class="container">
+        <header class="section-header" #demo>
+            <h3>delicious Food Menu <i class="fa fa-trash-o"></i></h3>
+        </header>
+        <div class="row">           
+            <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of plat">
+                <div class="single-menu">
+                    <img class="img-fluid" src="assets/image/{{item.image}}" />
+                    <div>Ar{{item.prix}}</div>
+                    <h4>{{item.nom}}</h4>
+                    <a (click)="platdescription()" id="pl_{{item._id}}">Description</a>
+                   
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<ng-template #desc>
+     <!-- Contact Section Start -->
+     <section id="contact" >
+        <div class="container">
+            <div class="section-header">
+                <h3>Contact Us</h3>
+            </div>
+            
+            <div class="row contact-detail">
+                <div class="col-md-6">
+                    <div class="contact-col-1">
+                        <div class="contact-hours">
+                            <h4>Opening Hours</h4>
+                            <p>Monday-Friday: 7am to 12am</p>
+                            <p>Saturday: 5pm to 12am</p>
+                            <p>Sunday: 9am to 12am</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="contact-col-2">
+                        <div class="contact-info">
+                            <h4>Contact Info</h4>
+                            <p>4137  State Street, CA, USA</p>
+                            <p><a href="tel:+1-234-567-8900">+1-234-567-8900</a></p>
+                            <p><a href="mailto:info@example.com">info@example.com</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contact-map">
+                        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d12623.52751148822!2d-122.47260557388145!3d37.72245039905841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s220%2C+San+Francisco%2C+California%2C+USA!5e0!3m2!1sen!2sbd!4v1555690883913!5m2!1sen!2sbd" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+                        <img src="assets/image/menu-4.jpg"/>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="contact-form">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="text" class="form-control" placeholder="Your Name" required="required" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="email" class="form-control" placeholder="Your Email" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Subject" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" placeholder="Message" required="required" ></textarea>
+                            </div>
+                            <div class="row">
+                               <div class="col-md-6"><button type="submit">Send Message</button></div>
+
+                                <div class="col-md-6" (click)="backtoplat()"><a><h3>Retour</h3></a></div>
+                            </div>
+                            
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+</ng-template>
+
+<hr>
+
+<section id="login" *ngIf="displayconfigadmin">
+    <div class="container">
+        <div class="section-header">
+            <h3>Ajout du Plat</h3>
+        </div>
+        <div class="row">                              
+            <div class="col-md-12">
+                <div class="login-col-2">
+                    <div class="login-form">
+                        <form [formGroup]="BodyFormAddPlat" (ngSubmit)="AddPlat()">                         
+                            <!-- <input type="hidden" class="form-control" value="0" formControlName="noteclient" required="required" />
+                            <input type="hidden" class="form-control" value="0"  formControlName="id_restaurant" required="required" /> -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Nom du plat" formControlName="nom" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Type du plat" formControlName="type" required="required" />
+                            </div>                           
+                                                  
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="number" class="form-control" placeholder="Prix du Plat" formControlName="prix" required="required" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="number" class="form-control" placeholder="Quantite en stock" formControlName="quantite" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Image du plat" formControlName="image" required="required" />
+                            </div>   
+
+                            <div class="form-group">
+                                <textarea id="textareawidth" rows="5" formControlName="description" placeholder="Description du plat ..."></textarea>  
+                            </div>
+                                                      
+                            <div><button type="submit">Ajouter</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

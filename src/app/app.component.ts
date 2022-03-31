@@ -8,16 +8,31 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class AppComponent {
   title = 'masterangular';
+  displayrestaurant = false;
+  displayinscription = true;
+  // sendData = {
+  //   name: "this.usersession.name",
+  //   };
+
   onActivate(){ 
-    
     var scroll = window.scrollY;
     while(scroll>1)
     {      
         scroll = scroll*0.99;
         window.scroll(0,scroll);
-       
+        
     }     
   }   
+  usertemplate()
+  {
+    this.displayrestaurant = false;
+    this.displayinscription = true;
+  }
+  showrestaurant()
+  {
+    this.displayrestaurant = true;
+    this.displayinscription = false;
+  }
 
    delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );

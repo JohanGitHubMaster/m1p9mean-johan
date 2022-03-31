@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Attribute, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
+import { PlatService } from 'platservice/plat.service';
+import { mergeMap, Subject, takeUntil } from 'rxjs';
 import { PlatComponent } from '../plat/plat.component';
 import { Client } from './client';
 
@@ -9,12 +11,19 @@ import { Client } from './client';
   templateUrl: './inscription-client.component.html',
   styleUrls: ['./inscription-client.component.css']
 })
+
+
 export class InscriptionClientComponent implements OnInit {
   listclient?:Client[];
 
-  plat?:PlatComponent;
+ 
+  // @Input('app-wheels') inData: any;
+  flag = true;
+
   userfind?:Client;
   usersession = new Client();
+
+  // sendData = this.usersession;
 
   BodyFormClientAdd:FormGroup;
   BodyFormFindClient:FormGroup;
@@ -25,10 +34,18 @@ export class InscriptionClientComponent implements OnInit {
   passwordinfo = "";
   userinfo = "";
 
+ 
+ 
   
-  constructor(private clientservice:ClientService,
+  resetFormSubject: Subject<boolean> = new Subject<boolean>();
+
+
+    private destroySubject = new Subject();
+
+  constructor(public clientservice:ClientService,
               public formBuilder: FormBuilder) 
         { 
+          
           //insert client
           this.BodyFormClientAdd = this.formBuilder.group
           (
@@ -47,7 +64,19 @@ export class InscriptionClientComponent implements OnInit {
               password: [''],             
             }
           )
+
+          //dispaly false si session existe
+          if(sessionStorage.getItem('user')!=null)
+          {
+            this.display = false;
+            this.displayform = false;
+            this.setvaluesession();
+          }
+          
         }
+  
+
+
 
   getclient()
   {
@@ -64,9 +93,13 @@ export class InscriptionClientComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.getclient();
+    this.getclient();   
   }
 
+  ngOnDestroy() {
+    // this.destroySubject.next();
+    this.destroySubject.complete();
+  }
 
   login():any
   {
@@ -81,21 +114,22 @@ export class InscriptionClientComponent implements OnInit {
           this.userinfo="le nom d'utilisateur est incorrect";
         }
         else
-        {
-          window.location.reload();
+        {        
           this.passwordinfo="";
           this.userinfo="";
           this.displayform = false;
           this.display = false;
-          console.log(this.plat?.verificationuser());    
+          // console.log(this.plat?.verificationuser());    
           sessionStorage.setItem('user', JSON.stringify(this.userfind));
-          var usersession = (sessionStorage.getItem('user'));    
+          var usersession = (sessionStorage.getItem('user'));  
           
           // console.log(PlatComponent.prototype.verification);
           //var v = this.plat?.verificationuser();
-        
+          
+          
          if(usersession!=null)
-         {
+         {          
+          this.flag = false;
           this.usersession = JSON.parse(usersession) as Client
           console.log(JSON.parse(usersession));
          }
@@ -104,6 +138,18 @@ export class InscriptionClientComponent implements OnInit {
       })
   }
 
+  setvaluesession()
+  {
+    var usersession = (sessionStorage.getItem('user'));    
+          // console.log(PlatComponent.prototype.verification);
+          //var v = this.plat?.verificationuser();
+        
+         if(usersession!=null)
+         {
+          this.usersession = JSON.parse(usersession) as Client
+          console.log(JSON.parse(usersession));
+         }
+  }
   OnsubmitAdd():any
   {
     this.clientservice.insertclient(this.BodyFormClientAdd.value).subscribe(()=>

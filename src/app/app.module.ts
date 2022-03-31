@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ReadQuotesComponent } from './read-quotes/read-quotes.component';
 import { InscriptionClientComponent } from './inscription-client/inscription-client.component';
 import { PlatComponent } from './plat/plat.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
 
 
 
@@ -17,7 +18,8 @@ import { PlatComponent } from './plat/plat.component';
     AppComponent,
     ReadQuotesComponent,
     InscriptionClientComponent,
-    PlatComponent
+    PlatComponent,
+    RestaurantComponent
   ],
   imports: [
     BrowserModule,

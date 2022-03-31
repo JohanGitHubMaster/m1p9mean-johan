@@ -1,7 +1,9 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ClientService } from 'clientservice/client.service';
 import { PlatService } from 'platservice/plat.service';
+import { Subject } from 'rxjs';
 import { Client } from '../inscription-client/client';
 import { InscriptionClientComponent } from '../inscription-client/inscription-client.component';
 import { order } from './order';
@@ -14,20 +16,24 @@ import { plat } from './plat';
 })
 export class PlatComponent implements OnInit {
   
+  // @Input('app-wheels') inData: any;
+
   listplat?:plat[];
   BodyFormPlatAdd:FormGroup;
   disabledlinkorder = false;
   listcommand:Array<plat> = [];
   public verification = this.verificationuser();
   userconnect = new Client();
-
+  @Input() resetFormSubject: Subject<boolean> = new Subject<boolean>();
 
   //liste des commandes
   listorder?:order[];
  
   usersession = (sessionStorage.getItem('user'));
-
-  constructor(private _elementRef : ElementRef,private platservice:PlatService,
+  
+    @Input() type: string="";
+    
+  constructor(private _elementRef : ElementRef,private platservice:PlatService,public clientservice:ClientService,
   public formBuilder: FormBuilder) 
   {
     this.BodyFormPlatAdd = this.formBuilder.group
@@ -45,6 +51,7 @@ export class PlatComponent implements OnInit {
     )
     this.verification = this.verificationuser();
     this.verificationuser();
+    
   }
 
   getlistplat()
@@ -56,8 +63,26 @@ export class PlatComponent implements OnInit {
   }
   ngOnInit(): void {
      this.getlistplat();
+    console.log("miditra ngon init");
+     
+    //  console.log(this.inData);
+
+  
+     
   }
 
+  ngOnChanges(){
+    // this.verification = exem;
+    // this.userconnect = usercon;
+    /**********THIS FUNCTION WILL TRIGGER WHEN PARENT COMPONENT UPDATES 'someInput'**************/
+    document.location.reload();
+    // console.log(this.verification);
+    }   
+
+  //   public refresh(){
+  //     this.clientservice.setRefresh(true);
+  // }
+  
   OnsubmitAdd():any
   {
     this.platservice.insertplat(this.BodyFormPlatAdd.value).subscribe(()=>
@@ -72,11 +97,13 @@ export class PlatComponent implements OnInit {
 
   public verificationuser():any
   {
+    
     this.usersession = (sessionStorage.getItem('user'));
     console.log(this.usersession);
     if(this.usersession!=null)
     {
-      console.log(this.usersession)
+      console.log("avant usser session");
+      console.log(this.usersession);
       this.userconnect = JSON.parse(this.usersession) as Client;
       return true;
     }
@@ -85,6 +112,9 @@ export class PlatComponent implements OnInit {
   }
   AddPlat($event:any,platcommand:plat)
   {
+    
+    // this.type = this._elementRef.nativeElement.getAttribute('sendData');
+    // console.log('apres '+this.type);
     if(this.verificationuser())
     {
       if($event.target.innerText != "Déja Commander")
@@ -99,6 +129,7 @@ export class PlatComponent implements OnInit {
 
   scroll(el: HTMLElement) {
     el.scrollIntoView();
+
   }
 
   RemovePlat(key: number) {
@@ -112,6 +143,9 @@ export class PlatComponent implements OnInit {
         console.log(key);
     });
 } 
+
+
+
 
 Insertcommand()
 {

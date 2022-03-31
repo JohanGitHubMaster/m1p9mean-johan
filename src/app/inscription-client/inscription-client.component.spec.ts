@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PlatComponent } from '../plat/plat.component';
 
 import { InscriptionClientComponent } from './inscription-client.component';
 
@@ -8,7 +9,7 @@ describe('InscriptionClientComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InscriptionClientComponent ]
+      declarations: [ InscriptionClientComponent,PlatComponent ]
     })
     .compileComponents();
   });

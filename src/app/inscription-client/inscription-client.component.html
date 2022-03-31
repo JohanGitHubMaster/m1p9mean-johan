@@ -35,9 +35,6 @@
   </form>
   <br> -->
   
-
-  
-  
         <!-- Login Section Start -->
         <!-- <section id="login" *ngIf="false; else elseBlock"> -->
         <section id="login" *ngIf="display; else elseBlock">
@@ -138,12 +135,23 @@
                   <!-- Welcome Section Start -->
         <div id="welcome">
             <div class="container">
-                <h3>Welcome to Italian Cuisine {{usersession.name}}</h3>
+                <h3>Welcome to Italian Cuisine {{usersession.name}} </h3>
+                
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas gravida sollicitudin turpis id posuere. Fusce nec rhoncus nibh. Fusce arcu libero, euismod eget commodo at, venenatis a nisi. Sed faucibus metus sed leo vulputate blandit.</p>
                 <a href="#">Book Now</a>
             </div>
+
+
         </div>
+       
         <!-- Welcome Section End -->
         
       </ng-template>
+     
       
+      <!-- Login Section End -->
+      <!-- <hr> -->
+      <!-- les plats disponibles-->
+      
+      <app-plat  *ngIf="flag; else templatechange"></app-plat>
+      <ng-template #templatechange> <app-plat></app-plat> </ng-template>

@@ -17,7 +17,7 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
+                        <!-- <li><a href="about.html">About</a></li> -->                      
                         <li><a href="menu.html">Menu</a></li>
                         <li><a href="order.html">Online Order</a></li>
                         
@@ -32,7 +32,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <!-- <li><a href="contact.html">Contact</a></li> -->
+                        <li><a (click)="usertemplate()">Se Connecter</a></li>
+                        <li><a (click)="showrestaurant()">Admin restaurant</a></li>                       
                         <li><a (click)="deconnecter()">Se deconnecter<i class="fa fa-user"></i></a></li>
                     </ul>
                 </nav>
@@ -95,12 +97,13 @@
         <!-- Reservations Section End -->
 
         <!-- Login Section Start -->
-        <app-inscription-client></app-inscription-client>
+        <app-inscription-client *ngIf="displayinscription"></app-inscription-client>
+        <app-restaurant *ngIf="displayrestaurant"></app-restaurant>
         <!-- Login Section End -->
         <hr>
         <!-- les plats disponibles-->
-        <app-plat></app-plat>
-        
+        <!-- <app-plat [app-wheels]="sendData"></app-plat> -->
+       
         <!-- Subscriber Section Start -->
         <section id="subscriber">
             <div class="container">

@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, ViewContainerRef } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Client } from 'src/app/inscription-client/client';
+import { adminresto } from 'src/app/restaurant/adminresto';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
  public baseurl = "https://nodemongotestapp.herokuapp.com/";
+ public localurl = "http://localhost:3000/";
   constructor(private httpclient:HttpClient) { }
   
   public getclient():Observable<any>
@@ -22,6 +25,16 @@ export class ClientService {
   public findusertoconnect(client:Client):Observable<any>
   {
     return this.httpclient.post(this.baseurl+"finduser",client).pipe();
+  }
+  
+  public finduserrestoAdmintoconnect(restoadmin:adminresto):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"findUserAdminResto",restoadmin).pipe();
+  }
+
+  public insertadminresto(restoadmin:adminresto):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"insertadminresto",restoadmin).pipe();
   }
 
 }
