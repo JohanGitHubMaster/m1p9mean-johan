@@ -163,8 +163,22 @@ app.post('/findUserAdminResto',restoadmin.findUserAdminResto);
 
 app.post('/platsbyresto',cors(corsOptions),plats.listplatsbyresto);
 
+app.post('/updateplat',cors(corsOptions),plats.updateplat);
+
+app.post('/deleteplat',cors(corsOptions),plats.deleteplat);
+
+app.post('/searchplat',plats.searchplat);
+
+app.post('/orderplatandclient',cors(corsOptions),plats.listplatsbyorder);
+
+app.post('/listplatsbyorderrestaurant',cors(corsOptions),plats.listplatsbyorderrestaurant);
+
+
+
 app.listen(process.env.PORT || 3000,function loadserver()
 {
     console.log('listening on 3000');
 });
+
+
 
