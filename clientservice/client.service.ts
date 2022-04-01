@@ -36,5 +36,15 @@ export class ClientService {
   {
     return this.httpclient.post(this.baseurl+"insertadminresto",restoadmin).pipe();
   }
+  public getplatofclient(client:Client):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"orderplatandclient",client).pipe();
+  }
 
+  public getplatofrestaurant(restoadmin:adminresto):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"listplatsbyorderrestaurant",restoadmin).pipe();
+  }
+
+  
 }

@@ -85,23 +85,92 @@
     
 <!-- </ng-template> -->
 
+
+
+
+
 <!-- plat par restaurant -->
 <section id="food-menu" *ngIf="descriptionplat; else desc">
+
+
+    <div class="container">
+        <header class="section-header">
+            <h3>Liste de vos plats <i class="fa fa-trash-o"></i></h3>
+        </header>
+        <div class="row">
+            <div class="col-md-12">
+                <form [formGroup]="BodyFormSearchPlat" (ngSubmit)="searchplat()">
+                    <div class="form-row">
+                        <div class="control-group col-sm-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="time" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" formControlName="nom" placeholder="Nom"/>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group col-sm-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="time" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" formControlName="type" placeholder="Type"/>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group col-sm-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="time" data-target-input="nearest">
+                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group col-sm-3">
+                            <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header class="section-header" #demo>
-            <h3>delicious Food Menu <i class="fa fa-trash-o"></i></h3>
+            <!-- <h3>delicious Food Menu <i class="fa fa-trash-o"></i></h3> -->
         </header>
         <div class="row">           
             <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of plat">
                 <div class="single-menu">
                     <img class="img-fluid" src="assets/image/{{item.image}}" />
                     <div>Ar{{item.prix}}</div>
+                    
                     <h4>{{item.nom}}</h4>
-                    <a (click)="platdescription()" id="pl_{{item._id}}">Description</a>
+
+                        
                    
+                    <!-- <a (click)="platdescription(item)" id="pl_{{item._id}}">Description</a> -->
+                    
+                    <!-- <a (click)="platdescription(item)"  id="pl_{{item._id}}"><i class="text-white fa fa-eye"></i></a> -->
+                    <a>
+                        
+                        <i (click)="platdescription(item)" class="btn btn-info text-white fa fa-eye"></i>
+                        
+                        <i (click)="deleteplat(item)" class="btn btn-danger fa fa-trash-o"></i>
+                    </a>
+                    
+                    
+                    <!-- deleteplatresto -->
                     
                 </div>
+
+                <!-- <div>
+                    
+                    <a (click)="platdescription(item)" id="pl_{{item._id}}">Description</a> -->
+                    <!-- deleteplatresto -->
+                    
+                <!-- </div> -->
             </div>
+           
 
         </div>
     </div>
@@ -138,32 +207,47 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="contact-map">
                         <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d12623.52751148822!2d-122.47260557388145!3d37.72245039905841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s220%2C+San+Francisco%2C+California%2C+USA!5e0!3m2!1sen!2sbd!4v1555690883913!5m2!1sen!2sbd" frameborder="0" style="border:0" allowfullscreen></iframe> -->
-                        <img src="assets/image/menu-4.jpg"/>
+                        <img width="300px" src="assets/image/{{simpleplat.image}}"/>
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="contact-form">
-                        <form>
+                        <form [formGroup]="BodyFormUpdatePlat" (ngSubmit)="submitupdateplat()">
+                            
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <input type="text" class="form-control" placeholder="Your Name" required="required" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input type="email" class="form-control" placeholder="Your Email" required="required" />
-                                </div>
+                                <div class="form-group col-md-3">Nom du plat</div>
+                                <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="nom"  placeholder="Nom du plat" required="required" /></div>
+                                
                             </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Subject" required="required" />
+                            <div class="form-row">
+                                <div class="form-group col-md-3">type du plat</div>
+                                <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="type"  placeholder="type du plat" required="required" /></div>
+                                
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-1"><label class="text-center">prix</label></div>                     
+                                <div class="form-group col-md-3">                                  
+                                    <input type="text" class="form-control" formControlName="prix"  placeholder="prix du plat" required="required" />
+                                </div>
+                                <!-- <div class="form-group col-md-6"> -->
+                                    <!-- <label class="text-center">quantité</label> -->
+                                    <div class="form-group col-md-3"></div>
+                                    <div class="form-group col-md-2"><label class="text-center">quantité</label></div>
+                                    
+                                    <div class="form-group col-md-3"><input type="email" class="form-control" formControlName="quantite" placeholder="quantité en stock" required="required" /></div>
+                                <!-- </div> -->
+                            </div>
+                            
                             <div class="form-group">
-                                <textarea class="form-control" rows="5" placeholder="Message" required="required" ></textarea>
+                                <textarea class="form-control" rows="5" formControlName="description" placeholder="Description du plat" required="required" ></textarea>
                             </div>
                             <div class="row">
-                               <div class="col-md-6"><button type="submit">Send Message</button></div>
+                               <div class="col-md-6"><button type="submit">Mettre à jour</button></div>
 
                                 <div class="col-md-6" (click)="backtoplat()"><a><h3>Retour</h3></a></div>
                             </div>
@@ -176,6 +260,12 @@
         </div>
     </section>
     <!-- Contact Section End -->
+
+
+
+  
+
+
 </ng-template>
 
 <hr>
@@ -224,3 +314,57 @@
         </div>
     </div>
 </section>
+
+  <!-- Cart Section Start -->
+  <section id="cart">
+    <div class="container">
+        <header class="section-header">
+            <h3>Liste de vos commandes</h3>
+        </header>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of ListPlatOrder">
+                            <!-- <tr>
+                                <th scope="row">item.nom</th>
+                                <td>item.prix</td>
+                                <td><div class="quantity"><input type="number" value="1" id="qu_{{item._id}}"></div></td>
+                                <td>Ar<span id="pr_{{item._id}}">item.prix</span></td>
+                                <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td> -->
+                                <!-- <td><a><i class="fa fa-trash-o"  (click)="details(demo)"></i></a></td> -->
+                                
+                            <!-- </tr> -->
+                            <tr>
+                                <th scope="row">{{item.nom}}</th>
+                                <td>{{item.prix}}</td>
+                                <td><div class="quantity">{{item.quantite}}</div></td>
+                                <td>{{item.prixtotalparplat*item.quantite}}</td>
+                               
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <!-- <tr>
+                                <th scope="row">Aliquam Erat</th>
+                                <td>$20</td>
+                                <td><div class="quantity">ListPlatOrder.quantite</div></td>
+                                <td>$60</td>
+                                <td><a  (click)="getplatofresto()"><i class="fa fa-trash-o"></i></a></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cart Section End -->

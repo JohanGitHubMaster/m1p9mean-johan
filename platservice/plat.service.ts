@@ -31,5 +31,21 @@ export class PlatService {
   {
     return this.httpclient.post(this.baseurl+"platsbyresto",listeplatresto).pipe();
   }
+
+  public updateplatresto(platresto:plat):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"updateplat",platresto).pipe();
+  }
+
+  public deleteplatresto(platresto:plat):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"deleteplat",platresto).pipe();
+  }
+
+  public searchplatresto(platresto:plat):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"searchplat",platresto).pipe();
+  }
+  
   
 }

@@ -4,6 +4,7 @@ import { ClientService } from 'clientservice/client.service';
 import { PlatService } from 'platservice/plat.service';
 import { plat } from '../plat/plat';
 import { adminresto } from './adminresto';
+import { joinadminrestoplat } from './joinadminrestoplat';
 
 @Component({
   selector: 'app-restaurant',
@@ -15,6 +16,8 @@ export class RestaurantComponent implements OnInit {
   BodyFormFindAdminResto:FormGroup;
   BodyFormFindAddAdmin:FormGroup;
   BodyFormAddPlat:FormGroup;
+  BodyFormUpdatePlat:FormGroup;
+  BodyFormSearchPlat:FormGroup;
   
    //attribut
    displayadmin = false;
@@ -24,6 +27,10 @@ export class RestaurantComponent implements OnInit {
    plat:Array<plat> = [];
    descriptionplat = true;
    descoff = false;
+   simpleplat = new plat();
+ 
+   ListPlatOrder:Array<joinadminrestoplat> = [];
+
   // admininscription!:adminresto;
 
   constructor(public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
@@ -56,6 +63,30 @@ export class RestaurantComponent implements OnInit {
               quantite: [''],
               id_restaurant: [''],
               image: ['']             
+            }
+          )
+
+          this.BodyFormUpdatePlat = this.formBuilder.group
+          (
+            {
+              nom: [''],
+              prix: [''],
+              type: [''],
+              description: [''],
+              noteclient:[''],
+              quantite: [''],
+              id_restaurant: [''],
+              image: ['']             
+            }
+          )
+
+          this.BodyFormSearchPlat = this.formBuilder.group
+          (
+            {
+              nom: [''],
+              prix: [''],
+              type: [''],
+              id_restaurant: ['']                       
             }
           )
 
@@ -95,9 +126,24 @@ export class RestaurantComponent implements OnInit {
     });
   }
 
-  platdescription()
+  platdescription(item:plat)
   {
     console.log("miditra plat ato");
+    this.simpleplat = item;
+    this.BodyFormUpdatePlat = this.formBuilder.group
+          (
+            {
+              _id: item._id,
+              nom: item.nom,
+              prix: item.prix,
+              type: item.type,
+              description: item.description,
+              noteclient:item.noteclient,
+              quantite: item.quantite,
+              id_restaurant: item.id_restaurant,
+              image: item.image             
+            }
+          )
     this.descriptionplat = false;
   }
 
@@ -120,6 +166,7 @@ export class RestaurantComponent implements OnInit {
           this.userrestofind = JSON.parse(userrestosession) as adminresto;
           console.log(this.userrestofind);
            this.platbyresto();
+           this.getplatofresto();
           // this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;})
         }
       }
@@ -150,6 +197,26 @@ export class RestaurantComponent implements OnInit {
     this.descriptionplat = true;
   }
 
+
+  submitupdateplat()
+  {
+    // this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
+    console.log(this.BodyFormUpdatePlat.value);
+    this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(result=>
+      {
+        this.backtoplat();
+        this.platbyresto();
+        console.log(result);
+      })
+  }
+  deleteplat(item:plat)
+  {
+    this.platservice.deleteplatresto(item).subscribe(result=>
+      {
+        this.platbyresto();
+        console.log("supprimer");
+      })
+  }
   deconnection()
   {
     this.displayadmin = true;
@@ -164,6 +231,30 @@ export class RestaurantComponent implements OnInit {
           console.log("deconnection fait");
         }
   }
+
+  searchplat()
+  {
+    this.BodyFormSearchPlat.patchValue({id_restaurant:this.userrestofind._id});
+    console.log(this.BodyFormSearchPlat.value);
+    this.platservice.searchplatresto(this.BodyFormSearchPlat.value).subscribe
+    (
+      result=>
+      {
+        this.plat = result;
+        console.log(result);
+      }
+    )
+  }
+
+  getplatofresto()
+  {
+    this.clientservice.getplatofrestaurant(this.userrestofind).subscribe(result=>
+      {
+        console.log(result);
+        this.ListPlatOrder = result;
+      });
+  }
+
   ngOnInit(): void {
     // this.platservice.getplat().subscribe(result=>{this.plat = result; console.log(this.plat)})
    
