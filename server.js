@@ -24,7 +24,7 @@ var corsOptions = {
 MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => {
     console.log('Connected to Database');
     db = client.db('star-wars-quotes');
-    var quotesCollection = db.collection('quotes');
+    // var quotesCollection = db.collection('quotes');
     });
 
 app.get('/',(req,res)=>
@@ -173,7 +173,24 @@ app.post('/orderplatandclient',cors(corsOptions),plats.listplatsbyorder);
 
 app.post('/listplatsbyorderrestaurant',cors(corsOptions),plats.listplatsbyorderrestaurant);
 
+app.post('/searchplatglobal',cors(corsOptions),plats.searchplatglobal);
 
+
+const multipart = require('connect-multiparty');
+
+const multipartMiddleware = multipart({
+    uploadDir: './uploads'
+});
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.post('/api/upload', multipartMiddleware, (req, res) => {
+    res.json({
+        'message': 'File uploaded succesfully.'
+    });
+});
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {

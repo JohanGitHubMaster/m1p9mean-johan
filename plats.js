@@ -188,3 +188,30 @@ function listplatsbyorderrestaurant(req, res,next){
         }).catch(error=> console.error(error));
 }
 exports.listplatsbyorderrestaurant = listplatsbyorderrestaurant;
+
+function searchplatglobal(req, res, next){
+    
+  
+    
+    db.collection('plat').find(
+        {
+              nom:new RegExp(req.body.nom, 'i'),            
+             type:new RegExp(req.body.type, 'i')
+        }).toArray().then(results =>
+        {
+            // var price = req.body.prix;
+            // console.log(typeof(price));
+            // console.log(typeof(1));
+             if(typeof(req.body.prix)==typeof(1))
+             {
+                 console.log("miditra ato");
+                 console.log(typeof(price));
+                 results = results.filter(x=>x.prix<=req.body.prix);  
+               //console.log('null le prix'); 
+               //console.log(results);       
+             }
+            res.json(results);
+            
+        }).catch(error=> console.error(error));
+}
+exports.searchplatglobal = searchplatglobal;
