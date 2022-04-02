@@ -47,5 +47,14 @@ export class PlatService {
     return this.httpclient.post(this.baseurl+"searchplat",platresto).pipe();
   }
   
+  public searchplatglobal(platresto:plat):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"searchplatglobal",platresto).pipe();
+  }
   
+  public postFile(fileToUpload:FormData):Observable<any> {
+   
+    return this.httpclient.post(this.baseurl+'api/upload',fileToUpload).pipe();
+}
+
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
 import { PlatService } from 'platservice/plat.service';
@@ -19,6 +20,48 @@ export class RestaurantComponent implements OnInit {
   BodyFormUpdatePlat:FormGroup;
   BodyFormSearchPlat:FormGroup;
   
+  // private urlimage = 'C:\\M1\\ProjectWebAvance\\ProjetM1\\Test_repo_Git\\servicelastnodemongo\\uploads';
+  
+  @Input()imgpath = 'https://nodemongotestapp.herokuapp.com/imagesupload/';
+  // imgFileName:string = '4T0IP60fyK8QDD_7PloCrg-F.jpg';
+  //fileupload
+  fileToUpload: File | null = null;
+  uploadedFiles:Array <File>=[];
+  formData = new FormData();
+  fileChange(files:any) {
+    this.uploadedFiles = files.target.files;
+}
+
+upload() {
+   let formData = new FormData();
+  for (var i = 0; i < this.uploadedFiles.length; i++) {
+       formData.append("thumbnail", this.uploadedFiles[i]);    
+       console.log(this.uploadedFiles[i].lastModified);
+      // console.log(this.uploadedFiles[i].name);  
+  } 
+      this.platservice.postFile(formData).subscribe((response) => {
+          console.log('response received is ', response);
+          console.log(formData)
+      })
+}
+
+  handleFileInput(files: FileList) {
+
+    this.fileToUpload = files.item(0);
+    console.log(this.fileToUpload?.text);
+    
+    
+}
+
+// uploadessai()
+// {
+//   if(this.fileToUpload!=null)
+//   this.platservice.postFile(this.fileToUpload).subscribe(result=>
+//     {
+//       console.log("succes");
+//     })
+// }
+
    //attribut
    displayadmin = false;
    displayconfigadmin = false;
@@ -28,12 +71,12 @@ export class RestaurantComponent implements OnInit {
    descriptionplat = true;
    descoff = false;
    simpleplat = new plat();
- 
+   imageuploadname = "";
    ListPlatOrder:Array<joinadminrestoplat> = [];
 
   // admininscription!:adminresto;
 
-  constructor(public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
+  constructor(private http: HttpClient,public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
   {
     this.BodyFormFindAdminResto = this.formBuilder.group
           (
@@ -101,6 +144,38 @@ export class RestaurantComponent implements OnInit {
 
   AddPlat()
   {
+    //ajout du photos
+    let formData = new FormData();
+    
+    for (var i = 0; i < this.uploadedFiles.length; i++) {
+        formData.append("thumbnail", this.uploadedFiles[i]);    
+        console.log(this.uploadedFiles[i].lastModified);
+  
+    } 
+      this.platservice.postFile(formData).subscribe((response) => {
+          console.log('response received is ', response);
+          console.log(formData);
+          this.imageuploadname = response;        
+          this.setimage();
+      })
+    
+    // this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
+    // console.log(this.BodyFormAddPlat.value);
+    // this.platservice.insertplat(this.BodyFormAddPlat.value).subscribe(()=>
+    // {
+    //   console.log(this.BodyFormAddPlat.value);   
+    //   console.log(this.plat);
+    //   this.platbyresto(); 
+    // }); 
+  }
+
+  setimage()
+  {
+    
+    console.log("ito "+this.imageuploadname);
+    this.BodyFormAddPlat.patchValue({image:this.imageuploadname});
+    console.log(this.BodyFormAddPlat.value);
+
     this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
     console.log(this.BodyFormAddPlat.value);
     this.platservice.insertplat(this.BodyFormAddPlat.value).subscribe(()=>
@@ -110,6 +185,18 @@ export class RestaurantComponent implements OnInit {
       this.platbyresto(); 
     }); 
   }
+
+  setimageupdate()
+  { 
+    this.BodyFormUpdatePlat.patchValue({image:this.imageuploadname});
+    this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
+    console.log(this.BodyFormUpdatePlat.value);
+    this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(()=>
+    {
+      this.platbyresto(); 
+    }); 
+  }
+  
 
   displayinscription()
   {
@@ -200,14 +287,29 @@ export class RestaurantComponent implements OnInit {
 
   submitupdateplat()
   {
+
+    //ajout du photos
+    let formData = new FormData();
+    
+    for (var i = 0; i < this.uploadedFiles.length; i++) {
+        formData.append("thumbnail", this.uploadedFiles[i]);    
+        console.log(this.uploadedFiles[i].lastModified);
+  
+    } 
+      this.platservice.postFile(formData).subscribe((response) => {
+          console.log('response received is ', response);
+          console.log(formData);
+          this.imageuploadname = response;        
+          this.setimageupdate();
+      })     
     // this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
     console.log(this.BodyFormUpdatePlat.value);
-    this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(result=>
-      {
-        this.backtoplat();
-        this.platbyresto();
-        console.log(result);
-      })
+    // this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(result=>
+    //   {
+    //     this.backtoplat();
+    //     this.platbyresto();
+    //     console.log(result);
+    //   })
   }
   deleteplat(item:plat)
   {

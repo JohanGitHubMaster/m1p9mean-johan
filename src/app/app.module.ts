@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ReadQuotesComponent } from './read-quotes/read-quotes.component';
@@ -25,9 +25,25 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([]),
+    RouterModule.forRoot([{
+      path: 'test',
+      component: RestaurantComponent,
+      resolve: {
+          url: 'externalUrlRedirectResolver'
+      },
+      data: {
+          externalUrl: 'C:\\M1\\ProjectWebAvance\\ProjetM1\\Test_repo_Git\\servicelastnodemongo\\uploads'
+      }
+  }]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide:'externalUrlRedirectResolver',
+      useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) =>
+            {
+                window.location.href = (route.data as any).externalUrl;
+            }
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
