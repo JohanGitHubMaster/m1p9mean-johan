@@ -15,6 +15,7 @@ var inscription = require('./inscription');
 var plats = require('./plats');
 var order = require('./order');
 var restoadmin = require('./restaurant')
+const multipart = require('connect-multiparty');
 app.use(cors());
 var corsOptions = {
     origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
@@ -176,22 +177,25 @@ app.post('/listplatsbyorderrestaurant',cors(corsOptions),plats.listplatsbyorderr
 app.post('/searchplatglobal',cors(corsOptions),plats.searchplatglobal);
 
 
-const multipart = require('connect-multiparty');
+
 
 const multipartMiddleware = multipart({
     uploadDir: './uploads'
 });
 
 app.post('/api/upload', multipartMiddleware, (req, res) => {
-    res.json({
-        'image': 'File uploaded succesfully.'
-    });
+    // console.log(multipartMiddleware.uploadDir);
+    
+    let file = req['files'].thumbnail;
+    console.log(file);
+    res.json(file.path.split('\\').slice(-1).pop());
 
-});
+})
 
 app.use(express.static('public')); 
 app.use('/imagesupload', express.static('uploads'));
 
+// app.get('/bonjour',)
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {
