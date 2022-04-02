@@ -182,15 +182,16 @@ const multipartMiddleware = multipart({
     uploadDir: './uploads'
 });
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
 app.post('/api/upload', multipartMiddleware, (req, res) => {
     res.json({
-        'message': 'File uploaded succesfully.'
+        'image': 'File uploaded succesfully.'
     });
+
 });
+
+app.use(express.static('public')); 
+app.use('/imagesupload', express.static('uploads'));
+
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {
