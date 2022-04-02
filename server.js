@@ -187,8 +187,9 @@ app.post('/api/upload', multipartMiddleware, (req, res) => {
     // console.log(multipartMiddleware.uploadDir);
     
     let file = req['files'].thumbnail;
-    console.log(file);
-    res.json(file.path.split('\\').slice(-1).pop());
+    console.log(file.path.split('\\').slice(-1).pop());
+    var finalresult = file.path.split('\\').slice(-1).pop();
+    res.json(finalresult);
 
 })
 
