@@ -35,7 +35,7 @@ export class PlatService {
 
   public updateplatresto(platresto:plat):Observable<any>
   {
-    return this.httpclient.post(this.localurl+"updateplat",platresto).pipe();
+    return this.httpclient.post(this.baseurl+"updateplat",platresto).pipe();
   }
 
   public deleteplatresto(platresto:plat):Observable<any>
