@@ -218,10 +218,14 @@ app.use('/imagesupload', express.static('uploads'));
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, 
         //   user: "rakotovaojohan516@gmail.com",
           user: req.body.useremail,
 
           pass: req.body.password,
+
         //   pass: "toujourplushaut",
 
          
