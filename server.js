@@ -14,8 +14,12 @@ var cors = require('cors');
 var inscription = require('./inscription');
 var plats = require('./plats');
 var order = require('./order');
-var restoadmin = require('./restaurant')
+var restoadmin = require('./restaurant');
+var livraison = require('./livraison');
+var nodemailer = require('nodemailer');
+app.use(bodyParser.urlencoded({extended: true}));
 const multipart = require('connect-multiparty');
+
 app.use(cors());
 var corsOptions = {
     origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
@@ -172,12 +176,19 @@ app.post('/searchplat',plats.searchplat);
 
 app.post('/orderplatandclient',cors(corsOptions),plats.listplatsbyorder);
 
+//test get client order
+app.get('/testorderplatandclient',cors(corsOptions),plats.listplatsbyorder);
+
 app.post('/listplatsbyorderrestaurant',cors(corsOptions),plats.listplatsbyorderrestaurant);
+
+//test get
+app.get('/listplatsbyorderrestauranttest',cors(corsOptions),plats.listplatsbyorderrestaurant);
 
 app.post('/searchplatglobal',cors(corsOptions),plats.searchplatglobal);
 
+app.post('/convertimage',cors(corsOptions),plats.convertimage);
 
-
+app.post('/livraison',cors(corsOptions),livraison.insertionlivraison)
 
 const multipartMiddleware = multipart({
     uploadDir: './uploads'
@@ -196,7 +207,58 @@ app.post('/api/upload', multipartMiddleware, (req, res) => {
 app.use(express.static('public')); 
 app.use('/imagesupload', express.static('uploads'));
 
-// app.get('/bonjour',)
+
+
+
+
+
+
+  app.post('/sendmail',function(req,res)
+  {
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+        //   user: "rakotovaojohan516@gmail.com",
+          user: req.body.useremail,
+
+          pass: req.body.password,
+        //   pass: "toujourplushaut",
+
+         
+        }
+      });
+    var mailOptions = {
+        from: req.body.nomresto,
+        // from: "Admintest",
+        // to: "rakotovaokaren5@gmail.com",
+        to: req.body.emailtosend,
+        subject: 'Mis a jour du prix de Livraison',
+        text: 'Merci pour l\'attente monsieur '+req.body.nameclient+' le prix de votre livraison est a ete mis a jour 5000ar'
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+            res.json("email effectuer");
+          console.log('Email sent: ' + info.response);
+        }
+      });
+  })
+
+  
+  
+
+
+
+app.get('/sendmail',function(req,res)
+{
+   
+    
+})
+
+
+
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {

@@ -39,6 +39,7 @@ function listplatsbyresto(req, res,next){
 exports.listplatsbyresto = listplatsbyresto;
 
 function updateplat(req, res,next){
+    res.header('Access-Control-Allow-Origin: *');
     db.collection('plat').findOneAndUpdate(
         {_id: MongoDb.ObjectId(req.body._id)},
         {
@@ -134,7 +135,9 @@ function listplatsbyorder(req, res,next){
                                 console.log(resultatplatother);
                                 return { ...subject, ...resultatplatother }
                             })
-                            res.json(resultfinal.filter(x=>x.id_client == req.body._id));
+                            // res.json(resultfinal.filter(x=>x.id_client == req.body._id));
+
+                            res.json(resultfinal.filter(x=>x.id_client == "62452adaab2507fe78c775d8"));
                             console.log(resultfinal);
                         }).catch(error=> console.error(error));
 
@@ -176,7 +179,9 @@ function listplatsbyorderrestaurant(req, res,next){
                                 console.log(resultatplatother);
                                 return { ...subject, ...resultatplatother }
                             })
-                            res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
+                            // res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
+                            res.json(resultfinal.filter(x=>x.id_restaurant == "62455d9b5df8233ed8198978"));
+                            
                             // res.json(resultfinal);
                             console.log(resultfinal);
                         }).catch(error=> console.error(error));
@@ -215,3 +220,15 @@ function searchplatglobal(req, res, next){
         }).catch(error=> console.error(error));
 }
 exports.searchplatglobal = searchplatglobal;
+
+
+
+function convertimage(req, res, next){
+  var resizebase64 = require('resize-base64');  
+  
+  console.log(req.body);
+var  img = resizebase64("base64", "100", "100"); 
+res.json(img);
+}
+exports.convertimage = convertimage;
+
