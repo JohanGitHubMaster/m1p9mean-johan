@@ -6,6 +6,7 @@ export class joinadminrestoplat {
     id_livraison!: number;
     date_de_commande!: Date;
     quantite!: number;
+    quantitetotalparplat!: number;
     etats!: string;
     prixtotalparplat!: number;
     description!: string;

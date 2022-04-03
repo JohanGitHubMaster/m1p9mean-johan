@@ -46,5 +46,9 @@ export class ClientService {
     return this.httpclient.post(this.baseurl+"listplatsbyorderrestaurant",restoadmin).pipe();
   }
 
+  public sendemail(getlivraison:any):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"sendmail",getlivraison).pipe();
+  }
   
 }

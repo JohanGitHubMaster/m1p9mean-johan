@@ -142,7 +142,7 @@
             <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of plat">
                 <div class="single-menu">
                     <!-- <img class="img-fluid" src="assets/image/{{item.image}}" /> -->
-                    <img class="img-fluid" [src]="(imgpath+item.image)"/>
+                    <img class="img-fluid" [src]="(item.image)"/>
 
                     
                     <div>Ar{{item.prix}}</div>
@@ -213,7 +213,7 @@
                 <div class="col-md-4">
                     <div class="contact-map">
                         <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d12623.52751148822!2d-122.47260557388145!3d37.72245039905841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s220%2C+San+Francisco%2C+California%2C+USA!5e0!3m2!1sen!2sbd!4v1555690883913!5m2!1sen!2sbd" frameborder="0" style="border:0" allowfullscreen></iframe> -->
-                        <img width="300px" [src]="imgpath+simpleplat.image"/>
+                        <img width="300px" [src]="simpleplat.image"/>
                     </div>
                 </div>
 
@@ -239,7 +239,7 @@
                                 </div>
                                 <!-- <div class="form-group col-md-6"> -->
                                     <!-- <label class="text-center">quantité</label> -->
-                                    <div class="form-group col-md-3">><input type="file" (change)="fileChange($event)" class="form-control" placeholder="modifier l'image" required="required" /></div>
+                                    <div class="form-group col-md-3"><input type="file" (change)="fileupdate($event)" class="form-control" placeholder="modifier l'image" required="required" /></div>
                                     <div class="form-group col-md-2"><label class="text-center">quantité</label></div>
                                     
                                     <div class="form-group col-md-3"><input type="email" class="form-control" formControlName="quantite" placeholder="quantité en stock" required="required" /></div>
@@ -334,6 +334,7 @@
                                 <th scope="col">Menu</th>
                                 <th scope="col">Prix</th>
                                 <th scope="col">Quantité</th>
+                                <th scope="col">Quantité par commande vendu</th>
                                 <th scope="col">Total</th>
                                 <th scope="col">Delete</th>
                             </tr>
@@ -352,7 +353,8 @@
                                 <th scope="row">{{item.nom}}</th>
                                 <td>{{item.prix}}</td>
                                 <td><div class="quantity">{{item.quantite}}</div></td>
-                                <td>{{item.prixtotalparplat*item.quantite}}</td>
+                                <td><div class="quantity">{{item.quantitetotalparplat}}</div></td>
+                                <td>{{item.prixtotalparplat}}</td>
                                
                                 <td><a href=""><i class="fa fa-trash-o"></i></a></td>
                             </tr>
@@ -364,6 +366,14 @@
                                 <td><a  (click)="getplatofresto()"><i class="fa fa-trash-o"></i></a></td>
                             </tr> -->
                         </tbody>
+                        <tfoot>
+                            <th scope="col">Menu</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Quantité par commande vendu</th>
+                                <th scope="col">{{Prixtotalplatvendu}}</th>
+                                <th scope="col">Delete</th>
+                        </tfoot>
                     </table>
                 </div>
                

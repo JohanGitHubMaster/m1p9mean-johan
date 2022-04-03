@@ -1,10 +1,11 @@
 import { Attribute, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
-import { PlatService } from 'platservice/plat.service';
-import { mergeMap, Subject, takeUntil } from 'rxjs';
-import { PlatComponent } from '../plat/plat.component';
 import { Client } from './client';
+import { listorderbyclient } from './listorderbyclient';
+
+declare let Email: any;
+
 
 @Component({
   selector: 'app-inscription-client',
@@ -14,8 +15,9 @@ import { Client } from './client';
 
 
 export class InscriptionClientComponent implements OnInit {
-  listclient?:Client[];
 
+  listclient?:Client[];
+ ListPlatParclient?:listorderbyclient[];
  
   // @Input('app-wheels') inData: any;
   flag = true;
@@ -27,6 +29,7 @@ export class InscriptionClientComponent implements OnInit {
 
   BodyFormClientAdd:FormGroup;
   BodyFormFindClient:FormGroup;
+  BodyFormSendMail:FormGroup;
   display = true;
   displayform  = true;
 
@@ -34,14 +37,9 @@ export class InscriptionClientComponent implements OnInit {
   passwordinfo = "";
   userinfo = "";
 
+  //show value
+  showcommandbyuser = false;
  
- 
-  
-  resetFormSubject: Subject<boolean> = new Subject<boolean>();
-
-
-    private destroySubject = new Subject();
-
   constructor(public clientservice:ClientService,
               public formBuilder: FormBuilder) 
         { 
@@ -72,6 +70,18 @@ export class InscriptionClientComponent implements OnInit {
             this.displayform = false;
             this.setvaluesession();
           }
+
+          this.BodyFormSendMail = this.formBuilder.group
+          (
+            {
+              useremail:[''],
+              password:[''],
+              nomresto: [''],
+              emailtosend: [''], 
+              nameclient:[''],
+
+            }
+          )
           
         }
   
@@ -94,11 +104,6 @@ export class InscriptionClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.getclient();   
-  }
-
-  ngOnDestroy() {
-    // this.destroySubject.next();
-    this.destroySubject.complete();
   }
 
   login():any
@@ -159,4 +164,72 @@ export class InscriptionClientComponent implements OnInit {
         this.getclient();
       })
   }
+
+
+  showcommand()
+  {
+    //  el.scrollIntoView();
+    this.showcommandbyuser = true;
+    this.clientservice.getplatofclient(this.usersession).subscribe(result=>
+      {       
+        console.log("liste des plat par client effectuer");
+        this.ListPlatParclient = result;
+      })
+  }
+
+  hiddencommand(el:HTMLElement)
+  {
+    el.scrollIntoView();
+    this.showcommandbyuser = false;
+  }
+
+  
+  //  client = new SMTPClient({
+  //   user: 'user',
+  //   password: 'password',
+  //   host: 'smtp.gmail.com',
+  //   ssl: true,
+  // });
+
+  // sendemail()
+  // {
+  //   this.client.send(
+  //     {
+  //       text: 'i hope this works',
+  //       from: 'johan@gmail.com',
+  //       to: 'rakotovaojohan516@gmail.com',
+  //       // cc: 'else <else@your-email.com>',
+  //       subject: 'testing emailjs',
+  //     },
+  //     (err, message) => {
+  //       console.log(err || message);
+  //     }
+  //   );
+  // }
+
+  
+
+  onSubmit() {
+    this.BodyFormSendMail = this.formBuilder.group
+    (
+      {
+        useremail:'rakotovaojohan516@gmail.com',
+        password:'toujourplushaut',
+        nomresto: this.usersession.name,
+        emailtosend: 'rakotovaokaren5@gmail.com', 
+        nameclient:this.usersession.name,
+
+      }
+    )
+    this.clientservice.sendemail(this.BodyFormSendMail.value).subscribe(result=>
+      {
+        console.log(result);
+      })
+      
+    }
+      
+    
+
+
+
 }

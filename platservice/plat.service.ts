@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { livraison } from 'src/app/plat/livraison';
 import { order } from 'src/app/plat/order';
 import { plat } from 'src/app/plat/plat';
 import { adminresto } from 'src/app/restaurant/adminresto';
@@ -34,7 +35,7 @@ export class PlatService {
 
   public updateplatresto(platresto:plat):Observable<any>
   {
-    return this.httpclient.post(this.baseurl+"updateplat",platresto).pipe();
+    return this.httpclient.post(this.localurl+"updateplat",platresto).pipe();
   }
 
   public deleteplatresto(platresto:plat):Observable<any>
@@ -56,5 +57,16 @@ export class PlatService {
    
     return this.httpclient.post(this.baseurl+'api/upload',fileToUpload).pipe();
 }
+public convertimage(fileToUpload:any):Observable<any> { 
+  return this.httpclient.post(this.baseurl+'convertimage',fileToUpload).pipe();
+}
+
+public insertlivraison(getlivraison:livraison):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"livraison",getlivraison).pipe();
+  }
+
+
+ 
 
 }

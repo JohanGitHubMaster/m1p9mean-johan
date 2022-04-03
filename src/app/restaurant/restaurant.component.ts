@@ -1,17 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ClientService } from 'clientservice/client.service';
 import { PlatService } from 'platservice/plat.service';
 import { plat } from '../plat/plat';
 import { adminresto } from './adminresto';
 import { joinadminrestoplat } from './joinadminrestoplat';
 
+
 @Component({
   selector: 'app-restaurant',
   templateUrl: './restaurant.component.html',
   styleUrls: ['./restaurant.component.css']
 })
+
+
+
 export class RestaurantComponent implements OnInit {
 
   BodyFormFindAdminResto:FormGroup;
@@ -23,13 +28,49 @@ export class RestaurantComponent implements OnInit {
   // private urlimage = 'C:\\M1\\ProjectWebAvance\\ProjetM1\\Test_repo_Git\\servicelastnodemongo\\uploads';
   
   @Input()imgpath = 'https://nodemongotestapp.herokuapp.com/imagesupload/';
+  imgbase64 = "";
+  imguploadbase64 = "";
+
   // imgFileName:string = '4T0IP60fyK8QDD_7PloCrg-F.jpg';
   //fileupload
   fileToUpload: File | null = null;
   uploadedFiles:Array <File>=[];
+  uploadedUpdateFiles:Array <File>=[];
   formData = new FormData();
+  uploadimage:string ="";
   fileChange(files:any) {
     this.uploadedFiles = files.target.files;
+
+    const reader = new FileReader();
+  reader.readAsDataURL(this.uploadedFiles[0]);
+  reader.onload = () => {
+    console.log("ato le valeur base64");
+      
+      if(reader.result!=null)
+      {
+        console.log(reader.result);
+        this.imgbase64 = reader.result?.toString();
+
+      }
+    }
+   
+}
+
+fileupdate(files:any) {
+  this.uploadedUpdateFiles = files.target.files;
+
+  const reader = new FileReader();
+reader.readAsDataURL(this.uploadedUpdateFiles[0]);
+reader.onload = () => {
+  console.log("ato le valeur base64");
+    
+    if(reader.result!=null)
+    {
+      console.log(reader.result);
+      this.imguploadbase64 = reader.result?.toString();
+    }
+  }
+ 
 }
 
 upload() {
@@ -38,7 +79,11 @@ upload() {
        formData.append("thumbnail", this.uploadedFiles[i]);    
        console.log(this.uploadedFiles[i].lastModified);
       // console.log(this.uploadedFiles[i].name);  
+      
   } 
+     
+  
+
       this.platservice.postFile(formData).subscribe((response) => {
           console.log('response received is ', response);
           console.log(formData)
@@ -53,14 +98,7 @@ upload() {
     
 }
 
-// uploadessai()
-// {
-//   if(this.fileToUpload!=null)
-//   this.platservice.postFile(this.fileToUpload).subscribe(result=>
-//     {
-//       console.log("succes");
-//     })
-// }
+
 
    //attribut
    displayadmin = false;
@@ -73,10 +111,11 @@ upload() {
    simpleplat = new plat();
    imageuploadname = "";
    ListPlatOrder:Array<joinadminrestoplat> = [];
+   Prixtotalplatvendu = 0;
 
   // admininscription!:adminresto;
 
-  constructor(private http: HttpClient,public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
+  constructor(private _sanitizer: DomSanitizer,private http: HttpClient,public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
   {
     this.BodyFormFindAdminResto = this.formBuilder.group
           (
@@ -148,9 +187,10 @@ upload() {
     let formData = new FormData();
     
     for (var i = 0; i < this.uploadedFiles.length; i++) {
+        
         formData.append("thumbnail", this.uploadedFiles[i]);    
         console.log(this.uploadedFiles[i].lastModified);
-  
+
     } 
       this.platservice.postFile(formData).subscribe((response) => {
           console.log('response received is ', response);
@@ -173,7 +213,10 @@ upload() {
   {
     
     console.log("ito "+this.imageuploadname);
-    this.BodyFormAddPlat.patchValue({image:this.imageuploadname});
+    
+    this.BodyFormAddPlat.patchValue({image:this.imgbase64});
+    // this.BodyFormAddPlat.patchValue({image:this.imageuploadname});
+    console.log(this.imgbase64);
     console.log(this.BodyFormAddPlat.value);
 
     this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
@@ -188,7 +231,9 @@ upload() {
 
   setimageupdate()
   { 
-    this.BodyFormUpdatePlat.patchValue({image:this.imageuploadname});
+    console.log("miditra ato update");
+    this.BodyFormUpdatePlat.patchValue({image:this.imguploadbase64});
+
     this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
     console.log(this.BodyFormUpdatePlat.value);
     this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(()=>
@@ -296,12 +341,13 @@ upload() {
         console.log(this.uploadedFiles[i].lastModified);
   
     } 
-      this.platservice.postFile(formData).subscribe((response) => {
-          console.log('response received is ', response);
-          console.log(formData);
-          this.imageuploadname = response;        
-          this.setimageupdate();
-      })     
+    this.setimageupdate();
+      // this.platservice.postFile(formData).subscribe((response) => {
+      //     console.log('response received is ', response);
+      //     console.log(formData);
+      //     this.imageuploadname = response;        
+      //     this.setimageupdate();
+      // })     
     // this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
     console.log(this.BodyFormUpdatePlat.value);
     // this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(result=>
@@ -352,15 +398,29 @@ upload() {
   {
     this.clientservice.getplatofrestaurant(this.userrestofind).subscribe(result=>
       {
+        console.log("miditra result restaurant");
         console.log(result);
         this.ListPlatOrder = result;
+        this.Prixtotalplatvendu = 0;
+        for(var item of this.ListPlatOrder)
+        {
+          this.Prixtotalplatvendu += 1*item.prixtotalparplat;
+        }
       });
   }
 
   ngOnInit(): void {
     // this.platservice.getplat().subscribe(result=>{this.plat = result; console.log(this.plat)})
-   
+    var userrestosession = (sessionStorage.getItem('userresto'));
+    if(userrestosession!=null)
+    {
+       this.getplatofresto();
+      // this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;})
+    }
   }
 
   
+  
+
+
 }

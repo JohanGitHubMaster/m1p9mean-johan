@@ -133,18 +133,105 @@
       </ng-template>
       <ng-template #displaycommand>
                   <!-- Welcome Section Start -->
-        <div id="welcome">
+        <div id="welcome" #menuheader>
             <div class="container">
                 <h3>Welcome to Italian Cuisine {{usersession.name}} </h3>
                 
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas gravida sollicitudin turpis id posuere. Fusce nec rhoncus nibh. Fusce arcu libero, euismod eget commodo at, venenatis a nisi. Sed faucibus metus sed leo vulputate blandit.</p>
-                <a href="#">Book Now</a>
+                <a (click)="showcommand()">Voir tous vos commandes</a>
+                <a (click)="onSubmit()">essai envoi mail</a>
+                
+                <!-- <a (click)="sendemail()">essai envoiemail</a> -->
+                
             </div>
 
 
         </div>
+        
        
         <!-- Welcome Section End -->
+
+
+       
+
+                <!-- Cart Section Start -->
+       
+        <section id="cart" *ngIf="showcommandbyuser" #showlistecommand>
+                    <div class="container"  >
+                        <header class="section-header">
+                            
+                            <h3>Vos Commandes Effectuer</h3>
+                        </header>
+
+                         <!--visualisation des Commandes par client connecter Section Start -->
+        <section>
+            <div class="container">              
+                <div class="row" >
+                    <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="control-group col-sm-9">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                     
+                                        <h3>les commandes de {{usersession.name}} {{usersession.lastname}}</h3>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group" data-target-input="nearest">                 
+                                        <h3>E-Kaly</h3>          
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="control-group col-sm-3">
+                                <button class="btn btn-info">Book Now</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive-sm">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Menu</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Total</th>                                     
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let itemclient of ListPlatParclient">
+                                            <tr>
+                                                <th scope="row">{{itemclient.nom}}</th>
+                                                <td>{{itemclient.prix}}</td>
+                                                <td>{{itemclient.quantitetotalparplat}}</td>
+                                                <td>{{itemclient.prixtotalparplat}}</td>
+                                                <td><img [src]="itemclient.image" width="100px" height="100px"/></td>
+                                                                                           
+                                            </tr>                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="button">
+                            <!-- <button type="submit" (click)="Insertcommand()">Checkout</button>     -->
+                            <button type="submit" (click)="hiddencommand(menuheader)">Cacher</button>                                             
+    
+                    </div>
+                    </div>
+                </section>
+          
+                <!-- Cart Section End -->
+
         
       </ng-template>
      

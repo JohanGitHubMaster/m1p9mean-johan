@@ -20,6 +20,7 @@ export class PlatComponent implements OnInit {
 
   //Bodyformlist
   BodyFormSearchPlat:FormGroup;
+  BodyFormAddLivraison:FormGroup;
 
   listplat?:plat[];
   buttonplatcommand:string[] = []; 
@@ -66,6 +67,17 @@ export class PlatComponent implements OnInit {
         type: [''],
       }
     )
+
+    this.BodyFormAddLivraison = this.formBuilder.group
+    (
+      {                    
+        prix!:[''],
+        lieudelivraison!:[''],
+        datedelivraison!:[''],
+        heuredelivraison!:[''],
+      }
+    )
+
 
 
     this.verification = this.verificationuser();
@@ -177,27 +189,35 @@ Insertcommand()
 {
   if(this.verificationuser())
   {
-
-  for(let item of this.listcommand)
-  {
-    let ord = new order();
-    ord.id_plat = item._id;
-    ord.id_restaurant = item.id_restaurant;
-    ord.id_client = this.userconnect._id;
-    ord.id_contact = 0;
-    ord.id_livraison = 0;
-    ord.date_de_commande = new Date();
-    ord.quantite = this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value;
-    ord.etats ="en cours";
-    ord.prixtotalparplat = this._elementRef.nativeElement.querySelector('#prqu_'+item._id.toString()).innerText as number;
-     console.log("ty leizy " +ord.prixtotalparplat);
-    console.log(this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value);
-    console.log(this._elementRef.nativeElement.querySelector('#pr_'+item._id.toString()).innerText);
-    this.platservice.insertcommande(ord).subscribe(()=>
+    console.log(this.BodyFormAddLivraison.value);
+  this.platservice.insertlivraison(this.BodyFormAddLivraison.value).subscribe(result=>
     {
-      console.log(ord);
-    })
-  }
+      console.log("miditra insertion livraison");
+      console.log(result.insertedId);
+
+      for(let item of this.listcommand)
+      {
+        let ord = new order();
+        ord.id_plat = item._id;
+        ord.id_restaurant = item.id_restaurant;
+        ord.id_client = this.userconnect._id;
+        ord.id_contact = 0;
+        ord.id_livraison = result.insertedId;
+        ord.date_de_commande = new Date();
+        ord.quantitetotalparplat = this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value;
+        ord.etats ="en cours";
+        ord.prixtotalparplat = this._elementRef.nativeElement.querySelector('#prqu_'+item._id.toString()).innerText as number;
+        console.log("ty leizy " +ord.id_livraison);
+        console.log(this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value);
+        console.log(this._elementRef.nativeElement.querySelector('#pr_'+item._id.toString()).innerText);
+        this.platservice.insertcommande(ord).subscribe(()=>
+        {
+          console.log(ord);
+        })
+      }
+
+    });
+  
 }
   // this.listorder?.push()
 }

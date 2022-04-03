@@ -6,7 +6,7 @@ export class order {
     id_contact!: number;
     id_livraison!: number;
     date_de_commande!: Date;
-    quantite!: number;
+    quantitetotalparplat!: number;
     etats!: String;
     prixtotalparplat!: number;
 }

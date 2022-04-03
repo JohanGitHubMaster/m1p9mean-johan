@@ -4,4 +4,6 @@ export class adminresto {
     email!:string;
     numero!:string;
     password!:string;
+    
 }
+

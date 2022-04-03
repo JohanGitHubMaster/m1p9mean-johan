@@ -44,7 +44,7 @@
         <div class="row">           
             <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of listplat; let index = index;">
                 <div class="single-menu">
-                    <img class="img-fluid" [src]="imgpath+item.image" />
+                    <img class="img-fluid" [src]="item.image" />
                     <div>Ar{{item.prix}}</div>
                     <h4>{{item.nom}}</h4>
                     <a (click)="AddPlat($event,item)"  id="pl_{{item._id}}">{{buttonplatcommand[index]}} </a>
@@ -68,54 +68,41 @@
         <div class="row">
             <div class="col-md-12">
 
-
-        <!-- Reservations Section Start -->
-        <section id="reservations">
-            <div class="container">
-                <header class="section-header">
-                    <h3>Reservations</h3>
-                </header>
+    <form [formGroup]="BodyFormAddLivraison" (ngSubmit)="Insertcommand()">
+        <!-- Commande Section Start -->
+        <section id="login">
+            <div class="container">              
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-row">
                             <div class="control-group col-sm-3">
                                 <div class="form-group">
-                                    <div class="input-group date" id="date" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" placeholder="Date" data-target="#date"/>
-                                        <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                     
+                                        <input type="date" class="form-control datetimepicker-input" formControlName="datedelivraison"  placeholder="Date"/>
+                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="control-group col-sm-3">
                                 <div class="form-group">
                                     <div class="input-group date" id="time" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" placeholder="Time" data-target="#time"/>
-                                        <div class="input-group-append" data-target="#time" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
+                                      
+                                        <input type="time" class="form-control datetimepicker-input" formControlName="heuredelivraison" placeholder="Time"/>
+                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="control-group col-sm-3">
-                                <select class="custom-select">
-                                    <option selected>Party Size</option>
-                                    <option value="1">1 Person</option>
-                                    <option value="2">2 People</option>
-                                    <option value="3">3 People</option>
-                                    <option value="4">4 People</option>
-                                    <option value="5">5 People</option>
-                                    <option value="6">6 People</option>
-                                    <option value="7">7 People</option>
-                                    <option value="8">8 People</option>
-                                    <option value="9">9 People</option>
-                                    <option value="10">10 People</option>
-                                </select>
+                                <div class="form-group">
+                                    <div class="input-group" data-target-input="nearest">                 
+                                        <input type="text" class="form-control datetimepicker-input" formControlName="lieudelivraison" placeholder="Lieu de livraison"/>          
+                                    </div>
+                                </div>
                             </div>
-                            <div class="control-group col-sm-3">
-                                <button class="btn btn-block btn-book">Book Now</button>
-                            </div>
+                            <!-- <div class="control-group col-sm-3">
+                                <button class="btn btn-info">Book Now</button>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -123,7 +110,7 @@
         </section>
         
         <!-- Reservations Section End -->
-
+           
                 <div class="table-responsive-sm">
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
@@ -171,14 +158,16 @@
                         </tfoot>
                     </table>
                 </div>
-
+            
         
 
                 <div class="button">
-                        <button type="submit" (click)="Insertcommand()">Checkout</button>                                             
-                </div>
+                        <!-- <button type="submit" (click)="Insertcommand()">Checkout</button>     -->
+                        <button type="submit">Commander</button>                                             
 
-                
+                </div>
+    </form>  
+
             </div>
         </div>
     </div>
