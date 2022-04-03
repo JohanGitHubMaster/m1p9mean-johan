@@ -213,7 +213,7 @@ app.use('/imagesupload', express.static('uploads'));
 
 
 
-  app.post('/sendmail',function(req,res)
+  app.post('/sendmail',cors(corsOptions),function(req,res)
   {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
