@@ -5,9 +5,9 @@ const res = require('express/lib/response');
 var MongoDb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 var connectionString = 'mongodb+srv://johan:johan@cluster0.yv7eh.mongodb.net/test?retryWrites=true&w=majority';
-app.use(bodyParser.urlencoded({extended:true}));
+// app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.set('view engine','ejs');
 var db = {};
 var cors = require('cors');
@@ -17,7 +17,15 @@ var order = require('./order');
 var restoadmin = require('./restaurant');
 var livraison = require('./livraison');
 var nodemailer = require('nodemailer');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded(
+    {
+        extended: true,
+        limit: '50mb',
+    }));
+
+    app.use(bodyParser.json({limit: "50mb"}));
+    app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+
 const multipart = require('connect-multiparty');
 
 app.use(cors());
@@ -220,7 +228,8 @@ app.use('/imagesupload', express.static('uploads'));
         auth: {
             host: 'smtp.gmail.com',
             port: 465,
-            secure: true, 
+            ignoreTLS: false,
+            secure: false, 
         //   user: "rakotovaojohan516@gmail.com",
           user: req.body.useremail,
 
