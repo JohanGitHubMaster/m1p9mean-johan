@@ -137,7 +137,7 @@ function listplatsbyorder(req, res,next){
                             })
                             // res.json(resultfinal.filter(x=>x.id_client == req.body._id));
 
-                            res.json(resultfinal.filter(x=>x.id_client == "62452adaab2507fe78c775d8"));
+                            res.json(resultfinal.filter(x=>x.id_client == req.body._id));
                             console.log(resultfinal);
                         }).catch(error=> console.error(error));
 
@@ -180,7 +180,7 @@ function listplatsbyorderrestaurant(req, res,next){
                                 return { ...subject, ...resultatplatother }
                             })
                             // res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
-                            res.json(resultfinal.filter(x=>x.id_restaurant == "62455d9b5df8233ed8198978"));
+                            res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
                             
                             // res.json(resultfinal);
                             console.log(resultfinal);
