@@ -17,6 +17,7 @@ var order = require('./order');
 var restoadmin = require('./restaurant');
 var livraison = require('./livraison');
 var nodemailer = require('nodemailer');
+var Ekaly = require('./Ekaly');
 app.use(bodyParser.urlencoded(
     {
         extended: true,
@@ -259,14 +260,19 @@ app.use('/imagesupload', express.static('uploads'));
 
 
 
-app.get('/sendmail',function(req,res)
-{
+// app.get('/sendmail',function(req,res)
+// {
    
     
-})
+// })
 
+app.post('/insertadminEkaly',cors(corsOptions),Ekaly.inscriptionadminEkaly);
 
+app.post('/findadminekaly',cors(corsOptions),Ekaly.findUserAdminEkaly);
 
+// app.get('/listplatlivraisontest',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser)
+
+app.get('/listplatlivraison',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser)
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {
