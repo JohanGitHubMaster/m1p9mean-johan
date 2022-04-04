@@ -54,12 +54,12 @@ export class ClientService {
 
   public insertadminEkaly(ekalyadmin:AdminEkaly):Observable<any>
   {
-    return this.httpclient.post(this.localurl+"insertadminEkaly",ekalyadmin).pipe();
+    return this.httpclient.post(this.baseurl+"insertadminEkaly",ekalyadmin).pipe();
   }
   
   public finduserAdminEkaly(ekalyadmin:AdminEkaly):Observable<any>
   {
-    return this.httpclient.post(this.localurl+"findadminekaly",ekalyadmin).pipe();
+    return this.httpclient.post(this.baseurl+"findadminekaly",ekalyadmin).pipe();
   }
   
 }
