@@ -15,4 +15,5 @@ export class joinadminrestoplat {
     noteclient!: string;
     prix!: number;
     type!: string;
+    recette!: number;
 }

@@ -38,6 +38,7 @@ export class RestaurantComponent implements OnInit {
   uploadedUpdateFiles:Array <File>=[];
   formData = new FormData();
   uploadimage:string ="";
+  recettetotal:Array<number>=[];
   fileChange(files:any) {
     this.uploadedFiles = files.target.files;
 
@@ -112,6 +113,7 @@ upload() {
    imageuploadname = "";
    ListPlatOrder:Array<joinadminrestoplat> = [];
    Prixtotalplatvendu = 0;
+   Prixtotalbenefice = 0;
 
   // admininscription!:adminresto;
 
@@ -143,6 +145,7 @@ upload() {
               description: [''],
               noteclient:[''],
               quantite: [''],
+              recette:[''],
               id_restaurant: [''],
               image: ['']             
             }
@@ -157,6 +160,7 @@ upload() {
               description: [''],
               noteclient:[''],
               quantite: [''],
+              recette:[''],
               id_restaurant: [''],
               image: ['']             
             }
@@ -226,6 +230,7 @@ upload() {
       console.log(this.BodyFormAddPlat.value);   
       console.log(this.plat);
       this.platbyresto(); 
+    
     }); 
   }
 
@@ -273,7 +278,8 @@ upload() {
               noteclient:item.noteclient,
               quantite: item.quantite,
               id_restaurant: item.id_restaurant,
-              image: item.image             
+              image: item.image,
+              recette:item.recette,            
             }
           )
     this.descriptionplat = false;
@@ -401,10 +407,23 @@ upload() {
         console.log("miditra result restaurant");
         console.log(result);
         this.ListPlatOrder = result;
+        this.recettetotal = [];
         this.Prixtotalplatvendu = 0;
+        this.Prixtotalbenefice = 0;
+        var index=0;
         for(var item of this.ListPlatOrder)
         {
+          if(item.recette!=undefined && item.prixtotalparplat!=undefined)
+          {
+          this.recettetotal.push(1*((item.prixtotalparplat as number)-(item.recette as number*item.quantitetotalparplat)));
+
+          }
+          else
+          this.recettetotal.push(0);
+
           this.Prixtotalplatvendu += 1*item.prixtotalparplat;
+          this.Prixtotalbenefice += 1*this.recettetotal[index];
+          index++;
         }
       });
   }

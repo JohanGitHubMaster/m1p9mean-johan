@@ -231,6 +231,11 @@
                                 <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="type"  placeholder="type du plat" required="required" /></div>
                                 
                             </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">Image du plat</div>
+                                <div class="form-group col-md-9"><input type="file" (change)="fileupdate($event)" class="form-control" placeholder="modifier l'image" required="required" /></div>
+                                
+                            </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-1"><label class="text-center">prix</label></div>                     
@@ -239,7 +244,8 @@
                                 </div>
                                 <!-- <div class="form-group col-md-6"> -->
                                     <!-- <label class="text-center">quantité</label> -->
-                                    <div class="form-group col-md-3"><input type="file" (change)="fileupdate($event)" class="form-control" placeholder="modifier l'image" required="required" /></div>
+                                    <!-- <div class="form-group col-md-3"><input type="file" (change)="fileupdate($event)" class="form-control" placeholder="modifier l'image" required="required" /></div> -->
+                                    <div class="form-group col-md-3"><input type="number" class="form-control" placeholder="prix du recette" formControlName="recette" required="required" /></div>
                                     <div class="form-group col-md-2"><label class="text-center">quantité</label></div>
                                     
                                     <div class="form-group col-md-3"><input type="email" class="form-control" formControlName="quantite" placeholder="quantité en stock" required="required" /></div>
@@ -301,8 +307,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
                                 <input type="file"  (change)="fileChange($event)" class="form-control" placeholder="Image du plat" required="required" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                <input type="number"  class="form-control" formControlName="recette" placeholder="prix du recette" required="required" />
+                                </div>
                             </div>   
 
                             <div class="form-group">
@@ -336,10 +347,10 @@
                                 <th scope="col">Quantité</th>
                                 <th scope="col">Quantité par commande vendu</th>
                                 <th scope="col">Total</th>
-                                <th scope="col">Delete</th>
+                                <th scope="col">recette</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let item of ListPlatOrder">
+                        <tbody *ngFor="let item of ListPlatOrder; let index = index;">
                             <!-- <tr>
                                 <th scope="row">item.nom</th>
                                 <td>item.prix</td>
@@ -355,8 +366,9 @@
                                 <td><div class="quantity">{{item.quantite}}</div></td>
                                 <td><div class="quantity">{{item.quantitetotalparplat}}</div></td>
                                 <td>{{item.prixtotalparplat}}</td>
-                               
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                <td>{{item.recette}}</td>
+                                <td>{{recettetotal[index]}}</td>
+                                <!-- <td><a href=""><i class="fa fa-trash-o"></i></a></td> -->
                             </tr>
                             <!-- <tr>
                                 <th scope="row">Aliquam Erat</th>
@@ -373,6 +385,9 @@
                                 <th scope="col">Quantité par commande vendu</th>
                                 <th scope="col">{{Prixtotalplatvendu}}</th>
                                 <th scope="col">Delete</th>
+                                <th scope="col">{{Prixtotalbenefice}}</th>
+
+                                
                         </tfoot>
                     </table>
                 </div>
