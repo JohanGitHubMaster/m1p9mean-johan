@@ -10,6 +10,7 @@ export class AppComponent {
   title = 'masterangular';
   displayrestaurant = false;
   displayinscription = true;
+  displayekaly = false;
   // sendData = {
   //   name: "this.usersession.name",
   //   };
@@ -27,11 +28,20 @@ export class AppComponent {
   {
     this.displayrestaurant = false;
     this.displayinscription = true;
+    this.displayekaly = false;
   }
   showrestaurant()
   {
     this.displayrestaurant = true;
     this.displayinscription = false;
+    this.displayekaly = false;
+  }
+
+  showekaly()
+  {
+    this.displayrestaurant = false;
+    this.displayinscription = false;
+    this.displayekaly = true;
   }
 
    delay(ms: number) {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AdminEkaly } from 'src/app/ekaly/AdminEkaly';
 import { Client } from 'src/app/inscription-client/client';
 import { adminresto } from 'src/app/restaurant/adminresto';
 
@@ -49,6 +50,16 @@ export class ClientService {
   public sendemail(getlivraison:any):Observable<any>
   {
     return this.httpclient.post(this.baseurl+"sendmail",getlivraison).pipe();
+  }
+
+  public insertadminEkaly(ekalyadmin:AdminEkaly):Observable<any>
+  {
+    return this.httpclient.post(this.localurl+"insertadminEkaly",ekalyadmin).pipe();
+  }
+  
+  public finduserAdminEkaly(ekalyadmin:AdminEkaly):Observable<any>
+  {
+    return this.httpclient.post(this.localurl+"findadminekaly",ekalyadmin).pipe();
   }
   
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ListLivraison } from 'src/app/ekaly/ListLivraison';
 import { livraison } from 'src/app/plat/livraison';
 import { order } from 'src/app/plat/order';
 import { plat } from 'src/app/plat/plat';
@@ -66,7 +67,10 @@ public insertlivraison(getlivraison:livraison):Observable<any>
     return this.httpclient.post(this.baseurl+"livraison",getlivraison).pipe();
   }
 
-
+  public getlivraison():Observable<any>
+  {
+    return this.httpclient.get(this.localurl+"listplatlivraison").pipe();
+  }
  
 
 }

@@ -180,30 +180,30 @@
 </section>
 <ng-template #desc>
      <!-- Contact Section Start -->
-     <section id="contact" >
+     <section id="contact" *ngIf="showupdate">
         <div class="container">
             <div class="section-header">
-                <h3>Contact Us</h3>
+                <h3>Mis a jour</h3>
             </div>
             
             <div class="row contact-detail">
                 <div class="col-md-6">
                     <div class="contact-col-1">
                         <div class="contact-hours">
-                            <h4>Opening Hours</h4>
-                            <p>Monday-Friday: 7am to 12am</p>
-                            <p>Saturday: 5pm to 12am</p>
-                            <p>Sunday: 9am to 12am</p>
+                            <h4>Ouverture du restaurant</h4>
+                            <p>Lundi-Friday: 7am à 12am</p>
+                            <p>Saturday: 5pm à 12am</p>
+                            <p>Sunday: 9am à 12am</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="contact-col-2">
                         <div class="contact-info">
-                            <h4>Contact Info</h4>
-                            <p>4137  State Street, CA, USA</p>
-                            <p><a href="tel:+1-234-567-8900">+1-234-567-8900</a></p>
-                            <p><a href="mailto:info@example.com">info@example.com</a></p>
+                            <h4>Infos Contact</h4>
+                            <p>{{userrestofind.numero}}</p>
+                            <p><a href="tel:+1-234-567-8900">{{userrestofind.nom}}</a></p>
+                            <p><a href="mailto:info@example.com">{{userrestofind.email}}</a></p>
                         </div>
                     </div>
                 </div>
@@ -331,7 +331,7 @@
 </section>
 
   <!-- Cart Section Start -->
-  <section id="cart">
+  <section id="cart" *ngIf="showcpmmandbenefice">
     <div class="container">
         <header class="section-header">
             <h3>Liste de vos commandes</h3>

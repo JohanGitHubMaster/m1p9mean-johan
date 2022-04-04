@@ -1,0 +1,141 @@
+<section *ngIf="displaylogin">
+<section id="login">
+    <div class="container">
+        <div class="section-header">
+            <h3>Admin E-kaly</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-6">                        
+                <h2>E-Kaly</h2>                       
+                <h3>Pour voir tous les plats à livrer</h3>             
+                <h3>cliquez ici pour <a (click)="showinscription()">S'inscrire</a></h3>
+            </div>                    
+            <div class="col-md-6">
+                <div class="login-col-2">
+                    <div class="login-form">
+                        <form [formGroup]="BodyFormFindAdminEkaly" (ngSubmit)="Onsubmitlogged()">
+                            <div class="form-group">
+                                <!-- <span class="text-danger">{{userinfo}}</span> -->
+                                <input type="text" class="form-control"  placeholder="Your Email" formControlName="nom"  required="required" />
+                            </div>
+                            <div class="form-group">
+                                <!-- <span class="text-danger">{{passwordinfo}}</span> -->
+                                <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
+                            </div>
+                            <div><button type="submit">Se Connecter</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="login" *ngIf="displayinscription">
+    <div class="container">
+        <div class="section-header">
+            <h3>Inscription en tant qu'Administrateur</h3>
+        </div>
+        <div class="row">                              
+            <div class="col-md-12">
+                <div class="login-col-2">
+                    <div class="login-form">
+                        <form [formGroup]="BodyFormFindAdminEkaly" (ngSubmit)="AddAdminEkaly()">                         
+                            <div class="form-group" >
+                                <input type="text" class="form-control" placeholder="Nom du Restaurant" formControlName="nom"  required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Email du restaurant" formControlName="email" required="required" />
+                            </div>                           
+                                                  
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="number" class="form-control" placeholder="Numero du restaurant" formControlName="numero" required="required" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="password" class="form-control" placeholder="Mot de passe" formControlName="password" required="required" />
+                                </div>
+                            </div>                                                                              
+                            <div><button type="submit">S'inscrire</button></div>                     
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</section>
+<!-- si connecter en tant qu'admin Ekaly -->
+
+<section *ngIf="displayconfig">
+
+ <!-- Welcome Section Start -->
+ <div id="welcome">
+    <div class="container">
+        <h3>Bienvenue l'Administrateur du Ekaly </h3>
+        
+        <p>Vou pouvez voir les plats par restaurant, par client, les livraisons et aussi livrer les plats et voir vos Bénefices</p>
+        <a (click)="sedeconnecter()">Se déconnecter</a>
+    </div>
+</div>
+
+<!-- Cart Section Start -->
+<section id="cart">
+    <div class="container">
+        <header class="section-header">
+            <h3>les plats à livrer</h3>
+        </header>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col">Client</th>
+                                <th scope="col">Prixtotal</th>
+                                <th scope="col">Quantite total</th>
+                                <th scope="col">Delete</th>
+                                <th scope="col">Delete</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of livraisonlist">
+                            <tr>
+                                <td>{{item.nom}}</td>
+                                <th scope="row">{{item.name}}</th>
+                                <td>{{item.prixtotalparplat}}</td>
+                                <td><div class="quantity"><input type="text" value="1"></div></td>
+                                <td>{{item.quantitetotalparplat}}</td>
+                                <td>{{item.heuredelivraison}}</td>
+                                <td>{{item.datedelivraison}}</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <!-- <tr>
+                                <th scope="row">Proin Tortor</th>
+                                <td>$15</td>
+                                <td><div class="quantity"><input type="text" value="2"></div></td>
+                                <td>$30</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Aliquam Erat</th>
+                                <td>$20</td>
+                                <td><div class="quantity"><input type="text" value="3"></div></td>
+                                <td>$60</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="button">
+                    <button type="submit">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cart Section End -->
+
+</section>

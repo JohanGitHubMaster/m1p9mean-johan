@@ -19,11 +19,11 @@
                         <li><a href="index.html">Home</a></li>
                         <!-- <li><a href="about.html">About</a></li> -->                      
                         <li><a href="menu.html">Menu</a></li>
-                        <li><a href="order.html">Online Order</a></li>
-                        
-                        <li class="menu-has-children"><a href="#">pages</a>
+                        <!-- <li><a href="order.html">Online Order</a></li> -->
+                        <li><a (click)="showekaly()">Admin Ekaly</a></li>
+                        <!-- <li class="menu-has-children"><a href="#">pages</a>
                             <ul>
-                                <li><a href="login.html">Login</a></li>
+                               
                                 <li class="menu-has-children"><a href="#">Drop Down</a>
                                     <ul>
                                         <li><a href="#">Drop Down 1</a></li>
@@ -31,7 +31,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <!-- <li><a href="contact.html">Contact</a></li> -->
                         <li><a (click)="usertemplate()">Se Connecter</a></li>
                         <li><a (click)="showrestaurant()">Admin restaurant</a></li>                       
@@ -99,6 +99,7 @@
         <!-- Login Section Start -->
         <app-inscription-client *ngIf="displayinscription"></app-inscription-client>
         <app-restaurant *ngIf="displayrestaurant"></app-restaurant>
+        <app-ekaly *ngIf="displayekaly"></app-ekaly>
         <!-- Login Section End -->
         <hr>
         <!-- les plats disponibles-->

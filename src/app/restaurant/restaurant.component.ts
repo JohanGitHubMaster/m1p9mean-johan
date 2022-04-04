@@ -114,6 +114,8 @@ upload() {
    ListPlatOrder:Array<joinadminrestoplat> = [];
    Prixtotalplatvendu = 0;
    Prixtotalbenefice = 0;
+   showupdate=true;
+   showcpmmandbenefice=true;
 
   // admininscription!:adminresto;
 
@@ -293,18 +295,23 @@ upload() {
       if(result != null)
       {
 
-        this.displayadmin = false;
-        this.displayconfigadmin = true;
-        this.displaylogin = false;
+        
 
         sessionStorage.setItem('userresto', JSON.stringify(result));
         var userrestosession = (sessionStorage.getItem('userresto'));
         if(userrestosession!=null)
-        {
+        {         
+            console.log(this.showcpmmandbenefice);
           this.userrestofind = JSON.parse(userrestosession) as adminresto;
           console.log(this.userrestofind);
            this.platbyresto();
            this.getplatofresto();
+           this.displayadmin = false;
+           this.displayconfigadmin = true;
+           this.displaylogin = false;
+           this.descriptionplat = true;
+           this.showupdate = true;
+           this.showcpmmandbenefice = true;
           // this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;})
         }
       }
@@ -373,9 +380,15 @@ upload() {
   }
   deconnection()
   {
-    this.displayadmin = true;
-        this.displayconfigadmin = false;
-        this.displaylogin = true;
+
+    this.displayadmin = false;
+    this.displayconfigadmin = false;
+    this.displaylogin = true;
+    this.showupdate = false;
+    this.showcpmmandbenefice = false;
+    // this.displayadmin = true;
+    //     this.displayconfigadmin = false;
+    //     this.displaylogin = true;
         this.descriptionplat = false;
         this.descoff =false;
         var userrestosession = (sessionStorage.getItem('userresto'));
@@ -425,6 +438,7 @@ upload() {
           this.Prixtotalbenefice += 1*this.recettetotal[index];
           index++;
         }
+        
       });
   }
 

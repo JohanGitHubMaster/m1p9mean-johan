@@ -9,6 +9,7 @@ import { ReadQuotesComponent } from './read-quotes/read-quotes.component';
 import { InscriptionClientComponent } from './inscription-client/inscription-client.component';
 import { PlatComponent } from './plat/plat.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
+import { EkalyComponent } from './ekaly/ekaly.component';
 
 
 
@@ -19,7 +20,8 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
     ReadQuotesComponent,
     InscriptionClientComponent,
     PlatComponent,
-    RestaurantComponent
+    RestaurantComponent,
+    EkalyComponent
   ],
   imports: [
     BrowserModule,
