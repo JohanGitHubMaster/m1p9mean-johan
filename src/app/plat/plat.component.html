@@ -128,24 +128,9 @@
                                 <td>Ar<span id="pr_{{item._id}}">{{item.prix}}</span></td>
                                 <td><div class="quantity"><input (input)="oninput($event,item._id)" type="number" value="1" id="qu_{{item._id}}"></div></td>
                                 <td>Ar<span id="prqu_{{item._id}}">{{item.prix}}</span></td>
-                                <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td>
-                                <!-- <td><a><i class="fa fa-trash-o"  (click)="details(demo)"></i></a></td> -->
-                                
+                                <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td>                                                     
                             </tr>
-                            <!-- <tr>
-                                <th scope="row">Proin Tortor</th>
-                                <td>$15</td>
-                                <td><div class="quantity"><input type="text" value="2"></div></td>
-                                <td>$30</td>
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Aliquam Erat</th>
-                                <td>$20</td>
-                                <td><div class="quantity"><input type="text" value="3"></div></td>
-                                <td>$60</td>
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
-                            </tr> -->
+                           
                         </tbody>
                         <tfoot class="thead-dark">
                             <tr>
@@ -162,15 +147,28 @@
         
 
                 <div class="button">
-                        <!-- <button type="submit" (click)="Insertcommand()">Checkout</button>     -->
-                        <button type="submit">Commander</button>                                             
-
+                        <button type="submit" *ngIf="displaybuttoncommand">Commander</button>                                             
                 </div>
     </form>  
 
             </div>
         </div>
     </div>
+
+        <div id="welcome" *ngIf="commandsuccess">
+            <div class="container">
+                <h3>Commande ajouter avec succes {{bonjour}}</h3>              
+                <h4>une email va etre envoyez pour vous faire connaitre le prix de votre livraison </h4>
+                <button class="btn btn-success" (click)="newcommand(demo)">nouvelle commande</button>
+                <h3 *ngIf="isprixavalable">le prix de votre livraison est {{prixlivraison}} voir dans votre Email</h3>
+                
+                <!-- <a (click)="sendemail()">essai envoiemail</a> -->
+                
+            </div>
+
+
+        </div>
+  
 </section>
 <!-- Cart Section End -->
 

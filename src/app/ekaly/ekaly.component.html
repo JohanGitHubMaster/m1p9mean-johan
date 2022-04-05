@@ -84,7 +84,7 @@
 <section id="cart">
     <div class="container">
         <header class="section-header">
-            <h3>les plats à livrer</h3>
+            <h3>les plats à livrer a Antanimena de Tojo</h3>
         </header>
         <div class="row">
             <div class="col-md-12">
@@ -108,6 +108,7 @@
                                 <td>{{item.prixtotalparplat}}</td>
                                 <td><div class="quantity"><input type="text" value="1"></div></td>
                                 <td>{{item.quantitetotalparplat}}</td>
+                                <td>{{item.lieudelivraison}}</td>                                
                                 <td>{{item.heuredelivraison}}</td>
                                 <td>{{item.datedelivraison}}</td>
                                 <td><a href=""><i class="fa fa-trash-o"></i></a></td>
@@ -129,13 +130,91 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="button">
-                    <button type="submit">Checkout</button>
+                <br>              
+                <div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form [formGroup]="BodyFormLivraison" (ngSubmit)="validationprix()">
+                                <div class="form-row">                                                      
+                                    <div class="control-group col-sm-3">
+                                        <div class="form-group">
+                                            <div class="input-group date" id="time" data-target-input="nearest">
+                                                <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group col-sm-3">
+                                        <button class="btn btn-info" (click)="validationprix()">traiter et valider le prix de livraison<i class="fa fa-warning"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <!-- <button type="submit">Fixer le prix et traiter la livraison</button> -->
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Cart Section End -->
+
+
+<!-- Cart Section Start -->
+<section id="cart">
+    <div class="container">
+        <header class="section-header">
+            <h3>Listes des livraisons</h3>
+        </header>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive-sm">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Numero</th>
+                                <th scope="col">Date de livraison</th>                               
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of listalllivraison; let index = index;">
+                            <!-- <tr>
+                                <td>{{item.nom}}</td>
+                                <th scope="row">{{item.name}}</th>
+                                <td>{{item.prixtotalparplat}}</td>
+                                <td><div class="quantity"><input type="text" value="1"></div></td>
+                                <td>{{item.quantitetotalparplat}}</td>
+                                <td>{{item.heuredelivraison}}</td>
+                                <td>{{item.datedelivraison}}</td>
+                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
+                            </tr> -->
+                            <tr>
+                                <th scope="row">{{item._id}}</th>
+                                <td>{{item.datedelivraison}}</td> 
+                                <td><a (click)="showdesclivraison(item)"><i class="fa fa-eye"></i></a></td>                              
+                            </tr>
+                            <!-- <tr>
+                                <th scope="row">{{item.datedelivraison}}</th>
+                                <td>$20</td>
+                                <td><a href=""><i class="fa fa-eye"></i></a></td>                           
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="button">
+                    <button type="submit">Checkout</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Cart Section End -->
+
 
 </section>

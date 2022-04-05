@@ -67,10 +67,26 @@ public insertlivraison(getlivraison:livraison):Observable<any>
     return this.httpclient.post(this.baseurl+"livraison",getlivraison).pipe();
   }
 
-  public getlivraison():Observable<any>
+  public getlivraison(objectlivraison:livraison):Observable<any>
   {
-    return this.httpclient.get(this.localurl+"listplatlivraison").pipe();
+    return this.httpclient.post(this.baseurl+"listplatlivraison",objectlivraison).pipe();
   }
- 
+  public listlivraison():Observable<any>
+  {
+    return this.httpclient.get(this.baseurl+"listlivraison").pipe();
+  }
+
+  public updatelivraison(objectlivraison:livraison):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"updateprixlivraison",objectlivraison).pipe();
+  }
+
+  public findprice(objectlivraison:livraison):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"findpricelivraison",objectlivraison).pipe();
+  }
+
+
+  
 
 }

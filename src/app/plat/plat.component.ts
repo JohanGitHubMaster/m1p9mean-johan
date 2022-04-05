@@ -6,6 +6,7 @@ import { PlatService } from 'platservice/plat.service';
 import { Subject } from 'rxjs';
 import { Client } from '../inscription-client/client';
 import { InscriptionClientComponent } from '../inscription-client/inscription-client.component';
+import { livraison } from './livraison';
 import { order } from './order';
 import { plat } from './plat';
 
@@ -30,7 +31,12 @@ export class PlatComponent implements OnInit {
   listcommand:Array<plat> = [];
   public verification = this.verificationuser();
   userconnect = new Client();
-
+  commandsuccess = false;
+  displaybuttoncommand = true;
+  prixlivraison = 0;
+  isprixavalable = false;
+ 
+  bonjour = "bonjour"
   
   @Input()imgpath = 'https://nodemongotestapp.herokuapp.com/imagesupload/';
 
@@ -107,11 +113,9 @@ export class PlatComponent implements OnInit {
   }
 
   ngOnChanges(){
-    // this.verification = exem;
-    // this.userconnect = usercon;
-    /**********THIS FUNCTION WILL TRIGGER WHEN PARENT COMPONENT UPDATES 'someInput'**************/
+   
     document.location.reload();
-    // console.log(this.verification);
+
     }   
 
   //   public refresh(){
@@ -215,9 +219,12 @@ Insertcommand()
           console.log(ord);
         })
       }
-
+      this.startTimer(result.insertedId);
     });
-  
+    //this.verification = false;
+    this.commandsuccess = true;
+    this.displaybuttoncommand = false;
+   
 }
   // this.listorder?.push()
 }
@@ -293,6 +300,30 @@ incrementationcommand()
     }
     
   }
+}
+
+newcommand(el:HTMLElement)
+{
+ el.scrollIntoView();
+ this.commandsuccess = false;
+ this.displaybuttoncommand = true;
+}
+
+startTimer(id:number) {
+  var lv = new livraison();
+  lv._id = id;
+   setInterval(() => {
+     this.platservice.findprice(lv).subscribe(result=>
+      {
+        console.log(result[0]);
+        if(result[0].prix!="")
+        {
+          this.prixlivraison = result[0].prix;
+          this.isprixavalable = true;
+        }
+      })
+    
+  },2000)
 }
 
 }
