@@ -44,7 +44,6 @@ exports.inscriptionadminEkaly = inscriptionadminEkaly;
 exports.findUserAdminEkaly = findUserAdminEkaly; 
 
 function listplatsalivrerbyrestoanduser(req, res,next){
-    var resultplat = [];
     var resultorder = [];
     db.collection('order').find().toArray().then(results =>
         {
@@ -52,7 +51,14 @@ function listplatsalivrerbyrestoanduser(req, res,next){
             resultrestaurant = results;
             db.collection('restaurant').find().toArray().then(resultorders =>
                 {
-                    resultorder = resultorders;
+                    resultorder = resultorders.map(({
+                        nom:nomrestaurant,
+                        ...rest
+                      }) => ({
+                        nomrestaurant,
+                        ...rest
+                      }));
+
                     console.log(typeof(resultorder))
                     let mergedSubjects = resultrestaurant.map(subject => {
                         let otherSubject = resultorder.find(element => element._id == subject.id_restaurant)
@@ -71,10 +77,6 @@ function listplatsalivrerbyrestoanduser(req, res,next){
                                 console.log(resultatplatother);
                                 return { ...subject, ...resultatplatother }
                             })
-                            // res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
-                            // res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
-                            
-                            // res.json(resultfinal);
                             console.log(resultorderplat);
 
 
@@ -83,15 +85,14 @@ function listplatsalivrerbyrestoanduser(req, res,next){
                             db.collection('livraison').find().toArray().then(resultlivraison =>
                                 {
                                     resultatlivraison = resultlivraison;
+
+                                   
         
                                     let resultfinalorderplatlivraison = resultorderplat.map(subject =>{
                                         let resultlivraisonother = resultatlivraison.find(element => element._id == subject.id_livraison)
                                         console.log(resultlivraisonother);
                                         return { ...subject, ...resultlivraisonother }
                                     })
-                                    
-
-
 
                                     db.collection('inscription').find().toArray().then(resultinscription =>
                                         {
@@ -103,29 +104,9 @@ function listplatsalivrerbyrestoanduser(req, res,next){
                                                 return { ...subject, ...resultinscriptionother }
                                             })
                                             
-                                            res.json(resultfinalorderplatlivraisoninscription);
-                                            // res.json(resultfinalorderplatlivraison.filter(x=>x.id_restaurant == req.body._id));
-                                            //res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
+                                            res.json(resultfinalorderplatlivraisoninscription.filter(x=>x.id_livraison==req.body._id));                                                                              
                                             
-                                            // res.json(resultfinal);
-                                            // console.log(resultfinal);
-                
-                
-                
-                                            
-                                        }).catch(error=> console.error(error));
-
-
-                                    // res.json(resultfinalorderplatlivraison);
-                                    // res.json(resultfinalorderplatlivraison.filter(x=>x.id_restaurant == req.body._id));
-                                    //res.json(resultfinal.filter(x=>x.id_restaurant == req.body._id));
-                                    
-                                    // res.json(resultfinal);
-                                    // console.log(resultfinal);
-        
-        
-        
-                                    
+                                        }).catch(error=> console.error(error));                                  
                                 }).catch(error=> console.error(error));
 
                             
@@ -138,3 +119,24 @@ function listplatsalivrerbyrestoanduser(req, res,next){
         }).catch(error=> console.error(error));
 }
 exports.listplatsalivrerbyrestoanduser = listplatsalivrerbyrestoanduser;
+
+
+function updateprixlivraison(req, res,next){
+    db.collection('livraison').findOneAndUpdate(
+        {_id: MongoDb.ObjectId(req.body._id)},
+        {
+            $set:
+            {
+                prix:req.body.prix
+            }
+        },
+        {
+            upsert: true
+        }
+        
+    ).then(result=>{  res.json(result); console.log(result);})
+    .catch(error=> console.error(error))
+}
+exports.updateprixlivraison = updateprixlivraison;
+
+

@@ -17,3 +17,14 @@ MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => 
         console.log(req.body);
     }   
     exports.insertionlivraison = insertionlivraison;
+
+
+function listlivraison(req, res,next){
+        db.collection('livraison').find().toArray().then(results =>
+            {
+                res.json(results);
+                console.log(results);
+            }).catch(error=> console.error(error));
+    }
+    exports.listlivraison = listlivraison;   
+    

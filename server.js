@@ -237,12 +237,12 @@ app.use('/imagesupload', express.static('uploads'));
         }
       });
     var mailOptions = {
-        from: req.body.nomresto,
+        from: req.body.nomekaly,
         // from: "Admintest",
         // to: "rakotovaokaren5@gmail.com",
         to: req.body.emailtosend,
         subject: 'Mis a jour du prix de Livraison',
-        text: 'Merci pour l\'attente monsieur '+req.body.nameclient+' le prix de votre livraison est a ete mis a jour 5000ar'
+        text: 'Merci pour l\'attente monsieur '+req.body.nameclient+' le prix de votre livraison est a ete mis a jour de '+req.body.prix+' ariary'
       };
       
       transporter.sendMail(mailOptions, function(error, info){
@@ -272,7 +272,14 @@ app.post('/findadminekaly',cors(corsOptions),Ekaly.findUserAdminEkaly);
 
 // app.get('/listplatlivraisontest',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser)
 
-app.get('/listplatlivraison',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser)
+app.post('/listplatlivraison',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser);
+
+app.get('/listlivraison',cors(corsOptions),livraison.listlivraison);
+
+app.post('/updateprixlivraison',cors(corsOptions),Ekaly.updateprixlivraison);
+
+app.post('/findpricelivraison',cors(corsOptions),order.findpricelivraison);
+
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {

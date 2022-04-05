@@ -20,6 +20,7 @@
     "express": "^4.17.3",
     "mongodb": "^4.4.1",
     "nodemailer": "^6.7.3",
+    "nodemon": "^2.0.15",
     "resize-base64": "^1.0.12"
   }
 }

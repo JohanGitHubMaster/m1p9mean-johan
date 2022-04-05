@@ -27,3 +27,14 @@ MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => 
             }).catch(error=> console.error(error));
     }
     exports.findOrderUser = findOrderUser;
+
+
+    function findpricelivraison(req,res,next)
+    {
+    db.collection('livraison').find({_id:MongoDb.ObjectId(req.body._id)}).toArray().then(results =>
+        {
+            res.json(results)
+            console.log(results);
+        }).catch(error=> console.error(error));
+    }
+    exports.findpricelivraison = findpricelivraison;
