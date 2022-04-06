@@ -88,12 +88,12 @@ public insertlivraison(getlivraison:livraison):Observable<any>
 
   public getlivraisonuser():Observable<any>
   {
-    return this.httpclient.get(this.localurl+"getlivraisonuser").pipe();
+    return this.httpclient.get(this.baseurl+"getlivraisonuser").pipe();
   }
 
   public getlivraisonresto():Observable<any>
   {
-    return this.httpclient.get(this.localurl+"getlivraisonrestaurant").pipe();
+    return this.httpclient.get(this.baseurl+"getlivraisonrestaurant").pipe();
   }
   
   
