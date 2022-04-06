@@ -78,7 +78,7 @@
                             <div class="control-group col-sm-3">
                                 <div class="form-group">
                                     <div class="input-group date" id="time" data-target-input="nearest">
-                                     
+                                        <span class="text-danger">{{controldatedelivraison}}</span>
                                         <input type="date" class="form-control datetimepicker-input" formControlName="datedelivraison"  placeholder="Date"/>
                                         
                                     </div>
@@ -87,7 +87,7 @@
                             <div class="control-group col-sm-3">
                                 <div class="form-group">
                                     <div class="input-group date" id="time" data-target-input="nearest">
-                                      
+                                        <span class="text-danger">{{controlheuredelivraison}}</span>
                                         <input type="time" class="form-control datetimepicker-input" formControlName="heuredelivraison" placeholder="Time"/>
                                         
                                     </div>
@@ -95,7 +95,8 @@
                             </div>
                             <div class="control-group col-sm-3">
                                 <div class="form-group">
-                                    <div class="input-group" data-target-input="nearest">                 
+                                    <div class="input-group" data-target-input="nearest">
+                                        <span class="text-danger">{{controllieudelivraison}}</span>                 
                                         <input type="text" class="form-control datetimepicker-input" formControlName="lieudelivraison" placeholder="Lieu de livraison"/>          
                                     </div>
                                 </div>

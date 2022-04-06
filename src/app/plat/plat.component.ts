@@ -35,6 +35,10 @@ export class PlatComponent implements OnInit {
   displaybuttoncommand = true;
   prixlivraison = 0;
   isprixavalable = false;
+  interval:any;
+  controldatedelivraison="";
+  controllieudelivraison="";
+  controlheuredelivraison="";
  
   bonjour = "bonjour"
   
@@ -194,37 +198,65 @@ Insertcommand()
   if(this.verificationuser())
   {
     console.log(this.BodyFormAddLivraison.value);
-  this.platservice.insertlivraison(this.BodyFormAddLivraison.value).subscribe(result=>
+    if(this.BodyFormAddLivraison.value.datedelivraison == '')
     {
-      console.log("miditra insertion livraison");
-      console.log(result.insertedId);
+      this.controldatedelivraison = "veuillez remplir la date de livraison";
+    }
+    else
+    {
+      this.controldatedelivraison = "";
+    }
+    if(this.BodyFormAddLivraison.value.heuredelivraison == '')
+    {
+      this.controlheuredelivraison = "veuillez remplir l'heure de livraison";
+    }
+    else
+    {
+      this.controlheuredelivraison = "";
+    }
+    if(this.BodyFormAddLivraison.value.lieudelivraison == '')
+    {
+      this.controllieudelivraison = "veuillez remplir le lieu de livraison";
+    }
+    else
+    {
+      this.controllieudelivraison = "";
+    }
 
-      for(let item of this.listcommand)
-      {
-        let ord = new order();
-        ord.id_plat = item._id;
-        ord.id_restaurant = item.id_restaurant;
-        ord.id_client = this.userconnect._id;
-        ord.id_contact = 0;
-        ord.id_livraison = result.insertedId;
-        ord.date_de_commande = new Date();
-        ord.quantitetotalparplat = this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value;
-        ord.etats ="en cours";
-        ord.prixtotalparplat = this._elementRef.nativeElement.querySelector('#prqu_'+item._id.toString()).innerText as number;
-        console.log("ty leizy " +ord.id_livraison);
-        console.log(this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value);
-        console.log(this._elementRef.nativeElement.querySelector('#pr_'+item._id.toString()).innerText);
-        this.platservice.insertcommande(ord).subscribe(()=>
+    if(this.BodyFormAddLivraison.value.datedelivraison != '' && this.BodyFormAddLivraison.value.heuredelivraison !='' && this.BodyFormAddLivraison.value.lieudelivraison!='')
+    {
+      this.platservice.insertlivraison(this.BodyFormAddLivraison.value).subscribe(result=>
         {
-          console.log(ord);
-        })
-      }
-      this.startTimer(result.insertedId);
-    });
-    //this.verification = false;
-    this.commandsuccess = true;
-    this.displaybuttoncommand = false;
-   
+          console.log("miditra insertion livraison");
+          console.log(result.insertedId);
+    
+          for(let item of this.listcommand)
+          {
+            let ord = new order();
+            ord.id_plat = item._id;
+            ord.id_restaurant = item.id_restaurant;
+            ord.id_client = this.userconnect._id;
+            ord.id_contact = 0;
+            ord.id_livraison = result.insertedId;
+            ord.date_de_commande = new Date();
+            ord.quantitetotalparplat = this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value;
+            ord.etats ="en cours";
+            ord.prixtotalparplat = this._elementRef.nativeElement.querySelector('#prqu_'+item._id.toString()).innerText as number;
+            console.log("ty leizy " +ord.id_livraison);
+            console.log(this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value);
+            console.log(this._elementRef.nativeElement.querySelector('#pr_'+item._id.toString()).innerText);
+            this.platservice.insertcommande(ord).subscribe(()=>
+            {
+              console.log(ord);
+            })
+          }
+          this.startTimer(result.insertedId);
+        });
+        //this.verification = false;
+        this.commandsuccess = true;
+        this.displaybuttoncommand = false;    
+    }
+    
 }
   // this.listorder?.push()
 }
@@ -309,10 +341,12 @@ newcommand(el:HTMLElement)
  this.displaybuttoncommand = true;
 }
 
+
+
 startTimer(id:number) {
   var lv = new livraison();
   lv._id = id;
-   setInterval(() => {
+   this.interval = setInterval(() => {
      this.platservice.findprice(lv).subscribe(result=>
       {
         console.log(result[0]);
@@ -320,6 +354,7 @@ startTimer(id:number) {
         {
           this.prixlivraison = result[0].prix;
           this.isprixavalable = true;
+          clearInterval(this.interval);
         }
       })
     

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
+import * as _ from 'lodash';
 import { PlatService } from 'platservice/plat.service';
 import { livraison } from '../plat/livraison';
+import { livraisonresto } from '../plat/livraisonresto';
+import { livraisonuser } from '../plat/livraisonuser';
 import { AdminEkaly } from './AdminEkaly';
 import { ListLivraison } from './ListLivraison';
 
@@ -18,11 +21,18 @@ export class EkalyComponent implements OnInit {
   BodyFormSendMail:FormGroup;
   userisfind?:AdminEkaly;
   livraisonlist:Array<ListLivraison>=[];
-  listalllivraison:Array<livraison>=[];
+  listalllivraison!:Array<livraisonuser>;
   displayinscription = false;
   displayconfig = false;
   displaylogin = false;
   livraisonitem!:livraison;
+  loadingcart = false;
+  simplelivraison = new ListLivraison();
+  showlivraisonconfig = false;
+  prixtotallivraison = 0;
+  listlivraisonresto:Array<livraisonresto>=[];
+  showlivraisonbyresto:any;
+  prixtotalgainrestaurant = 0;
   
   constructor(private clientservice:ClientService,private formBuilder:FormBuilder,private platservice:PlatService) 
   { 
@@ -145,21 +155,82 @@ export class EkalyComponent implements OnInit {
     this.displayinscription = true;
     
   }
+
+
   showalllivraison()
   {
-    this.platservice.listlivraison().subscribe(result=>
+    
+
+    this.platservice.getlivraisonuser().subscribe(result=>
       {
-        this.listalllivraison = result;
+        this.listalllivraison = result as livraisonuser[];
+        this.listalllivraison = this.listalllivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
+        
+        for(var item of this.listalllivraison)
+        {
+         this.prixtotallivraison+=1*(item.prix)
+        }
+        console.log(this.listalllivraison);
+       
+        
+
       });
+    // this.platservice.listlivraison().subscribe(result=>
+    //   {
+    //     this.listalllivraison = result;
+    //   });
   }
 
-  showdesclivraison(item:livraison)
+  showlivraisonresto()
   {
-    this.livraisonitem = item;
-    this.platservice.getlivraison(item).subscribe(result=>
+    this.platservice.getlivraisonresto().subscribe(result=>
+      {
+        this.listlivraisonresto = result;
+        var constantlivraison =new Array<livraisonresto>();
+        for(var item of this.listlivraisonresto)
+        {
+          
+          item.prixtotalparplat = +item.prixtotalparplat;
+          constantlivraison.push(item);         
+        }
+        let input = constantlivraison,
+    res = _(input)
+            .groupBy('nom')
+            .map((g,nom) => ({nom, prixtotal: (_.sumBy(g, 'prixtotalparplat')*20)/100}))
+            .value();
+            
+            this.showlivraisonbyresto = res; 
+
+            for(var prixtotal of this.showlivraisonbyresto)
+            {
+              this.prixtotalgainrestaurant += +prixtotal.prixtotal; 
+            }
+            console.log(this.showlivraisonbyresto);
+        
+        
+ 
+
+
+
+        this.listlivraisonresto = this.listlivraisonresto.filter((item, i, arr) => arr.findIndex((t) => t.id_restaurant=== item.id_restaurant) === i)
+      })
+  }
+
+  showdesclivraison(el:HTMLElement,item:livraisonuser)
+  {
+    
+    el.scrollIntoView();
+    this.loadingcart=true;
+    this.livraisonitem = new livraison();
+    this.livraisonitem._id = item.id_livraison; 
+    this.platservice.getlivraison(this.livraisonitem).subscribe(result=>
       {
         console.log(result);
         this.livraisonlist = result;
+        this.simplelivraison.lieudelivraison = this.livraisonlist[0].lieudelivraison;
+        this.simplelivraison.name = this.livraisonlist[0].name;
+        this.showlivraisonconfig = true;
+        this.loadingcart=false;
       })
   }
 
@@ -195,6 +266,7 @@ export class EkalyComponent implements OnInit {
 
   ngOnInit(): void {
     this.showalllivraison();
+    this.showlivraisonresto();
   }
 
 }

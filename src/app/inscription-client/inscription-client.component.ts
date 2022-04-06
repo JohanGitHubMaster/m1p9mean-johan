@@ -32,6 +32,7 @@ export class InscriptionClientComponent implements OnInit {
   BodyFormSendMail:FormGroup;
   display = true;
   displayform  = true;
+  loadingcart = false;
 
   //valeur error
   passwordinfo = "";
@@ -166,14 +167,16 @@ export class InscriptionClientComponent implements OnInit {
   }
 
 
-  showcommand()
+  showcommand(el:HTMLElement)
   {
-    //  el.scrollIntoView();
+    el.scrollIntoView();
     this.showcommandbyuser = true;
+    this.loadingcart = true;
     this.clientservice.getplatofclient(this.usersession).subscribe(result=>
       {       
         console.log("liste des plat par client effectuer");
         this.ListPlatParclient = result;
+        this.loadingcart = false;
       })
   }
 

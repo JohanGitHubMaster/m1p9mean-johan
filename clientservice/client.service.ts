@@ -61,5 +61,7 @@ export class ClientService {
   {
     return this.httpclient.post(this.baseurl+"findadminekaly",ekalyadmin).pipe();
   }
+
+  
   
 }

@@ -76,142 +76,204 @@
         <h3>Bienvenue l'Administrateur du Ekaly </h3>
         
         <p>Vou pouvez voir les plats par restaurant, par client, les livraisons et aussi livrer les plats et voir vos Bénefices</p>
-        <a (click)="sedeconnecter()">Se déconnecter</a>
+        <a (click)="sedeconnecter()"  #targetlivraison>Se déconnecter</a>
     </div>
 </div>
-
-<!-- Cart Section Start -->
-<section id="cart">
+<!-- Cart Section End -->
+<section id="cart" *ngIf="loadingcart else loadedfinish" >
     <div class="container">
         <header class="section-header">
-            <h3>les plats à livrer a Antanimena de Tojo</h3>
-        </header>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive-sm">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Menu</th>
-                                <th scope="col">Client</th>
-                                <th scope="col">Prixtotal</th>
-                                <th scope="col">Quantite total</th>
-                                <th scope="col">Delete</th>
-                                <th scope="col">Delete</th>
-                                <th scope="col">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let item of livraisonlist">
-                            <tr>
-                                <td>{{item.nom}}</td>
-                                <th scope="row">{{item.name}}</th>
-                                <td>{{item.prixtotalparplat}}</td>
-                                <td><div class="quantity"><input type="text" value="1"></div></td>
-                                <td>{{item.quantitetotalparplat}}</td>
-                                <td>{{item.lieudelivraison}}</td>                                
-                                <td>{{item.heuredelivraison}}</td>
-                                <td>{{item.datedelivraison}}</td>
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
-                            </tr>
-                            <!-- <tr>
-                                <th scope="row">Proin Tortor</th>
-                                <td>$15</td>
-                                <td><div class="quantity"><input type="text" value="2"></div></td>
-                                <td>$30</td>
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Aliquam Erat</th>
-                                <td>$20</td>
-                                <td><div class="quantity"><input type="text" value="3"></div></td>
-                                <td>$60</td>
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
-                            </tr> -->
-                        </tbody>
-                    </table>
-                </div>
-                <br>              
-                <div>
+            <h3>
+                <div class="spinner-border text-center" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </h3>
+        </header>      
+    </div>
+</section>
 
+<!-- Cart Section Start -->
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form [formGroup]="BodyFormLivraison" (ngSubmit)="validationprix()">
-                                <div class="form-row">                                                      
-                                    <div class="control-group col-sm-3">
-                                        <div class="form-group">
-                                            <div class="input-group date" id="time" data-target-input="nearest">
-                                                <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
-                                                
+<!-- Cart Section Start -->
+
+    <section id="cart">
+    <ng-template #loadedfinish>
+        <div class="container" *ngIf="showlivraisonconfig">
+            <header class="section-header">
+                <h3>les plats à livrer à {{simplelivraison.lieudelivraison}} de {{simplelivraison.name}}</h3>
+            </header>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive-sm">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Quantité Commander</th>
+                                    <th scope="col">Prix par nombre Commander</th>                                                                     
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of livraisonlist">
+                                <tr>
+                                    <td>{{item.nom}}</td> 
+                                    <td>{{item.quantitetotalparplat}}</td>                                   
+                                    <td>{{item.prixtotalparplat}}</td>                               
+                                </tr>                           
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>              
+                    <div>
+    
+    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form [formGroup]="BodyFormLivraison" (ngSubmit)="validationprix()">
+                                    <div class="form-row">                                                      
+                                        <div class="control-group col-sm-3">
+                                            <div class="form-group">
+                                                <div class="input-group date" id="time" data-target-input="nearest">
+                                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
+                                                    
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="control-group col-sm-3">
+                                            <button class="btn btn-info" (click)="validationprix()">traiter et valider le prix de livraison<i class="fa fa-warning"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="control-group col-sm-3">
-                                        <button class="btn btn-info" (click)="validationprix()">traiter et valider le prix de livraison<i class="fa fa-warning"></i></button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
+    
+    
+                        <!-- <button type="submit">Fixer le prix et traiter la livraison</button> -->
                     </div>
-
-
-                    <!-- <button type="submit">Fixer le prix et traiter la livraison</button> -->
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- Cart Section End -->
+    </ng-template>
+    </section>
 
-
-<!-- Cart Section Start -->
-<section id="cart">
-    <div class="container">
-        <header class="section-header">
-            <h3>Listes des livraisons</h3>
-        </header>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive-sm">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Numero</th>
-                                <th scope="col">Date de livraison</th>                               
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let item of listalllivraison; let index = index;">
-                            <!-- <tr>
-                                <td>{{item.nom}}</td>
-                                <th scope="row">{{item.name}}</th>
-                                <td>{{item.prixtotalparplat}}</td>
-                                <td><div class="quantity"><input type="text" value="1"></div></td>
-                                <td>{{item.quantitetotalparplat}}</td>
-                                <td>{{item.heuredelivraison}}</td>
-                                <td>{{item.datedelivraison}}</td>
-                                <td><a href=""><i class="fa fa-trash-o"></i></a></td>
-                            </tr> -->
-                            <tr>
-                                <th scope="row">{{item._id}}</th>
-                                <td>{{item.datedelivraison}}</td> 
-                                <td><a (click)="showdesclivraison(item)"><i class="fa fa-eye"></i></a></td>                              
-                            </tr>
-                            <!-- <tr>
-                                <th scope="row">{{item.datedelivraison}}</th>
-                                <td>$20</td>
-                                <td><a href=""><i class="fa fa-eye"></i></a></td>                           
-                            </tr> -->
-                        </tbody>
-                    </table>
+    <section id="cart">
+    
+        <div class="container">
+            <header class="section-header">
+                <h3>Listes des livraisons</h3>
+            </header>
+            <div class="row">
+                
+                <div class="col-md-12">              
+                    <div class="table-responsive-sm">
+                       
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Numero</th>
+                                    <th>Nom du Client</th>
+                                    <th scope="col">Date de livraison</th>   
+                                    <th scope="col">Heure de livraison</th>
+                                    <th scope="col">lieu de livraison</th>                             
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of listalllivraison; let index = index;">
+                                <tr>
+                                    <th scope="row">{{index+1}}</th>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.datedelivraison}}</td> 
+                                    <td>{{item.heuredelivraison}}</td> 
+                                    <td>{{item.lieudelivraison}}</td> 
+                                    <td><a (click)="showdesclivraison(targetlivraison,item)"><i class="fa fa-eye"></i></a></td>                              
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <!-- <div class="button">
-                    <button type="submit">Checkout</button>
-                </div> -->
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
+
+    <section id="cart">
+    
+        <div class="container">
+            <header class="section-header">
+                <h3>Vos Bénefices par Client</h3>
+            </header>
+            <div class="row">
+                
+                <div class="col-md-12">              
+                    <div class="table-responsive-sm">
+                       
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Numero livraison</th>
+                                    <th>Nom du Client</th>
+                                    <th scope="col">prix du livraison</th>                                                                   
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of listalllivraison; let index = index;">
+                                <tr>
+                                    <th scope="row">{{index+1}}</th>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.prix}}</td> 
+                                    <td><a (click)="showdesclivraison(targetlivraison,item)"><i class="fa fa-eye"></i></a></td>                              
+                                </tr>
+                            </tbody>
+                            <tfoot class="thead-dark">
+                                <tr>
+                                    <th scope="col">Numero livraison</th>
+                                    <th></th>
+                                    <th scope="col">{{prixtotallivraison}}</th>                                                                   
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cart">
+    
+        <div class="container">
+            <header class="section-header">
+                <h3>Vos Bénefices par Restaurant (20% du total des commandes vendus)</h3>
+            </header>
+            <div class="row">
+                
+                <div class="col-md-12">              
+                    <div class="table-responsive-sm">
+                       
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Numero livraison</th>
+                                    <th>Nom du Client</th>
+                                    <th scope="col">Bénefice par gain du restaurant</th>                                                                   
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of showlivraisonbyresto; let index = index;">
+                                <tr>
+                                    <th scope="row">{{index+1}}</th>
+                                    <td>{{item.nom}}</td>
+                                    <td>{{item.prixtotal}}</td>                                                                 
+                                </tr>
+                            </tbody>
+                            <tfoot class="thead-dark">
+                                <tr>
+                                    <th scope="col">Numero livraison</th>
+                                    <th></th>
+                                    <th scope="col">{{prixtotalgainrestaurant}}</th>                                                                   
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 <!-- Cart Section End -->

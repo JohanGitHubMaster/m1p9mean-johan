@@ -86,7 +86,16 @@ public insertlivraison(getlivraison:livraison):Observable<any>
     return this.httpclient.post(this.baseurl+"findpricelivraison",objectlivraison).pipe();
   }
 
+  public getlivraisonuser():Observable<any>
+  {
+    return this.httpclient.get(this.localurl+"getlivraisonuser").pipe();
+  }
 
+  public getlivraisonresto():Observable<any>
+  {
+    return this.httpclient.get(this.localurl+"getlivraisonrestaurant").pipe();
+  }
+  
   
 
 }
