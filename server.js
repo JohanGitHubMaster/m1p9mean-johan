@@ -280,6 +280,10 @@ app.post('/updateprixlivraison',cors(corsOptions),Ekaly.updateprixlivraison);
 
 app.post('/findpricelivraison',cors(corsOptions),order.findpricelivraison);
 
+app.get('/getlivraisonuser',cors(corsOptions),livraison.listplatsbyorderclientlivraison);
+
+app.get('/getlivraisonrestaurant',cors(corsOptions),livraison.listplatsbyorderrestaurantlivraison);
+
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {
