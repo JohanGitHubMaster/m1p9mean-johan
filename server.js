@@ -284,6 +284,7 @@ app.get('/getlivraisonuser',cors(corsOptions),livraison.listplatsbyorderclientli
 
 app.get('/getlivraisonrestaurant',cors(corsOptions),livraison.listplatsbyorderrestaurantlivraison);
 
+app.post('/listbyorderclientlivraison',cors(corsOptions),livraison.listbyorderclientlivraison);
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {

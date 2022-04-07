@@ -110,6 +110,7 @@ exports.searchplat = searchplat;
 function listplatsbyorder(req, res,next){
     var resultplat = [];
     var resultorder = [];
+    console.log(req.body);
     db.collection('order').find().toArray().then(results =>
         {
             console.log(results);
@@ -137,7 +138,7 @@ function listplatsbyorder(req, res,next){
                             })
                             // res.json(resultfinal.filter(x=>x.id_client == req.body._id));
 
-                            res.json(resultfinal.filter(x=>x.id_client == req.body._id));
+                            res.json(resultfinal.filter(x=>x.id_client == req.body.id_client && x.id_livraison==req.body.id_livraison));
                             console.log(resultfinal);
                         }).catch(error=> console.error(error));
 

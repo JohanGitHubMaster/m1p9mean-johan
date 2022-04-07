@@ -114,3 +114,44 @@ function listlivraison(req, res,next){
     }
     exports.listplatsbyorderrestaurantlivraison = listplatsbyorderrestaurantlivraison;
 
+
+    function listbyorderclientlivraison(req, res,next){      
+        var resultorder = [];
+        db.collection('order').find().toArray().then(results =>
+            {
+                console.log(results);
+                resultinscription = results;
+                db.collection('inscription').find().toArray().then(resultorders =>
+                    {
+                        resultorder = resultorders;
+                        console.log(typeof(resultorder))
+                        let mergedSubjects = resultinscription.map(subject => {
+                            let otherSubject = resultorder.find(element => element._id == subject.id_client)
+                            console.log(otherSubject);
+                            return { ...subject, ...otherSubject }
+                           
+                        })
+                        // res.json(mergedSubjects);
+    
+                        db.collection('livraison').find().toArray().then(resultplat =>
+                            {
+                                resultatplat = resultplat;
+    
+                                let resultfinal = mergedSubjects.map(subject =>{
+                                    let resultatplatother = resultatplat.find(element => element._id == subject.id_livraison)
+                                    console.log(resultatplatother);
+                                    return { ...subject, ...resultatplatother }
+                                })
+                                // res.json(resultfinal.filter(x=>x.id_client == req.body._id));
+                                res.json(resultfinal.filter(x=>x.id_client == req.body._id));                                
+                                // res.json(resultfinal.filter(x=>x.id_livraison == req.body._id));
+                                console.log(resultfinal);
+                            }).catch(error=> console.error(error));
+    
+                        
+                    }).catch(error=> console.error(error));
+    
+               
+            }).catch(error=> console.error(error));
+    }
+    exports.listbyorderclientlivraison = listbyorderclientlivraison;
