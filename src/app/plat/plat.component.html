@@ -148,22 +148,60 @@
         
 
                 <div class="button">
-                        <button type="submit" *ngIf="displaybuttoncommand">Commander</button>                                             
+                        <button type="submit" *ngIf="displaybuttoncommand">Commander</button>   
+                                                                
                 </div>
     </form>  
-
             </div>
         </div>
     </div>
 
         <div id="welcome" *ngIf="commandsuccess">
             <div class="container">
-                <h3>Commande ajouter avec succes {{bonjour}}</h3>              
+                <h3>Commande ajouter avec succes</h3>    
+                         
                 <h4>une email va etre envoyez pour vous faire connaitre le prix de votre livraison </h4>
                 <button class="btn btn-success" (click)="newcommand(demo)">nouvelle commande</button>
-                <h3 *ngIf="isprixavalable">le prix de votre livraison est {{prixlivraison}} voir dans votre Email</h3>
+                <br>
+                <h4 *ngIf="isprixavalable">le prix de votre livraison est {{prixlivraison}} voir dans votre Email</h4>
+                <br>
+               
+                <section *ngIf="isprixavalable">
+                        <div class="container">
+                            <div class="table-responsive-sm" id="facture">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Menu</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Total</th>                                     
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let itemclient of ListPlatParclient">
+                                        <tr>                                      
+                                            <th scope="row">{{itemclient.nom}}</th>
+                                            <td>{{itemclient.prix}}</td>
+                                            <td>{{itemclient.quantitetotalparplat}}</td>
+                                            <td>{{itemclient.prixtotalparplat}}</td>
+                                            <td><img [src]="itemclient.image" width="100px" height="100px"/></td>                                                                               
+                                        </tr>                                          
+                                    </tbody>
+                                   
+                                </table>
+                                <h4>Le prix de livraison {{prixlivraison}}</h4>
+                            </div>
+                                       
+                    
+                    <div class="button">
+                        <button type="submit" (click)="convertToPDF()">Save To Pdf</button>    
+                        
+                                                            
                 
-                <!-- <a (click)="sendemail()">essai envoiemail</a> -->
+                    </div>
+                </div>
+            </section>
+                   
                 
             </div>
 

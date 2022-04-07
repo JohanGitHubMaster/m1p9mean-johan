@@ -24,12 +24,13 @@ export class RestaurantComponent implements OnInit {
   BodyFormAddPlat:FormGroup;
   BodyFormUpdatePlat:FormGroup;
   BodyFormSearchPlat:FormGroup;
+
   
   // private urlimage = 'C:\\M1\\ProjectWebAvance\\ProjetM1\\Test_repo_Git\\servicelastnodemongo\\uploads';
   
   @Input()imgpath = 'https://nodemongotestapp.herokuapp.com/imagesupload/';
   imgbase64 = "";
-  imguploadbase64 = "";
+  imguploadbase64:String = "";
 
   // imgFileName:string = '4T0IP60fyK8QDD_7PloCrg-F.jpg';
   //fileupload
@@ -39,6 +40,8 @@ export class RestaurantComponent implements OnInit {
   formData = new FormData();
   uploadimage:string ="";
   recettetotal:Array<number>=[];
+  
+
   fileChange(files:any) {
     this.uploadedFiles = files.target.files;
 
@@ -60,7 +63,7 @@ export class RestaurantComponent implements OnInit {
 fileupdate(files:any) {
   this.uploadedUpdateFiles = files.target.files;
 
-  const reader = new FileReader();
+const reader = new FileReader();
 reader.readAsDataURL(this.uploadedUpdateFiles[0]);
 reader.onload = () => {
   console.log("ato le valeur base64");
@@ -116,10 +119,24 @@ upload() {
    Prixtotalbenefice = 0;
    showupdate=true;
    showcpmmandbenefice=true;
+   adminconnected=true;
+   showloaded=true;
+   Updatesucces="";
+   insertionfait="";
+   imagenotchange:String = "";
+
+   //control de valeur
+   nomplat="";
+   typeplat="";
+   prixplat="";
+   quantiteplat="";
+   recetteplat="";
+   descriptionplatvalue="";
+
 
   // admininscription!:adminresto;
 
-  constructor(private _sanitizer: DomSanitizer,private http: HttpClient,public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
+  constructor(public formBuilder: FormBuilder,private platservice:PlatService,private clientservice:ClientService) 
   {
     this.BodyFormFindAdminResto = this.formBuilder.group
           (
@@ -164,7 +181,8 @@ upload() {
               quantite: [''],
               recette:[''],
               id_restaurant: [''],
-              image: ['']             
+              image: [''],
+              imagevide:[''],             
             }
           )
 
@@ -177,70 +195,104 @@ upload() {
               id_restaurant: ['']                       
             }
           )
-
           this.isloggedadmin();
+
+          var userrestosession = (sessionStorage.getItem('userresto'));
+          if(userrestosession!=null)
+            {
+              // this.displayadmin = false;
+              // this.displaylogin = false;
+              this.adminconnected=false;
+              this.showloaded=false;
+            }
          
   }
 
  platbyresto()
  {
-  this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;})
+  this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;  this.showloaded=false;})
  }
 
-  AddPlat()
+  AddPlat(el:HTMLElement)
   {
+    
     //ajout du photos
     let formData = new FormData();
-    
     for (var i = 0; i < this.uploadedFiles.length; i++) {
         
         formData.append("thumbnail", this.uploadedFiles[i]);    
         console.log(this.uploadedFiles[i].lastModified);
 
     } 
-      this.platservice.postFile(formData).subscribe((response) => {
-          console.log('response received is ', response);
-          console.log(formData);
-          this.imageuploadname = response;        
-          this.setimage();
-      })
-    
-    // this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
-    // console.log(this.BodyFormAddPlat.value);
-    // this.platservice.insertplat(this.BodyFormAddPlat.value).subscribe(()=>
-    // {
-    //   console.log(this.BodyFormAddPlat.value);   
-    //   console.log(this.plat);
-    //   this.platbyresto(); 
-    // }); 
+      // this.platservice.postFile(formData).subscribe((response) => {
+      //     console.log('response received is ', response);
+      //     console.log(formData);
+      //     this.imageuploadname = response;        
+          this.setimage(el);
+          
+      // })
   }
 
-  setimage()
+  setimage(el:HTMLElement)
   {
     
     console.log("ito "+this.imageuploadname);
-    
-    this.BodyFormAddPlat.patchValue({image:this.imgbase64});
-    // this.BodyFormAddPlat.patchValue({image:this.imageuploadname});
-    console.log(this.imgbase64);
-    console.log(this.BodyFormAddPlat.value);
 
-    this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
-    console.log(this.BodyFormAddPlat.value);
-    this.platservice.insertplat(this.BodyFormAddPlat.value).subscribe(()=>
-    {
-      console.log(this.BodyFormAddPlat.value);   
-      console.log(this.plat);
-      this.platbyresto(); 
+    var valueadd = this.BodyFormAddPlat.value;
+    console.log(valueadd);
+    if(valueadd.nom=='')this.nomplat="nom du plat obligatoire";
+    else this.nomplat='';
+
+    if(valueadd.type=='')this.typeplat="type de plat obligatoire";
+    else this.typeplat=''
+
+    if(valueadd.prix=='')this.prixplat="prix du plat obligatoire";
+    else this.prixplat=''
+
+    if(valueadd.quantite=='')this.quantiteplat="quantite du plat obligatoire";
+    else this.quantiteplat=''
+
+    if(valueadd.recette=='')this.recetteplat="prix de recette du plat obligatoire";
+    else this.recetteplat=''
     
-    }); 
+    if(valueadd.description=='')this.descriptionplatvalue="description du plat obligatoire";
+    else this.descriptionplatvalue=''
+
+    if(valueadd.nom!=''&&valueadd.type!=''&&valueadd.prix!=''&&valueadd.quantite!=''&&valueadd.recette!=''&&valueadd.description!='')
+    {
+      this.BodyFormAddPlat.patchValue({image:this.imgbase64});
+
+      console.log(this.imgbase64);
+      console.log(this.BodyFormAddPlat.value);
+  
+      this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
+      console.log(this.BodyFormAddPlat.value);
+      this.platservice.insertplat(this.BodyFormAddPlat.value).subscribe(()=>
+      {
+        console.log(this.BodyFormAddPlat.value);   
+        console.log(this.plat);
+        this.platbyresto();   
+        el.scrollIntoView();   
+        this.insertionfait = "plat inseré avec succès"
+          setTimeout(() => {
+            this.insertionfait = ""
+          }, 2000);
+      }); 
+    }
+    
+
   }
 
   setimageupdate()
   { 
     console.log("miditra ato update");
-    this.BodyFormUpdatePlat.patchValue({image:this.imguploadbase64});
-
+    if(this.BodyFormUpdatePlat.value.imagevide != '')
+    {
+      this.BodyFormUpdatePlat.patchValue({image:this.imguploadbase64});
+      // this.imguploadbase64=this.imagenotchange;  
+    }
+    
+   
     this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
     console.log(this.BodyFormUpdatePlat.value);
     this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(()=>
@@ -265,10 +317,18 @@ upload() {
     });
   }
 
+  showaddplat(el:HTMLElement)
+  {
+    el.scrollIntoView();
+  }
+
   platdescription(item:plat)
   {
     console.log("miditra plat ato");
     this.simpleplat = item;
+    this.imagenotchange = item.image;
+    console.log(item.image);
+    this.showupdate = true;
     this.BodyFormUpdatePlat = this.formBuilder.group
           (
             {
@@ -281,7 +341,8 @@ upload() {
               quantite: item.quantite,
               id_restaurant: item.id_restaurant,
               image: item.image,
-              recette:item.recette,            
+              recette:item.recette,
+              imagevide:[''],            
             }
           )
     this.descriptionplat = false;
@@ -290,18 +351,18 @@ upload() {
   Onsubmitlogged()
   {
     
-    
+    this.showloaded=true;
+    console.log("show loaded");
     this.clientservice.finduserrestoAdmintoconnect(this.BodyFormFindAdminResto.value).subscribe(result=>{
       if(result != null)
       {
-
-        
-
+        this.adminconnected=true;
         sessionStorage.setItem('userresto', JSON.stringify(result));
         var userrestosession = (sessionStorage.getItem('userresto'));
         if(userrestosession!=null)
-        {         
-            console.log(this.showcpmmandbenefice);
+        {
+         
+          console.log(this.showcpmmandbenefice);
           this.userrestofind = JSON.parse(userrestosession) as adminresto;
           console.log(this.userrestofind);
            this.platbyresto();
@@ -312,12 +373,16 @@ upload() {
            this.descriptionplat = true;
            this.showupdate = true;
            this.showcpmmandbenefice = true;
+           this.adminconnected=false;
+          
+           //console.log("show loaded");
           // this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;})
         }
       }
       // console.log(result); 
-        
+      
     })
+  
     // this.displayadmin = true;  
   }
 
@@ -348,27 +413,20 @@ upload() {
 
     //ajout du photos
     let formData = new FormData();
-    
     for (var i = 0; i < this.uploadedFiles.length; i++) {
         formData.append("thumbnail", this.uploadedFiles[i]);    
         console.log(this.uploadedFiles[i].lastModified);
-  
     } 
     this.setimageupdate();
-      // this.platservice.postFile(formData).subscribe((response) => {
-      //     console.log('response received is ', response);
-      //     console.log(formData);
-      //     this.imageuploadname = response;        
-      //     this.setimageupdate();
-      // })     
-    // this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
     console.log(this.BodyFormUpdatePlat.value);
-    // this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(result=>
-    //   {
-    //     this.backtoplat();
-    //     this.platbyresto();
-    //     console.log(result);
-    //   })
+    this.descriptionplat = true;
+    this.showupdate = false;
+    this.Updatesucces = "plat mis a jour avec succès"
+    setTimeout(() => {
+      this.Updatesucces = ""
+    }, 2000);
+    
+
   }
   deleteplat(item:plat)
   {
@@ -397,6 +455,11 @@ upload() {
           sessionStorage.removeItem('userresto');
           console.log("deconnection fait");
         }
+  }
+
+  showbenefice(el:HTMLElement)
+  {
+    el.scrollIntoView();
   }
 
   searchplat()
@@ -438,10 +501,12 @@ upload() {
           this.Prixtotalbenefice += 1*this.recettetotal[index];
           index++;
         }
-        
+        this.showloaded=false;
       });
   }
 
+  
+  
   ngOnInit(): void {
     // this.platservice.getplat().subscribe(result=>{this.plat = result; console.log(this.plat)})
     var userrestosession = (sessionStorage.getItem('userresto'));

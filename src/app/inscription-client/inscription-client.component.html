@@ -172,79 +172,137 @@
 
                 <!-- Cart Section Start -->
                 <ng-template #loadedfinish>
+                    
+                    
+
                     <section id="cart" *ngIf="showcommandbyuser" #showlistecommand>
-                        <div class="container"  >
+    
+                        <div class="container">
                             <header class="section-header">
-                                
-                                <h3>Vos Commandes Effectuer</h3>
+                                <h3>Listes des livraisons</h3>
                             </header>
-    
-                             <!--visualisation des Commandes par client connecter Section Start -->
-            <section>
-                <div class="container">              
-                    <div class="row" >
-                        <div class="col-md-12">
-                            <div class="form-row">
-                                <div class="control-group col-sm-9">
-                                    <div class="form-group">
-                                        <div class="input-group date" id="time" data-target-input="nearest">
-                                         
-                                            <h3>les commandes de {{usersession.name}} {{usersession.lastname}}</h3>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="control-group col-sm-3">
-                                    <div class="form-group">
-                                        <div class="input-group" data-target-input="nearest">                 
-                                            <h3>E-Kaly</h3>          
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- <div class="control-group col-sm-3">
-                                    <button class="btn btn-info">Book Now</button>
-                                </div> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
                             <div class="row">
-                                <div class="col-md-12">
+                                
+                                <div class="col-md-12">              
                                     <div class="table-responsive-sm">
+                                       
                                         <table class="table table-bordered table-hover">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th scope="col">Menu</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Total</th>                                     
+                                                    <th scope="col">Numero</th>
+                                                    <th>Nom du Client</th>
+                                                    <th scope="col">Date de livraison</th>   
+                                                    <th scope="col">Heure de livraison</th>
+                                                    <th scope="col">lieu de livraison</th>                             
                                                 </tr>
                                             </thead>
-                                            <tbody *ngFor="let itemclient of ListPlatParclient">
+                                            <tbody *ngFor="let item of listalllivraison; let index = index;">
                                                 <tr>
-                                                    <th scope="row">{{itemclient.nom}}</th>
-                                                    <td>{{itemclient.prix}}</td>
-                                                    <td>{{itemclient.quantitetotalparplat}}</td>
-                                                    <td>{{itemclient.prixtotalparplat}}</td>
-                                                    <td><img [src]="itemclient.image" width="100px" height="100px"/></td>
-                                                                                               
-                                                </tr>                                          
+                                                    <th scope="row">{{index+1}}</th>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.datedelivraison}}</td> 
+                                                    <td>{{item.heuredelivraison}}</td> 
+                                                    <td>{{item.lieudelivraison}}</td> 
+                                                    <td><a (click)="showdetails(item)"><i class="fa fa-eye"></i></a></td>                              
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    
                                 </div>
                             </div>
-                            <div class="button">
-                                <!-- <button type="submit" (click)="Insertcommand()">Checkout</button>     -->
-                                <button type="submit" (click)="hiddencommand(menuheader)">Cacher</button>                                             
-        
-                        </div>
                         </div>
                     </section>
+
+                    <section id="cart" *ngIf="loadingdetail else loadeddetailfinish">
+                        <div class="container">
+                            <header class="section-header">
+                                <h3>
+                                    <div class="spinner-border text-center" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                </h3>
+                            </header>      
+                        </div>
+                    </section>
+
+                     <ng-template #loadeddetailfinish>
+                        <section id="cart" *ngIf="showdetailsbyuser" #showdetailcommand>
+                            <div class="container">
+                                <header class="section-header">
+                                    
+                                    <h3>Vos Commandes Effectuer</h3>
+                                </header>
+        
+                                 <!--visualisation des Commandes par client connecter Section Start -->
+                <section>
+                    <div class="container">              
+                        <div class="row" >
+                            <div class="col-md-12">
+                                <div class="form-row">
+                                    <div class="control-group col-sm-9">
+                                        <div class="form-group">
+                                            <div class="input-group date" id="time" data-target-input="nearest">
+                                             
+                                                <h3>les commandes de {{usersession.name}} {{usersession.lastname}}</h3>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="control-group col-sm-3">
+                                        <div class="form-group">
+                                            <div class="input-group" data-target-input="nearest">                 
+                                                <h3>E-Kaly</h3>          
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="control-group col-sm-3">
+                                        <button class="btn btn-info">Book Now</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+        
+                                <div class="row" id="savetopdf">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive-sm">
+                                            <table class="table table-bordered table-hover">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">Menu</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Total</th>                                     
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngFor="let itemclient of ListPlatParclient">
+                                                    <tr>
+                                                        <th scope="row">{{itemclient.nom}}</th>
+                                                        <td>{{itemclient.prix}}</td>
+                                                        <td>{{itemclient.quantitetotalparplat}}</td>
+                                                        <td>{{itemclient.prixtotalparplat}}</td>
+                                                        <td><img [src]="itemclient.image" width="100px" height="100px"/></td>
+                                                                                                   
+                                                    </tr>                                          
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="button">
+                                    <!-- <button type="submit" (click)="Insertcommand()">Checkout</button>     -->
+                                    <button type="submit" (click)="hiddencommand(menuheader)">Cacher</button>     
+                                    <button (click)="convertToPDF()">save as pdf</button>                                          
+            
+                            </div>
+                            </div>
+                        </section>
+                     </ng-template>
+            
+
               
                 </ng-template>
 

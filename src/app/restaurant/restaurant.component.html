@@ -7,7 +7,6 @@
             <div class="col-md-6">                        
                 <h2>Restaurant</h2>                       
                 <h3>Pour Verifier vos plats Veuiller se connecter</h3>
-                <!-- <h3>{{userfind}}</h3> -->
                 <h3>cliquez ici pour <a (click)="displayinscription()">S'inscrire</a></h3>
             </div>                    
             <div class="col-md-6">
@@ -41,8 +40,6 @@
                 <div class="login-col-2">
                     <div class="login-form">
                         <form [formGroup]="BodyFormFindAddAdmin" (ngSubmit)="AddAdmin()">                         
-                            <!-- <input type="hidden" class="form-control" value="0" formControlName="noteclient" required="required" />
-                            <input type="hidden" class="form-control" value="0"  formControlName="id_restaurant" required="required" /> -->
                             <div class="form-group" >
                                 <input type="text" class="form-control" placeholder="Nom du Restaurant" formControlName="nom" required="required" />
                             </div>
@@ -69,331 +66,331 @@
 </section>
 <!-- <ng-template #adminconnect> -->
 
-    
-      <!-- Welcome Section Start -->
-      <div id="welcome" *ngIf="displayconfigadmin">
-        <div class="container">
-            <h3>Bienvenue l'Administrateur du restaurant {{userrestofind.nom}} </h3>
-            
-            <p>Vou pouvez ajouter,supprimer, modifier vos plats et voir vos Bénefice</p>
-            <a (click)="deconnection()">Se deconnecter</a>
-        </div>
-
-
-    </div>
-   
-    
-<!-- </ng-template> -->
-
-
-
-
-
-<!-- plat par restaurant -->
-<section id="food-menu" *ngIf="descriptionplat; else desc">
-
-
-    <div class="container">
-        <header class="section-header">
-            <h3>Liste de vos plats <i class="fa fa-trash-o"></i></h3>
-        </header>
-        <div class="row">
-            <div class="col-md-12">
-                <form [formGroup]="BodyFormSearchPlat" (ngSubmit)="searchplat()">
-                    <div class="form-row">
-                        <div class="control-group col-sm-3">
-                            <div class="form-group">
-                                <div class="input-group date" id="time" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" formControlName="nom" placeholder="Nom"/>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="control-group col-sm-3">
-                            <div class="form-group">
-                                <div class="input-group date" id="time" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" formControlName="type" placeholder="Type"/>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="control-group col-sm-3">
-                            <div class="form-group">
-                                <div class="input-group date" id="time" data-target-input="nearest">
-                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="control-group col-sm-3">
-                            <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <header class="section-header" #demo>
-            <!-- <h3>delicious Food Menu <i class="fa fa-trash-o"></i></h3> -->
-        </header>
-        <div class="row">           
-            <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of plat">
-                <div class="single-menu">
-                    <!-- <img class="img-fluid" src="assets/image/{{item.image}}" /> -->
-                    <img class="img-fluid" [src]="(item.image)"/>
-
-                    
-                    <div>Ar{{item.prix}}</div>
-                    
-                    <h4>{{item.nom}}</h4>
-
-                        
-                   
-                    <!-- <a (click)="platdescription(item)" id="pl_{{item._id}}">Description</a> -->
-                    
-                    <!-- <a (click)="platdescription(item)"  id="pl_{{item._id}}"><i class="text-white fa fa-eye"></i></a> -->
-                    <a>
-                        
-                        <i (click)="platdescription(item)" class="btn btn-info text-white fa fa-eye"></i>
-                        
-                        <i (click)="deleteplat(item)" class="btn btn-danger fa fa-trash-o"></i>
-                    </a>
-                    
-                    
-                    <!-- deleteplatresto -->
-                    
-                </div>
-
-                <!-- <div>
-                    
-                    <a (click)="platdescription(item)" id="pl_{{item._id}}">Description</a> -->
-                    <!-- deleteplatresto -->
-                    
-                <!-- </div> -->
-            </div>
-           
-
-        </div>
-    </div>
-</section>
-<ng-template #desc>
-     <!-- Contact Section Start -->
-     <section id="contact" *ngIf="showupdate">
-        <div class="container">
-            <div class="section-header">
-                <h3>Mis a jour</h3>
-            </div>
-            
-            <div class="row contact-detail">
-                <div class="col-md-6">
-                    <div class="contact-col-1">
-                        <div class="contact-hours">
-                            <h4>Ouverture du restaurant</h4>
-                            <p>Lundi-Friday: 7am à 12am</p>
-                            <p>Saturday: 5pm à 12am</p>
-                            <p>Sunday: 9am à 12am</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="contact-col-2">
-                        <div class="contact-info">
-                            <h4>Infos Contact</h4>
-                            <p>{{userrestofind.numero}}</p>
-                            <p><a href="tel:+1-234-567-8900">{{userrestofind.nom}}</a></p>
-                            <p><a href="mailto:info@example.com">{{userrestofind.email}}</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="contact-map">
-                        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d12623.52751148822!2d-122.47260557388145!3d37.72245039905841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s220%2C+San+Francisco%2C+California%2C+USA!5e0!3m2!1sen!2sbd!4v1555690883913!5m2!1sen!2sbd" frameborder="0" style="border:0" allowfullscreen></iframe> -->
-                        <img width="300px" [src]="simpleplat.image"/>
-                    </div>
-                </div>
-
-                <div class="col-md-8">
-                    <div class="contact-form">
-                        <form [formGroup]="BodyFormUpdatePlat" (ngSubmit)="submitupdateplat()">
-                            
-                            <div class="form-row">
-                                <div class="form-group col-md-3">Nom du plat</div>
-                                <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="nom"  placeholder="Nom du plat" required="required" /></div>
-                                
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-3">type du plat</div>
-                                <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="type"  placeholder="type du plat" required="required" /></div>
-                                
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-3">Image du plat</div>
-                                <div class="form-group col-md-9"><input type="file" (change)="fileupdate($event)" class="form-control" placeholder="modifier l'image" required="required" /></div>
-                                
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-1"><label class="text-center">prix</label></div>                     
-                                <div class="form-group col-md-3">                                  
-                                    <input type="text" class="form-control" formControlName="prix"  placeholder="prix du plat" required="required" />
-                                </div>
-                                <!-- <div class="form-group col-md-6"> -->
-                                    <!-- <label class="text-center">quantité</label> -->
-                                    <!-- <div class="form-group col-md-3"><input type="file" (change)="fileupdate($event)" class="form-control" placeholder="modifier l'image" required="required" /></div> -->
-                                    <div class="form-group col-md-3"><input type="number" class="form-control" placeholder="prix du recette" formControlName="recette" required="required" /></div>
-                                    <div class="form-group col-md-2"><label class="text-center">quantité</label></div>
-                                    
-                                    <div class="form-group col-md-3"><input type="email" class="form-control" formControlName="quantite" placeholder="quantité en stock" required="required" /></div>
-                                <!-- </div> -->
-                            </div>
-                            
-                            <div class="form-group">
-                                <textarea class="form-control" rows="5" formControlName="description" placeholder="Description du plat" required="required" ></textarea>
-                            </div>
-                            <div class="row">
-                               <div class="col-md-6"><button type="submit">Mettre à jour</button></div>
-
-                                <div class="col-md-6" (click)="backtoplat()"><a><h3>Retour</h3></a></div>
-                            </div>
-                            
-                        </form>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Contact Section End -->
-
-
-
-  
-
-
-</ng-template>
-
-<hr>
-
-<section id="login" *ngIf="displayconfigadmin">
-    <div class="container">
-        <div class="section-header">
-            <h3>Ajout du Plat</h3>
-        </div>
-        <div class="row">                              
-            <div class="col-md-12">
-                <div class="login-col-2">
-                    <div class="login-form">
-                        <form [formGroup]="BodyFormAddPlat" (ngSubmit)="AddPlat()">                         
-                            <!-- <input type="hidden" class="form-control" value="0" formControlName="noteclient" required="required" />
-                            <input type="hidden" class="form-control" value="0"  formControlName="id_restaurant" required="required" /> -->
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Nom du plat" formControlName="nom" required="required" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Type du plat" formControlName="type" required="required" />
-                            </div>                           
-                                                  
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <input type="number" class="form-control" placeholder="Prix du Plat" formControlName="prix" required="required" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input type="number" class="form-control" placeholder="Quantite en stock" formControlName="quantite" required="required" />
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                <input type="file"  (change)="fileChange($event)" class="form-control" placeholder="Image du plat" required="required" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                <input type="number"  class="form-control" formControlName="recette" placeholder="prix du recette" required="required" />
-                                </div>
-                            </div>   
-
-                            <div class="form-group">
-                                <textarea id="textareawidth" rows="5" formControlName="description" placeholder="Description du plat ..."></textarea>  
-                            </div>
-                                  
-                            <!-- <div><button (click)="upload()">Upload</button></div>                     -->
-                            <div><button type="submit">Ajouter</button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-  <!-- Cart Section Start -->
-  <section id="cart" *ngIf="showcpmmandbenefice">
-    <div class="container">
-        <header class="section-header">
-            <h3>Liste de vos commandes</h3>
-        </header>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive-sm">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Menu</th>
-                                <th scope="col">Prix</th>
-                                <th scope="col">Quantité</th>
-                                <th scope="col">Quantité par commande vendu</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">recette</th>
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let item of ListPlatOrder; let index = index;">
-                            <!-- <tr>
-                                <th scope="row">item.nom</th>
-                                <td>item.prix</td>
-                                <td><div class="quantity"><input type="number" value="1" id="qu_{{item._id}}"></div></td>
-                                <td>Ar<span id="pr_{{item._id}}">item.prix</span></td>
-                                <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td> -->
-                                <!-- <td><a><i class="fa fa-trash-o"  (click)="details(demo)"></i></a></td> -->
-                                
-                            <!-- </tr> -->
-                            <tr>
-                                <th scope="row">{{item.nom}}</th>
-                                <td>{{item.prix}}</td>
-                                <td><div class="quantity">{{item.quantite}}</div></td>
-                                <td><div class="quantity">{{item.quantitetotalparplat}}</div></td>
-                                <td>{{item.prixtotalparplat}}</td>
-                                <td>{{item.recette}}</td>
-                                <td>{{recettetotal[index]}}</td>
-                                <!-- <td><a href=""><i class="fa fa-trash-o"></i></a></td> -->
-                            </tr>
-                            <!-- <tr>
-                                <th scope="row">Aliquam Erat</th>
-                                <td>$20</td>
-                                <td><div class="quantity">ListPlatOrder.quantite</div></td>
-                                <td>$60</td>
-                                <td><a  (click)="getplatofresto()"><i class="fa fa-trash-o"></i></a></td>
-                            </tr> -->
-                        </tbody>
-                        <tfoot class="thead-dark">
-                            <th scope="col">Menu</th>
-                                <th scope="col">Prix</th>
-                                <th scope="col">Quantité</th>
-                                <th scope="col">Quantité par commande vendu</th>
-                                <th scope="col">{{Prixtotalplatvendu}}</th>
-                                <th scope="col">Delete</th>
-                                <th scope="col">{{Prixtotalbenefice}}</th>
-
-                                
-                        </tfoot>
-                    </table>
-                </div>
-               
-            </div>
-        </div>
-    </div>
-</section>
 <!-- Cart Section End -->
+<section *ngIf="showloaded else adminloaded">
+<section id="cart">
+    <div class="container">
+        <header class="section-header">
+            <h3>
+                <div class="spinner-border text-center" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </h3>
+        </header>      
+    </div>
+</section>
+</section>
+
+<!-- Cart Section Start -->
+ <ng-template #adminloaded>
+    <section>
+        <!-- Welcome Section Start -->
+        <div id="welcome" *ngIf="displayconfigadmin">
+          <div class="container">
+              <h3>Bienvenue l'Administrateur du restaurant {{userrestofind.nom}} </h3>
+              
+              <p>Vou pouvez ajouter,supprimer, modifier vos plats et voir vos Bénefice <i class="fa fa-plus" (click)="showbenefice(showbenefic)"></i></p>
+              <a (click)="deconnection()" >Se déconnecter</a>
+          </div>
+  
+  
+      </div>
+      <section #targetplat></section>  
+      <!-- <section><h3 class="text-success" #targetplat></h3></section>   -->
+  <!-- </ng-template> -->
+  
+  
+  
+  
+  
+  <!-- plat par restaurant -->
+  <section id="food-menu" *ngIf="descriptionplat; else desc">
+  
+  
+      <div class="container">
+          <header class="section-header">
+              <h3>Liste de vos plats <span class="text-success">{{insertionfait}}</span> <i class="fa fa-plus" (click)="showaddplat(addplat)"></i></h3>
+          </header>
+          <div class="row">
+              <div class="col-md-12">
+                  <form [formGroup]="BodyFormSearchPlat" (ngSubmit)="searchplat()">
+                      <div class="form-row">
+                          <div class="control-group col-sm-3">
+                              <div class="form-group">
+                                  <div class="input-group date" id="time" data-target-input="nearest">
+                                      <input type="text" class="form-control datetimepicker-input" formControlName="nom" placeholder="Nom"/>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="control-group col-sm-3">
+                              <div class="form-group">
+                                  <div class="input-group date" id="time" data-target-input="nearest">
+                                      <input type="text" class="form-control datetimepicker-input" formControlName="type" placeholder="Type"/>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="control-group col-sm-3">
+                              <div class="form-group">
+                                  <div class="input-group date" id="time" data-target-input="nearest">
+                                      <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="control-group col-sm-3">
+                              <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  
+      <div class="container">
+          <header class="section-header" #demo>
+          </header>
+          <div class="row">    
+                  
+              <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of plat">
+                  <div class="single-menu">
+                      <img class="img-fluid" [src]="(item.image)"/>
+  
+                      
+                      <div>Ar{{item.prix}}</div>
+                      
+                      <h4>{{item.nom}}</h4>
+                      <a> 
+                          <!-- updateplatresto -->                        
+                          <i (click)="platdescription(item)" class="btn btn-info text-white fa fa-eye"></i>
+                          <!-- deleteplatresto -->
+                          <i (click)="deleteplat(item)" class="btn btn-danger fa fa-trash-o"></i>
+                      </a>                                                                                 
+                  </div>
+              </div>
+              <div><h3 class="text-success">{{Updatesucces}}</h3></div>   
+  
+          </div>
+      </div>
+  </section>
+  <ng-template #desc>
+       <!-- Contact Section Start -->
+       <section id="contact" *ngIf="showupdate">
+          <div class="container">
+              <div class="section-header">
+                  <h3>Mis a jour</h3>
+              </div>
+              
+              <div class="row contact-detail">
+                  <div class="col-md-6">
+                      <div class="contact-col-1">
+                          <div class="contact-hours">
+                              <h4>Ouverture du restaurant</h4>
+                              <p>Lundi-Vendredi: 7am à 12am</p>
+                              <p>Samedi: 5pm à 12am</p>
+                              <p>Dimanche: 9am à 12am</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="contact-col-2">
+                          <div class="contact-info">
+                              <h4>Infos Contact</h4>
+                              <p>{{userrestofind.numero}}</p>
+                              <p><a>{{userrestofind.nom}}</a></p>
+                              <p><a>{{userrestofind.email}}</a></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+  
+              <div class="row">
+                  <div class="col-md-4">
+                      <div class="contact-map">                         
+                          <img width="300px" [src]="simpleplat.image"/>
+                      </div>
+                  </div>
+  
+                  <div class="col-md-8">
+                      <div class="contact-form">
+                          <form [formGroup]="BodyFormUpdatePlat" (ngSubmit)="submitupdateplat()">
+                              
+                              <div class="form-row">
+                                  <div class="form-group col-md-3">Nom du plat</div>
+                                  <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="nom"  placeholder="Nom du plat" required="required" /></div>
+                                  
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-md-3">type du plat</div>
+                                  <div class="form-group col-md-9"><input type="text" class="form-control" formControlName="type"  placeholder="type du plat" required="required" /></div>
+                                  
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-md-3">Image du plat</div>
+                                  <div class="form-group col-md-9"><input type="file" (change)="fileupdate($event)" formControlName="imagevide"  class="form-control" placeholder="modifier l'image" required="required" /></div>
+                                  
+                              </div>
+  
+                              <div class="form-row">
+                                  <div class="form-group col-md-1"><label class="text-center">prix</label></div>                     
+                                  <div class="form-group col-md-3">                                  
+                                      <input type="text" class="form-control" formControlName="prix"  placeholder="prix du plat" required="required" />
+                                  </div>                                
+                                      <div class="form-group col-md-3"><input type="number" class="form-control" placeholder="prix du recette" formControlName="recette" required="required" /></div>
+                                      <div class="form-group col-md-2"><label class="text-center">quantité</label></div>                                     
+                                      <div class="form-group col-md-3"><input type="email" class="form-control" formControlName="quantite" placeholder="quantité en stock" required="required" /></div>                              
+                              </div>
+                              
+                              <div class="form-group">
+                                  <textarea class="form-control" rows="5" formControlName="description" placeholder="Description du plat" required="required" ></textarea>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-6"><button type="submit">Mettre à jour</button></div>
+  
+                                  <div class="col-md-6" (click)="backtoplat()"><a><h3>Retour</h3></a></div>
+                              </div>
+                              
+                          </form>
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <!-- Contact Section End -->
+  
+  
+  
+    
+  
+  
+  </ng-template>
+  
+  <hr>
+  <section #addplat></section>
+  <section id="login" *ngIf="displayconfigadmin">
+      <div class="container">
+          <div class="section-header">
+              <h3>Ajout du Plat</h3>
+          </div>
+          <div class="row">                              
+              <div class="col-md-12">
+                  <div class="login-col-2">
+                      <div class="login-form">
+                          <form [formGroup]="BodyFormAddPlat" (ngSubmit)="AddPlat(targetplat)">                         
+                              <div class="form-group">
+                                  <span class="text-danger">{{nomplat}}</span>
+                                  <input type="text" class="form-control" placeholder="Nom du plat" formControlName="nom" required="required" />
+                              </div>
+                              <div class="form-group">
+                                  <span class="text-danger">{{typeplat}}</span>
+                                  <input type="text" class="form-control" placeholder="Type du plat" formControlName="type" required="required" />
+                              </div>                           
+                                                    
+                              <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                      <span class="text-danger">{{prixplat}}</span>
+                                      <input type="number" class="form-control" placeholder="Prix du Plat" formControlName="prix" required="required" />
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                      <span class="text-danger">{{quantiteplat}}</span>
+                                      <input type="number" class="form-control" placeholder="Quantite en stock" formControlName="quantite" required="required" />
+                                  </div>
+                              </div>
+  
+                              <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                  <input type="file"  (change)="fileChange($event)" class="form-control" placeholder="Image du plat" required="required" />
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <span class="text-danger">{{recetteplat}}</span>
+                                  <input type="number"  class="form-control" formControlName="recette" placeholder="prix du recette" required="required" />
+                                  </div>
+                              </div>   
+  
+                              <div class="form-group">
+                                  <span class="text-danger">{{descriptionplatvalue}}</span>
+                                  <textarea id="textareawidth" rows="5" formControlName="description" placeholder="Description du plat ..."></textarea>  
+                              </div>
+                              <div><button type="submit">Ajouter</button></div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+   <section #showbenefic></section>
+    <!-- Cart Section Start -->
+    <section id="cart" *ngIf="showcpmmandbenefice">
+      <div class="container">
+          <header class="section-header">
+              <h3>Liste de vos commandes</h3>
+          </header>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="table-responsive-sm">
+                      <table class="table table-bordered table-hover">
+                          <thead class="thead-dark">
+                              <tr>
+                                  <th scope="col">Menu</th>
+                                  <th scope="col">Prix</th>
+                                  <th scope="col">Quantité</th>
+                                  <th scope="col">Quantité par commande vendu</th>
+                                  <th scope="col">Total</th>
+                                  <th scope="col">recette</th>
+                              </tr>
+                          </thead>
+                          <tbody *ngFor="let item of ListPlatOrder; let index = index;">
+                              <!-- <tr>
+                                  <th scope="row">item.nom</th>
+                                  <td>item.prix</td>
+                                  <td><div class="quantity"><input type="number" value="1" id="qu_{{item._id}}"></div></td>
+                                  <td>Ar<span id="pr_{{item._id}}">item.prix</span></td>
+                                  <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td> -->
+                                  <!-- <td><a><i class="fa fa-trash-o"  (click)="details(demo)"></i></a></td> -->
+                                  
+                              <!-- </tr> -->
+                              <tr>
+                                  <th scope="row">{{item.nom}}</th>
+                                  <td>{{item.prix}}</td>
+                                  <td><div class="quantity">{{item.quantite}}</div></td>
+                                  <td><div class="quantity">{{item.quantitetotalparplat}}</div></td>
+                                  <td>{{item.prixtotalparplat}}</td>
+                                  <td>{{item.recette}}</td>
+                                  <td>{{recettetotal[index]}}</td>
+                                  <!-- <td><a href=""><i class="fa fa-trash-o"></i></a></td> -->
+                              </tr>
+                              <!-- <tr>
+                                  <th scope="row">Aliquam Erat</th>
+                                  <td>$20</td>
+                                  <td><div class="quantity">ListPlatOrder.quantite</div></td>
+                                  <td>$60</td>
+                                  <td><a  (click)="getplatofresto()"><i class="fa fa-trash-o"></i></a></td>
+                              </tr> -->
+                          </tbody>
+                          <tfoot class="thead-dark">
+                              <th scope="col">Menu</th>
+                                  <th scope="col">Prix</th>
+                                  <th scope="col">Quantité</th>
+                                  <th scope="col">Quantité par commande vendu</th>
+                                  <th scope="col">{{Prixtotalplatvendu}}</th>
+                                  <th scope="col">Delete</th>
+                                  <th scope="col">{{Prixtotalbenefice}}</th>
+  
+                                  
+                          </tfoot>
+                      </table>
+                  </div>
+                 
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- Cart Section End -->
+  
+  </section>
+
+ </ng-template>

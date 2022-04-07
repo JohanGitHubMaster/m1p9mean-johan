@@ -264,6 +264,8 @@ export class EkalyComponent implements OnInit {
       
   }
 
+  
+
   ngOnInit(): void {
     this.showalllivraison();
     this.showlivraisonresto();

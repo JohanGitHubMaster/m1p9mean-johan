@@ -2,11 +2,15 @@ import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Input, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { PlatService } from 'platservice/plat.service';
 import { Subject } from 'rxjs';
 import { Client } from '../inscription-client/client';
 import { InscriptionClientComponent } from '../inscription-client/inscription-client.component';
+import { listorderbyclient } from '../inscription-client/listorderbyclient';
 import { livraison } from './livraison';
+import { livraisonuser } from './livraisonuser';
 import { order } from './order';
 import { plat } from './plat';
 
@@ -39,6 +43,8 @@ export class PlatComponent implements OnInit {
   controldatedelivraison="";
   controllieudelivraison="";
   controlheuredelivraison="";
+  simpleclientlivraison = new livraisonuser();
+  ListPlatParclient?:listorderbyclient[];
  
   bonjour = "bonjour"
   
@@ -251,6 +257,7 @@ Insertcommand()
             })
           }
           this.startTimer(result.insertedId);
+          this.simpleclientlivraison.id_livraison = result.insertedId;
         });
         //this.verification = false;
         this.commandsuccess = true;
@@ -290,18 +297,7 @@ searchplatclient()
     console.log(this.listplat);
     this.incrementationcommand();
     });
-    
-    // var plat = this.listcommand.filter(x=>this.listcommand);
-    // for(var item of plat)
-    // {
-      // console.log("ito le izy " +this._elementRef.nativeElement.querySelector('#pl_'+item._id.toString()).innerText);
-      //this._elementRef.nativeElement.querySelector('#pl_'+item._id.toString()).innerText = "Miova"
-    // }
-    // console.log("voici le plat");
-    // console.log(plat);
-    // if(this.listcommand==)
-    
-    
+   
 }
 incrementationcommand()
 {
@@ -339,8 +335,8 @@ newcommand(el:HTMLElement)
  el.scrollIntoView();
  this.commandsuccess = false;
  this.displaybuttoncommand = true;
+ this.isprixavalable = false;
 }
-
 
 
 startTimer(id:number) {
@@ -354,11 +350,41 @@ startTimer(id:number) {
         {
           this.prixlivraison = result[0].prix;
           this.isprixavalable = true;
+          this.showdetails();
           clearInterval(this.interval);
         }
       })
     
   },2000)
 }
+
+showdetails()
+  {
+    console.log("miditra detail facture");
+    console.log(this.simpleclientlivraison.id_client);
+    this.simpleclientlivraison.id_client = this.userconnect._id;
+    this.clientservice.getplatofclient(this.simpleclientlivraison).subscribe(result=>
+      {       
+        console.log("liste des plat par client effectuer");
+        console.log(result);
+        this.ListPlatParclient = result;       
+      })
+  }
+
+
+  public convertToPDF()
+    {
+      console.log("miditra");
+    html2canvas(this._elementRef.nativeElement.querySelector("#facture")).then(canvas => {
+    // Few necessary setting options
+    
+    const contentDataURL = canvas.toDataURL('image/png')
+    let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+    var width = pdf.internal.pageSize.getWidth();
+    var height = canvas.height * width / canvas.width;
+    pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
+    pdf.save('output.pdf'); // Generated PDF
+    });
+    }
 
 }

@@ -3,6 +3,7 @@ import { Injectable, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AdminEkaly } from 'src/app/ekaly/AdminEkaly';
 import { Client } from 'src/app/inscription-client/client';
+import { livraisonuser } from 'src/app/plat/livraisonuser';
 import { adminresto } from 'src/app/restaurant/adminresto';
 
 
@@ -37,9 +38,9 @@ export class ClientService {
   {
     return this.httpclient.post(this.baseurl+"insertadminresto",restoadmin).pipe();
   }
-  public getplatofclient(client:Client):Observable<any>
+  public getplatofclient(cliente:livraisonuser):Observable<any>
   {
-    return this.httpclient.post(this.baseurl+"orderplatandclient",client).pipe();
+    return this.httpclient.post(this.baseurl+"orderplatandclient",cliente).pipe();
   }
 
   public getplatofrestaurant(restoadmin:adminresto):Observable<any>

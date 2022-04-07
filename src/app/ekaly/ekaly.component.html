@@ -275,6 +275,38 @@
         </div>
     </section>
 
+    <section id="cart">
+    
+        <div class="container">
+            <header class="section-header">
+                <h3>Vos Bénefices total par restaurant et client</h3>
+            </header>
+            <div class="row">
+                
+                <div class="col-md-12">              
+                    <div class="table-responsive-sm">
+                       
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">bénéfice total salaire restaurant</th>
+                                    <th>bénéfice total livraison client</th>    
+                                    <th>bénéfice somme client et restaurant</th>                                                                                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{prixtotalgainrestaurant}}</td>
+                                    <td>{{prixtotallivraison}}</td>   
+                                    <td>{{prixtotallivraison+prixtotalgainrestaurant}}</td>                                                              
+                                </tr>
+                            </tbody>                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 <!-- Cart Section End -->
 

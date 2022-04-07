@@ -1,6 +1,10 @@
 import { Attribute, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { PlatService } from 'platservice/plat.service';
+import { livraisonuser } from '../plat/livraisonuser';
 import { Client } from './client';
 import { listorderbyclient } from './listorderbyclient';
 
@@ -33,16 +37,21 @@ export class InscriptionClientComponent implements OnInit {
   display = true;
   displayform  = true;
   loadingcart = false;
-
+  loadingdetail = false;
+  showdetailsbyuser = false;
   //valeur error
   passwordinfo = "";
   userinfo = "";
 
   //show value
   showcommandbyuser = false;
+  listalllivraison!:Array<livraisonuser>;
+  simpleclientlivraison = new livraisonuser();
  
   constructor(public clientservice:ClientService,
-              public formBuilder: FormBuilder) 
+              public formBuilder: FormBuilder,
+              private platservice:PlatService,
+              public _elementRef:ElementRef) 
         { 
           
           //insert client
@@ -172,11 +181,32 @@ export class InscriptionClientComponent implements OnInit {
     el.scrollIntoView();
     this.showcommandbyuser = true;
     this.loadingcart = true;
-    this.clientservice.getplatofclient(this.usersession).subscribe(result=>
+
+    this.platservice.getorderclientlivraison(this.usersession).subscribe(result=>
+      {
+        this.listalllivraison = result as livraisonuser[];
+        this.listalllivraison = this.listalllivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
+        
+        this.loadingcart = false;
+        console.log(this.listalllivraison);             
+      });
+
+    
+  }
+
+  showdetails(clientlivraison:livraisonuser)
+  {
+    this.loadingdetail = true;
+    
+    this.simpleclientlivraison = clientlivraison;
+    this.clientservice.getplatofclient(this.simpleclientlivraison).subscribe(result=>
       {       
         console.log("liste des plat par client effectuer");
+        console.log(result);
         this.ListPlatParclient = result;
-        this.loadingcart = false;
+        this.loadingdetail = false;
+        this.showdetailsbyuser = true;
+
       })
   }
 
@@ -184,33 +214,8 @@ export class InscriptionClientComponent implements OnInit {
   {
     el.scrollIntoView();
     this.showcommandbyuser = false;
+    this.showdetailsbyuser = false;
   }
-
-  
-  //  client = new SMTPClient({
-  //   user: 'user',
-  //   password: 'password',
-  //   host: 'smtp.gmail.com',
-  //   ssl: true,
-  // });
-
-  // sendemail()
-  // {
-  //   this.client.send(
-  //     {
-  //       text: 'i hope this works',
-  //       from: 'johan@gmail.com',
-  //       to: 'rakotovaojohan516@gmail.com',
-  //       // cc: 'else <else@your-email.com>',
-  //       subject: 'testing emailjs',
-  //     },
-  //     (err, message) => {
-  //       console.log(err || message);
-  //     }
-  //   );
-  // }
-
-  
 
   onSubmit() {
     this.BodyFormSendMail = this.formBuilder.group
@@ -230,9 +235,21 @@ export class InscriptionClientComponent implements OnInit {
       })
       
     }
-      
     
 
-
+    public convertToPDF()
+    {
+      console.log("miditra");
+    html2canvas(this._elementRef.nativeElement.querySelector("#facture")).then(canvas => {
+    // Few necessary setting options
+    
+    const contentDataURL = canvas.toDataURL('image/png')
+    let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+    var width = pdf.internal.pageSize.getWidth();
+    var height = canvas.height * width / canvas.width;
+    pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
+    pdf.save('output.pdf'); // Generated PDF
+    });
+    }
 
 }
