@@ -13,7 +13,7 @@ export class ListLivraison {
     prixtotalparplat!:number;
     nom!:string;
     email!:string;
-    numero!:202214146;
+    numero!:string;
     prix!:number;
     type!:string;
     description!:string;

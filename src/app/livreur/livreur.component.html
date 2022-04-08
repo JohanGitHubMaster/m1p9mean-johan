@@ -1,0 +1,128 @@
+<section *ngIf="displaylogin">
+    <section id="login">
+        <div class="container">
+            <div class="section-header">
+                <h3>Livreur d'Ekaly</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-6">                        
+                    <h2>E-Kaly</h2>                       
+                    <h3>Pour voir tous les plats à livrer</h3>             
+                    <h3>cliquez ici pour <a (click)="showinscription()">S'inscrire</a></h3>
+                </div>                    
+                <div class="col-md-6">
+                    <div class="login-col-2">
+                        <div class="login-form">
+                            <form [formGroup]="BodyFormFindlivreur" (ngSubmit)="connectlivreur()">
+                                <div class="form-group" >
+                                    <!-- <span class="text-danger">{{userinfo}}</span> -->
+                                    <input type="text" class="form-control"  placeholder="Your Email" formControlName="nom"  required="required" />
+                                </div>
+                                <div class="form-group">
+                                    <!-- <span class="text-danger">{{passwordinfo}}</span> -->
+                                    <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
+                                </div>
+                                <div><button type="submit">Se Connecter</button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="login" *ngIf="displayinscription">
+        <div class="container">
+            <div class="section-header">
+                <h3>Inscription en tant que livreur</h3>
+            </div>
+            <div class="row">                              
+                <div class="col-md-12">
+                    <div class="login-col-2">
+                        <div class="login-form">
+                            <form [formGroup]="BodyFormAddlivreur" (ngSubmit)="insertlivreur()">                         
+                                <div class="form-group" >
+                                    <input type="text" class="form-control" placeholder="Nom du livreur" formControlName="nom"  required="required" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="prenom du livreur" formControlName="prenom" required="required" />
+                                </div>                           
+                                                      
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <input type="text" class="form-control" placeholder="email du livreur" formControlName="email" required="required" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <input type="password" class="form-control" placeholder="Mot de passe" formControlName="password" required="required" />
+                                    </div>
+                                </div>                                                                              
+                                <div><button type="submit">S'inscrire</button></div>                     
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    </section>
+
+    <section *ngIf="displayconfig">
+        <div id="welcome">
+            <div class="container">
+                <h3>Bienvenue sur le site Ekaly  {{livreursession.nom}} </h3>        
+                <p>Vous pouvez voir les commandes à que vous devez livrer</p>
+                <a (click)="deconnection()" #targetcommand>Déconnecter</a>           
+            </div>
+
+
+        </div>
+
+        <section>
+            <div class="container">
+                <div class="example-container">
+                    <h2>A livrer</h2>                
+                    <div
+                      cdkDropList
+                      #todoList="cdkDropList"
+                      [cdkDropListData]="todo"
+                      [cdkDropListConnectedTo]="[doneList]"
+                      class="example-list"
+                      (cdkDropListDropped)="drop($event)">
+                      <div class="example-box" *ngFor="let item of listlivraisonplat" cdkDrag>
+                         
+                          {{item.name}}
+                          <br>
+                          {{item.lieudelivraison}}
+                          <br>
+                          {{item.datedelivraison}}
+                          <br>
+                          {{item.heuredelivraison}}
+                          
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <div class="example-container">
+                    <h2>Livraison Fait</h2>
+                  
+                    <div
+                      cdkDropList
+                      #doneList="cdkDropList"
+                      [cdkDropListData]="done"
+                      [cdkDropListConnectedTo]="[todoList]"
+                      class="example-list"
+                      (cdkDropListDropped)="drop($event)">
+                      <div class="example-box" *ngFor="let item of listlivraisonplatdone" cdkDrag></div>
+                    </div>
+                  </div>
+            </div>
+            
+        </section>
+        
+
+
+    </section>
+
+
+   

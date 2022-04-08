@@ -240,7 +240,7 @@ export class InscriptionClientComponent implements OnInit {
     public convertToPDF()
     {
       console.log("miditra");
-    html2canvas(this._elementRef.nativeElement.querySelector("#facture")).then(canvas => {
+    html2canvas(this._elementRef.nativeElement.querySelector("#savetopdf")).then(canvas => {
     // Few necessary setting options
     
     const contentDataURL = canvas.toDataURL('image/png')

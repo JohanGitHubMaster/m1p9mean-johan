@@ -102,6 +102,24 @@ public insertlivraison(getlivraison:livraison):Observable<any>
     return this.httpclient.post(this.baseurl+"listbyorderclientlivraison",client).pipe();
   }
   
+  public searchclientorder(dateorder:any):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"searchlistplatsbyorderclientlivraison",dateorder).pipe();
+  }
+
+  public searchrestoorder(dateorder:any):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"searchlivraisonresto",dateorder).pipe();
+  }
+
+  public updatelivreurplat(livreurplat:any):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"updatelivreur",livreurplat).pipe();
+  }
   
+  public updatedeliveredplat(livreurplat:any):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"deliveredplat",livreurplat).pipe();
+  }
 
 }

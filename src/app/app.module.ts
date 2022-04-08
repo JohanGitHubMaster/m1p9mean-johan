@@ -10,7 +10,9 @@ import { InscriptionClientComponent } from './inscription-client/inscription-cli
 import { PlatComponent } from './plat/plat.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
 import { EkalyComponent } from './ekaly/ekaly.component';
-
+import { LivreurComponent } from './livreur/livreur.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -21,12 +23,14 @@ import { EkalyComponent } from './ekaly/ekaly.component';
     InscriptionClientComponent,
     PlatComponent,
     RestaurantComponent,
-    EkalyComponent
+    EkalyComponent,
+    LivreurComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DragDropModule,
     RouterModule.forRoot([{
       path: 'test',
       component: RestaurantComponent,
@@ -37,6 +41,7 @@ import { EkalyComponent } from './ekaly/ekaly.component';
           externalUrl: 'C:\\M1\\ProjectWebAvance\\ProjetM1\\Test_repo_Git\\servicelastnodemongo\\uploads'
       }
   }]),
+    BrowserAnimationsModule,
   ],
   providers: [
     {

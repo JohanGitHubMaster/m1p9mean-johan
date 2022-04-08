@@ -133,8 +133,18 @@
                                         <div class="control-group col-sm-3">
                                             <div class="form-group">
                                                 <div class="input-group date" id="time" data-target-input="nearest">
-                                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
-                                                    
+                                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>                                                
+                                                </div>
+                                                                                           
+                                            </div>                                         
+                                        </div>
+                                        <div class="control-group col-sm-3">
+                                            <div class="form-group">
+                                                <div  class="input-group date" id="time" data-target-input="nearest">
+                                                    <select (change)="onChange($event)"  id="inputState" class="form-control">
+                                                        <option  selected>Choisissez un livreur</option>
+                                                        <option *ngFor="let item of listlivreur" value="{{item._id}}">{{item.nom}}</option>
+                                                      </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -194,12 +204,51 @@
     </section>
 
 
+
     <section id="cart">
     
         <div class="container">
             <header class="section-header">
-                <h3>Vos Bénefices par Client</h3>
+                <h3  #targetclient>Vos Bénefices par Client</h3>
             </header>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <form [formGroup]="BodyFormSearch" (ngSubmit)="searchbydateclient(targetclient)">
+                        <div class="form-row">
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="date" class="form-control datetimepicker-input" formControlName="date_de_commande" placeholder="menu"/>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" formco  placeholder="Type"/>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="number" class="form-control datetimepicker-input"  placeholder="Prix"/>
+                                        
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="control-group col-sm-3">
+                                <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="row">
                 
                 <div class="col-md-12">              
@@ -213,7 +262,7 @@
                                     <th scope="col">prix du livraison</th>                                                                   
                                 </tr>
                             </thead>
-                            <tbody *ngFor="let item of listalllivraison; let index = index;">
+                            <tbody *ngFor="let item of listallsearchlivraison; let index = index;">
                                 <tr>
                                     <th scope="row">{{index+1}}</th>
                                     <td>{{item.name}}</td>
@@ -225,7 +274,7 @@
                                 <tr>
                                     <th scope="col">Numero livraison</th>
                                     <th></th>
-                                    <th scope="col">{{prixtotallivraison}}</th>                                                                   
+                                    <th scope="col">{{prixtotalsearchlivraison}}</th>                                                                   
                                 </tr>
                             </tfoot>
                         </table>
@@ -239,8 +288,44 @@
     
         <div class="container">
             <header class="section-header">
-                <h3>Vos Bénefices par Restaurant (20% du total des commandes vendus)</h3>
+                <h3 #targetrestaurant>Vos Bénefices par Restaurant (20% du total des commandes vendus)</h3>
             </header>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <form [formGroup]="BodyFormSearchResto" (ngSubmit)="searchbydateresto(targetrestaurant)">
+                        <div class="form-row">
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="date" class="form-control datetimepicker-input" formControlName="date_de_commande"  placeholder="date de commande"/>                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input"   placeholder="Type"/>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="number" class="form-control datetimepicker-input"  placeholder="Prix"/>
+                                        
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="control-group col-sm-3">
+                                <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="row">
                 
                 <div class="col-md-12">              
@@ -265,7 +350,7 @@
                                 <tr>
                                     <th scope="col">Numero livraison</th>
                                     <th></th>
-                                    <th scope="col">{{prixtotalgainrestaurant}}</th>                                                                   
+                                    <th scope="col">{{prixtotalsearchgainrestaurant}}</th>                                                                   
                                 </tr>
                             </tfoot>
                         </table>
@@ -281,6 +366,43 @@
             <header class="section-header">
                 <h3>Vos Bénefices total par restaurant et client</h3>
             </header>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <form>
+                        <div class="form-row">
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input"  placeholder="menu"/>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input"   placeholder="Type"/>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group col-sm-3">
+                                <div class="form-group">
+                                    <div class="input-group date" id="time" data-target-input="nearest">
+                                        <input type="number" class="form-control datetimepicker-input"  placeholder="Prix"/>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group col-sm-3">
+                                <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="row">
                 
                 <div class="col-md-12">              

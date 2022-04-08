@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from 'clientservice/client.service';
 import * as _ from 'lodash';
 import { PlatService } from 'platservice/plat.service';
+import { livreurekaly } from '../livreur/livreurekaly';
 import { livraison } from '../plat/livraison';
 import { livraisonresto } from '../plat/livraisonresto';
 import { livraisonuser } from '../plat/livraisonuser';
@@ -19,9 +20,13 @@ export class EkalyComponent implements OnInit {
   BodyFormFindAdminEkaly:FormGroup;
   BodyFormLivraison:FormGroup;
   BodyFormSendMail:FormGroup;
+  BodyFormSearch:FormGroup;
+  BodyFormSearchResto:FormGroup;
+
   userisfind?:AdminEkaly;
   livraisonlist:Array<ListLivraison>=[];
   listalllivraison!:Array<livraisonuser>;
+  listallsearchlivraison!:Array<livraisonuser>;
   displayinscription = false;
   displayconfig = false;
   displaylogin = false;
@@ -30,10 +35,14 @@ export class EkalyComponent implements OnInit {
   simplelivraison = new ListLivraison();
   showlivraisonconfig = false;
   prixtotallivraison = 0;
+  prixtotalsearchlivraison = 0;
   listlivraisonresto:Array<livraisonresto>=[];
   showlivraisonbyresto:any;
   prixtotalgainrestaurant = 0;
-  
+  prixtotalsearchgainrestaurant = 0;
+  searchdateorder:any;
+  listlivreur!:Array<livreurekaly>;
+  livredelivered= new livreurekaly();
   constructor(private clientservice:ClientService,private formBuilder:FormBuilder,private platservice:PlatService) 
   { 
     
@@ -54,6 +63,8 @@ export class EkalyComponent implements OnInit {
         lieudelivraison:[''],
         datedelivraison:[''],
         heuredelivraison:[''],
+        id_livreur:['']
+
       }
     )
 
@@ -66,6 +77,20 @@ export class EkalyComponent implements OnInit {
             emailtosend: [''], 
             nameclient:[''],
             prix:[''],
+      }
+    )
+
+    this.BodyFormSearch = this.formBuilder.group
+    (
+      {
+        date_de_commande:[''],         
+      }
+    )
+
+    this.BodyFormSearchResto = this.formBuilder.group
+    (
+      {
+        date_de_commande:[''],         
       }
     )
 
@@ -160,25 +185,18 @@ export class EkalyComponent implements OnInit {
   showalllivraison()
   {
     
-
     this.platservice.getlivraisonuser().subscribe(result=>
       {
         this.listalllivraison = result as livraisonuser[];
         this.listalllivraison = this.listalllivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
-        
+        this.listallsearchlivraison = this.listalllivraison;
         for(var item of this.listalllivraison)
         {
          this.prixtotallivraison+=1*(item.prix)
+         this.prixtotalsearchlivraison+=1*(item.prix) 
         }
-        console.log(this.listalllivraison);
-       
-        
-
+        console.log(this.listalllivraison);             
       });
-    // this.platservice.listlivraison().subscribe(result=>
-    //   {
-    //     this.listalllivraison = result;
-    //   });
   }
 
   showlivraisonresto()
@@ -194,7 +212,7 @@ export class EkalyComponent implements OnInit {
           constantlivraison.push(item);         
         }
         let input = constantlivraison,
-    res = _(input)
+             res = _(input)
             .groupBy('nom')
             .map((g,nom) => ({nom, prixtotal: (_.sumBy(g, 'prixtotalparplat')*20)/100}))
             .value();
@@ -203,7 +221,8 @@ export class EkalyComponent implements OnInit {
 
             for(var prixtotal of this.showlivraisonbyresto)
             {
-              this.prixtotalgainrestaurant += +prixtotal.prixtotal; 
+              this.prixtotalgainrestaurant += +prixtotal.prixtotal;
+              this.prixtotalsearchgainrestaurant +=  +prixtotal.prixtotal;
             }
             console.log(this.showlivraisonbyresto);
         
@@ -237,7 +256,16 @@ export class EkalyComponent implements OnInit {
   validationprix()
   {
     this.BodyFormLivraison.patchValue({_id:this.livraisonitem._id});
+    this.BodyFormLivraison.patchValue({id_livreur:this.livredelivered._id});
     console.log(this.BodyFormLivraison.value.prix);
+    console.log(this.BodyFormLivraison.value.id_livreur);
+    console.log(this.BodyFormLivraison.value._id);
+
+    this.platservice.updatelivreurplat(this.BodyFormLivraison.value).subscribe(result=>
+      {
+        console.log("livreur changed");
+      })
+
     this.platservice.updatelivraison(this.BodyFormLivraison.value).subscribe(result=>
       {
         console.log("update prix fait");
@@ -264,11 +292,75 @@ export class EkalyComponent implements OnInit {
       
   }
 
+  searchbydateclient(el:HTMLElement)
+  {
+    el.scrollIntoView();
+    this.platservice.searchclientorder(this.BodyFormSearch.value).subscribe(result=>
+      {
+        this.listallsearchlivraison = result as livraisonuser[];
+        this.listallsearchlivraison = this.listallsearchlivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
+        this.prixtotalsearchlivraison = 0;
+        for(var item of this.listallsearchlivraison)
+        {
+         this.prixtotalsearchlivraison+=1*(item.prix) 
+        }     
+      });
+  }
+
+  searchbydateresto(el:HTMLElement)
+  {
+    el.scrollIntoView();
+    this.platservice.searchrestoorder(this.BodyFormSearchResto.value).subscribe(result=>
+      {
+        console.log("miditra recherche resto");
+        console.log(this.BodyFormSearch.value);
+        
+        this.listlivraisonresto = result;
+        var constantlivraison =new Array<livraisonresto>();
+        for(var item of this.listlivraisonresto)
+        {        
+          item.prixtotalparplat = +item.prixtotalparplat;
+          constantlivraison.push(item);         
+        }
+        let input = constantlivraison,
+             res = _(input)
+            .groupBy('nom')
+            .map((g,nom) => ({nom, prixtotal: (_.sumBy(g, 'prixtotalparplat')*20)/100}))
+            .value();
+            
+            this.showlivraisonbyresto = res; 
+            this.prixtotalsearchgainrestaurant =0;
+            for(var prixtotal of this.showlivraisonbyresto)
+            {
+              this.prixtotalsearchgainrestaurant += +prixtotal.prixtotal; 
+            }
+            console.log(this.showlivraisonbyresto);      
+        this.listlivraisonresto = this.listlivraisonresto.filter((item, i, arr) => arr.findIndex((t) => t.id_restaurant=== item.id_restaurant) === i)
+
+
+      });
+  }
   
+  getlistlivreur()
+  {
+    this.clientservice.getlistlivreur().subscribe(result=>{
+      
+      this.listlivreur = result;
+      
+    });
+    
+  }
+  
+  onChange(item:any)
+  {
+    this.livredelivered._id =item.target.value;
+    console.log(this.livredelivered._id);
+  }
 
   ngOnInit(): void {
     this.showalllivraison();
     this.showlivraisonresto();
+    this.getlistlivreur();
   }
 
 }

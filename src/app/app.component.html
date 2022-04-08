@@ -16,23 +16,9 @@
             <div class="container">
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <!-- <li><a href="about.html">About</a></li> -->                      
-                        <li><a href="menu.html">Menu</a></li>
-                        <!-- <li><a href="order.html">Online Order</a></li> -->
-                        <li><a (click)="showekaly()">Admin Ekaly</a></li>
-                        <!-- <li class="menu-has-children"><a href="#">pages</a>
-                            <ul>
-                               
-                                <li class="menu-has-children"><a href="#">Drop Down</a>
-                                    <ul>
-                                        <li><a href="#">Drop Down 1</a></li>
-                                        <li><a href="#">Drop Down 2</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li> -->
-                        <!-- <li><a href="contact.html">Contact</a></li> -->
+                        <li><a href="index.html">Home</a></li>                   
+                        <li><a (click)="showlivreur()">Livreur</a></li>
+                        <li><a (click)="showekaly()">Admin Ekaly</a></li>                       
                         <li><a (click)="usertemplate()">Se Connecter</a></li>
                         <li><a (click)="showrestaurant()">Admin restaurant</a></li>                       
                         <li><a (click)="deconnecter()">Se deconnecter<i class="fa fa-user"></i></a></li>
@@ -100,6 +86,7 @@
         <app-inscription-client *ngIf="displayinscription"></app-inscription-client>
         <app-restaurant *ngIf="displayrestaurant"></app-restaurant>
         <app-ekaly *ngIf="displayekaly"></app-ekaly>
+        <app-livreur *ngIf="displaylivreur"></app-livreur>
         <!-- Login Section End -->
         <hr>
         <!-- les plats disponibles-->

@@ -242,7 +242,7 @@ Insertcommand()
             ord.id_plat = item._id;
             ord.id_restaurant = item.id_restaurant;
             ord.id_client = this.userconnect._id;
-            ord.id_contact = 0;
+            ord.id_livreur = 0;
             ord.id_livraison = result.insertedId;
             ord.date_de_commande = new Date();
             ord.quantitetotalparplat = this._elementRef.nativeElement.querySelector('#qu_'+item._id.toString()).value;

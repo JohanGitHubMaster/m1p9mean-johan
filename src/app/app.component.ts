@@ -11,6 +11,7 @@ export class AppComponent {
   displayrestaurant = false;
   displayinscription = true;
   displayekaly = false;
+  displaylivreur = false;
   // sendData = {
   //   name: "this.usersession.name",
   //   };
@@ -29,12 +30,14 @@ export class AppComponent {
     this.displayrestaurant = false;
     this.displayinscription = true;
     this.displayekaly = false;
+    this.displaylivreur = false;
   }
   showrestaurant()
   {
     this.displayrestaurant = true;
     this.displayinscription = false;
     this.displayekaly = false;
+    this.displaylivreur = false;
   }
 
   showekaly()
@@ -42,6 +45,14 @@ export class AppComponent {
     this.displayrestaurant = false;
     this.displayinscription = false;
     this.displayekaly = true;
+    this.displaylivreur = false;
+  }
+  showlivreur()
+  {
+    this.displayrestaurant = false;
+    this.displayinscription = false;
+    this.displayekaly = false;
+    this.displaylivreur = true;
   }
 
    delay(ms: number) {

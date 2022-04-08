@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, ViewContainerRef } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AdminEkaly } from 'src/app/ekaly/AdminEkaly';
 import { Client } from 'src/app/inscription-client/client';
+import { livreurekaly } from 'src/app/livreur/livreurekaly';
 import { livraisonuser } from 'src/app/plat/livraisonuser';
 import { adminresto } from 'src/app/restaurant/adminresto';
 
@@ -63,6 +64,20 @@ export class ClientService {
     return this.httpclient.post(this.baseurl+"findadminekaly",ekalyadmin).pipe();
   }
 
+  public insertlivreurEkaly(ekalylivreur:livreurekaly):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"insertlivreur",ekalylivreur).pipe();
+  }
+  
+  public findlivreurEkaly(ekalylivreur:livreurekaly):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"findlivreur",ekalylivreur).pipe();
+  }
+
+  public getlistlivreur():Observable<any>
+  {
+    return this.httpclient.get(this.baseurl+"listlivreur").pipe();
+  }
   
   
 }
