@@ -18,6 +18,7 @@ var restoadmin = require('./restaurant');
 var livraison = require('./livraison');
 var nodemailer = require('nodemailer');
 var Ekaly = require('./Ekaly');
+var livreur = require('./livreur');
 app.use(bodyParser.urlencoded(
     {
         extended: true,
@@ -285,6 +286,20 @@ app.get('/getlivraisonuser',cors(corsOptions),livraison.listplatsbyorderclientli
 app.get('/getlivraisonrestaurant',cors(corsOptions),livraison.listplatsbyorderrestaurantlivraison);
 
 app.post('/listbyorderclientlivraison',cors(corsOptions),livraison.listbyorderclientlivraison);
+
+app.post('/searchlistplatsbyorderclientlivraison',cors(corsOptions),livraison.searchlistplatsbyorderclientlivraison);
+
+app.post('/searchlivraisonresto',cors(corsOptions),livraison.searchlistplatsbyorderrestaurantlivraison);
+
+app.post('/insertlivreur',cors(corsOptions),livreur.inscriptionlivreur);
+
+app.post('/findlivreur',cors(corsOptions),livreur.findlivreur);
+
+app.get('/listlivreur',cors(corsOptions),livreur.listlivreur)
+
+app.post('/updatelivreur',order.updateallorder);
+
+app.post('/deliveredplat',cors(corsOptions),Ekaly.listplattodelivered);
 
 app.listen(process.env.PORT || 3000,function loadserver()
 {

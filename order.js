@@ -38,3 +38,24 @@ MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => 
         }).catch(error=> console.error(error));
     }
     exports.findpricelivraison = findpricelivraison;
+
+
+    function updateallorder(req, res,next){
+
+        const filterid_livraison = { id_livraison:req.body._id};
+        // const filterid_livraison = { id_livraison:"625001ab99fce11c4151ae30"};
+
+        const updateid_livreur = {
+            $set: {
+                id_livreur:req.body.id_livreur,
+                etats:"traité",
+                },
+              };  
+        db.collection('order').updateMany(filterid_livraison,updateid_livreur).then(result=>
+            {
+                console.log(result);
+                res.json(result)
+            });
+          
+        }   
+    exports.updateallorder = updateallorder;

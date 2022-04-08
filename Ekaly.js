@@ -140,3 +140,79 @@ function updateprixlivraison(req, res,next){
 exports.updateprixlivraison = updateprixlivraison;
 
 
+function listplattodelivered(req, res,next){
+    var resultorder = [];
+    db.collection('order').find().toArray().then(results =>
+        {
+            console.log(results);
+            resultrestaurant = results;
+            db.collection('restaurant').find().toArray().then(resultorders =>
+                {
+                    resultorder = resultorders.map(({
+                        nom:nomrestaurant,
+                        ...rest
+                      }) => ({
+                        nomrestaurant,
+                        ...rest
+                      }));
+
+                    console.log(typeof(resultorder))
+                    let mergedSubjects = resultrestaurant.map(subject => {
+                        let otherSubject = resultorder.find(element => element._id == subject.id_restaurant)
+                        console.log(otherSubject);
+                        return { ...subject, ...otherSubject }
+                       
+                    })
+                    
+
+                    db.collection('plat').find().toArray().then(resultplat =>
+                        {
+                            resultatplat = resultplat;
+
+                            let resultorderplat = mergedSubjects.map(subject =>{
+                                let resultatplatother = resultatplat.find(element => element._id == subject.id_plat)
+                                console.log(resultatplatother);
+                                return { ...subject, ...resultatplatother }
+                            })
+                            console.log(resultorderplat);
+
+
+
+                            //livraison
+                            db.collection('livraison').find().toArray().then(resultlivraison =>
+                                {
+                                    resultatlivraison = resultlivraison;
+
+                                   
+        
+                                    let resultfinalorderplatlivraison = resultorderplat.map(subject =>{
+                                        let resultlivraisonother = resultatlivraison.find(element => element._id == subject.id_livraison)
+                                        console.log(resultlivraisonother);
+                                        return { ...subject, ...resultlivraisonother }
+                                    })
+
+                                    db.collection('inscription').find().toArray().then(resultinscription =>
+                                        {
+                                            resultatinscription = resultinscription;
+                
+                                            let resultfinalorderplatlivraisoninscription = resultfinalorderplatlivraison.map(subject =>{
+                                                let resultinscriptionother = resultatinscription.find(element => element._id == subject.id_client)
+                                                console.log(resultinscriptionother);
+                                                return { ...subject, ...resultinscriptionother }
+                                            })
+                                            
+                                            res.json(resultfinalorderplatlivraisoninscription.filter(x=>x.id_livreur==req.body._id));                                                                              
+                                            
+                                        }).catch(error=> console.error(error));                                  
+                                }).catch(error=> console.error(error));
+
+                            
+                        }).catch(error=> console.error(error));
+
+                    
+                }).catch(error=> console.error(error));
+
+           
+        }).catch(error=> console.error(error));
+}
+exports.listplattodelivered = listplattodelivered;
