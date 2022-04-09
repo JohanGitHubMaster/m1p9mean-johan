@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListLivraison } from 'src/app/ekaly/ListLivraison';
 import { Client } from 'src/app/inscription-client/client';
+import { livreurekaly } from 'src/app/livreur/livreurekaly';
 import { livraison } from 'src/app/plat/livraison';
 import { order } from 'src/app/plat/order';
 import { plat } from 'src/app/plat/plat';
@@ -121,5 +122,17 @@ public insertlivraison(getlivraison:livraison):Observable<any>
   {
     return this.httpclient.post(this.baseurl+"deliveredplat",livreurplat).pipe();
   }
+
+  public updatestatuslivraison(livreur:any):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"livredlivraison",livreur).pipe();
+  }
+
+  public updatequantityplat(livreur:plat):Observable<any>
+  {
+    return this.httpclient.post(this.baseurl+"updatequantityplat",livreur).pipe();
+  }
+  
+  
 
 }

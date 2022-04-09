@@ -50,24 +50,26 @@
                               <form [formGroup]="BodyFormClientAdd" (ngSubmit)="OnsubmitAdd()">
                                   <div class="form-row">
                                       <div class="form-group col-md-6">
-                                          <input type="text" class="form-control" placeholder="Your Name" formControlName="name" required="required" />
+                                          <input type="text" class="form-control" placeholder="Votre nom" formControlName="name" required="required" />
                                       </div>
                                       <div class="form-group col-md-6">
-                                          <input type="email" class="form-control" placeholder="Your LastName" formControlName="lastname" required="required" />
+                                          <input type="email" class="form-control" placeholder="Votre prénom" formControlName="lastname" required="required" />
                                       </div>
                                       
                                   </div>
                                   <div class="form-row">
                                     <div class="form-group col-md-12">
-                                      <input type="email" class="form-control" placeholder="Your Email" formControlName="email" required="required" />
+                                      <input type="email" class="form-control" placeholder="Votre Email" formControlName="email" required="required" />
                                     </div>
                                   </div>
                                   <div class="form-row">
                                       <div class="form-group col-md-6">
-                                          <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
+                                        <span class="text-danger">{{incorrectpassword}}</span>
+                                          <input type="password" class="form-control" placeholder="Votre mot de passe" formControlName="password" required="required" />
                                       </div>
                                       <div class="form-group col-md-6">
-                                          <input type="password" class="form-control" placeholder="Repeat Your Password" required="required" />
+                                          <span class="text-danger">{{incorrectpassword}}</span>
+                                          <input type="password" class="form-control" placeholder="Répeter votre mot de passe" id="repeatpassword" required="required" />
                                       </div>
                                   </div>
                                   <div><button type="submit">Inscription</button></div>
@@ -82,11 +84,11 @@
                               <form [formGroup]="BodyFormFindClient" (ngSubmit)="login()">
                                   <div class="form-group">
                                     <span class="text-danger">{{userinfo}}</span>
-                                      <input type="email" class="form-control" placeholder="Your Email" formControlName="name" required="required" />
+                                      <input type="email" class="form-control" placeholder="Votre nom" formControlName="name" required="required" />
                                   </div>
                                   <div class="form-group">
                                     <span class="text-danger">{{passwordinfo}}</span>
-                                      <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
+                                      <input type="password" class="form-control" placeholder="Votre Mot de passe" formControlName="password" required="required" />
                                   </div>
                                   <div><button type="submit">Se connecter</button></div>
                               </form>
@@ -115,11 +117,11 @@
                                 <form [formGroup]="BodyFormFindClient" (ngSubmit)="login()">
                                     <div class="form-group">
                                         <span class="text-danger">{{userinfo}}</span>
-                                        <input type="email" class="form-control" placeholder="Your Email" formControlName="name" required="required" />
+                                        <input type="email" class="form-control" placeholder="votre nom" formControlName="name" required="required" />
                                     </div>
                                     <div class="form-group">
                                         <span class="text-danger">{{passwordinfo}}</span>
-                                        <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
+                                        <input type="password" class="form-control" placeholder="votre mot de passe" formControlName="password" required="required" />
                                     </div>
                                     <div><button type="submit">Se Connecter</button></div>
                                 </form>
@@ -142,6 +144,7 @@
                 
                 <p>site de commande de plat en ligne en relation avec plusieurs restaurant de Madagascar.</p>
                 <a (click)="showcommand(targetcommand)" #targetcommand>Voir tous vos commandes</a>
+                <a (click)="deconnection()" >Se déconnecter</a>
                 <!-- <a (click)="onSubmit()">essai envoi mail</a> -->
                 
                 <!-- <a (click)="sendemail()">essai envoiemail</a> -->
@@ -282,11 +285,20 @@
                                                         <th scope="row">{{itemclient.nom}}</th>
                                                         <td>{{itemclient.prix}}</td>
                                                         <td>{{itemclient.quantitetotalparplat}}</td>
-                                                        <td>{{itemclient.prixtotalparplat}}</td>
+                                                        <td>{{itemclient.prixtotalparplat}} Ar</td>
                                                         <td><img [src]="itemclient.image" width="100px" height="100px"/></td>
                                                                                                    
                                                     </tr>                                          
                                                 </tbody>
+                                                <tfoot class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">Menu</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">{{this.totallivraison}} Ar</th>                                     
+                                                    </tr>
+                                                    
+                                                </tfoot>
                                             </table>
                                         </div>
                                         

@@ -35,14 +35,17 @@ export class EkalyComponent implements OnInit {
   simplelivraison = new ListLivraison();
   showlivraisonconfig = false;
   prixtotallivraison = 0;
+  prixtotalcarburantlivraison = 0;
   prixtotalsearchlivraison = 0;
   listlivraisonresto:Array<livraisonresto>=[];
   showlivraisonbyresto:any;
   prixtotalgainrestaurant = 0;
+  
   prixtotalsearchgainrestaurant = 0;
   searchdateorder:any;
   listlivreur!:Array<livreurekaly>;
   livredelivered= new livreurekaly();
+  controlsavelivraison = "";
   constructor(private clientservice:ClientService,private formBuilder:FormBuilder,private platservice:PlatService) 
   { 
     
@@ -63,6 +66,7 @@ export class EkalyComponent implements OnInit {
         lieudelivraison:[''],
         datedelivraison:[''],
         heuredelivraison:[''],
+        prixcarburant:[''],
         id_livreur:['']
 
       }
@@ -99,7 +103,7 @@ export class EkalyComponent implements OnInit {
         {
           this.displaylogin = false;
           this.displayconfig = true;
-          console.log(userrestosession);
+          //console.log(userrestosession);
         }
         else
         {
@@ -111,11 +115,11 @@ export class EkalyComponent implements OnInit {
           this.userisfind = JSON.parse(userekalysession) as AdminEkaly;
           this.displayconfig = true;
           this.displaylogin = false;
-          console.log(this.userisfind);
+          //console.log(this.userisfind);
 
           // this.platservice.getlivraison().subscribe(result=>
           //   {
-          //     console.log(result);
+          //     //console.log(result);
           //     this.livraisonlist = result;
           //   })
 
@@ -128,14 +132,14 @@ export class EkalyComponent implements OnInit {
   {
     this.clientservice.insertadminEkaly(this.BodyFormFindAdminEkaly.value).subscribe(result=>
       {
-        console.log("inscription fait");
+        //console.log("inscription fait");
       })
   }
 
   Onsubmitlogged()
   {
     
-    console.log(this.BodyFormFindAdminEkaly.value);
+    //console.log(this.BodyFormFindAdminEkaly.value);
     this.clientservice.finduserAdminEkaly(this.BodyFormFindAdminEkaly.value).subscribe(result=>{
       if(result != null)
       {
@@ -149,11 +153,11 @@ export class EkalyComponent implements OnInit {
           this.userisfind = JSON.parse(userekalysession) as AdminEkaly;
           this.displayconfig = true;
           this.displaylogin = false;
-          console.log(this.userisfind);
+          //console.log(this.userisfind);
 
           // this.platservice.getlivraison().subscribe(result=>
           //   {
-          //     console.log(result);
+          //     //console.log(result);
           //     this.livraisonlist = result;
           //   })
 
@@ -171,7 +175,7 @@ export class EkalyComponent implements OnInit {
         if(userrestosession!=null)
         {
           sessionStorage.removeItem('userekaly');
-          console.log("deconnection fait");
+          //console.log("deconnection fait");
         }
   }
 
@@ -190,12 +194,16 @@ export class EkalyComponent implements OnInit {
         this.listalllivraison = result as livraisonuser[];
         this.listalllivraison = this.listalllivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
         this.listallsearchlivraison = this.listalllivraison;
+        this.prixtotallivraison = 0;
+        this.prixtotalcarburantlivraison = 0;
+        this.prixtotalsearchlivraison = 0;
         for(var item of this.listalllivraison)
         {
          this.prixtotallivraison+=1*(item.prix)
+         this.prixtotalcarburantlivraison+=1*(item.prixcarburant)
          this.prixtotalsearchlivraison+=1*(item.prix) 
         }
-        console.log(this.listalllivraison);             
+        //console.log(this.listalllivraison);             
       });
   }
 
@@ -205,6 +213,7 @@ export class EkalyComponent implements OnInit {
       {
         this.listlivraisonresto = result;
         var constantlivraison =new Array<livraisonresto>();
+        
         for(var item of this.listlivraisonresto)
         {
           
@@ -224,7 +233,7 @@ export class EkalyComponent implements OnInit {
               this.prixtotalgainrestaurant += +prixtotal.prixtotal;
               this.prixtotalsearchgainrestaurant +=  +prixtotal.prixtotal;
             }
-            console.log(this.showlivraisonbyresto);
+            //console.log(this.showlivraisonbyresto);
         
         
  
@@ -244,7 +253,7 @@ export class EkalyComponent implements OnInit {
     this.livraisonitem._id = item.id_livraison; 
     this.platservice.getlivraison(this.livraisonitem).subscribe(result=>
       {
-        console.log(result);
+        //console.log(result);
         this.livraisonlist = result;
         this.simplelivraison.lieudelivraison = this.livraisonlist[0].lieudelivraison;
         this.simplelivraison.name = this.livraisonlist[0].name;
@@ -253,42 +262,50 @@ export class EkalyComponent implements OnInit {
       })
   }
 
-  validationprix()
+  validationprix(el:HTMLElement)
   {
     this.BodyFormLivraison.patchValue({_id:this.livraisonitem._id});
     this.BodyFormLivraison.patchValue({id_livreur:this.livredelivered._id});
-    console.log(this.BodyFormLivraison.value.prix);
-    console.log(this.BodyFormLivraison.value.id_livreur);
-    console.log(this.BodyFormLivraison.value._id);
+    
+    //console.log(this.BodyFormLivraison.value.prix);
+    //console.log(this.BodyFormLivraison.value.id_livreur);
+    //console.log(this.BodyFormLivraison.value._id);
 
     this.platservice.updatelivreurplat(this.BodyFormLivraison.value).subscribe(result=>
       {
-        console.log("livreur changed");
+        //console.log("livreur changed");
       })
 
     this.platservice.updatelivraison(this.BodyFormLivraison.value).subscribe(result=>
       {
-        console.log("update prix fait");
+        //console.log("update prix fait");
 
         this.BodyFormSendMail = this.formBuilder.group
         (
           {
-            useremail:'rakotovaojohan516@gmail.com',
-            password:'toujourplushaut',
+            useremail:'ekalyuserprom519@gmail.com',
+            password:'xBT5s6xBT5s6',
             nomresto: this.userisfind?.nom,
             emailtosend: this.livraisonlist[0].email, 
             nameclient:this.livraisonlist[0].name,
             prix:this.BodyFormLivraison.value.prix,
           }
         )
-        console.log(this.BodyFormSendMail.value);
+        //console.log(this.BodyFormSendMail.value);
     this.clientservice.sendemail(this.BodyFormSendMail.value).subscribe(result=>
       {
-        console.log(result);
+        //console.log(result);
       })
 
 
       })
+      this.showlivraisonconfig = false;
+      el.scrollIntoView();
+      this.controlsavelivraison = "Modification Livraison fait";
+      setTimeout(() => {
+        this.controlsavelivraison = "";
+      }, 5000);
+      
       
   }
 
@@ -300,9 +317,11 @@ export class EkalyComponent implements OnInit {
         this.listallsearchlivraison = result as livraisonuser[];
         this.listallsearchlivraison = this.listallsearchlivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
         this.prixtotalsearchlivraison = 0;
+        this.prixtotalcarburantlivraison = 0;
         for(var item of this.listallsearchlivraison)
         {
-         this.prixtotalsearchlivraison+=1*(item.prix) 
+          this.prixtotalcarburantlivraison+=1*(item.prixcarburant);
+         this.prixtotalsearchlivraison+=1*(item.prix); 
         }     
       });
   }
@@ -312,8 +331,8 @@ export class EkalyComponent implements OnInit {
     el.scrollIntoView();
     this.platservice.searchrestoorder(this.BodyFormSearchResto.value).subscribe(result=>
       {
-        console.log("miditra recherche resto");
-        console.log(this.BodyFormSearch.value);
+        //console.log("miditra recherche resto");
+        //console.log(this.BodyFormSearch.value);
         
         this.listlivraisonresto = result;
         var constantlivraison =new Array<livraisonresto>();
@@ -334,7 +353,7 @@ export class EkalyComponent implements OnInit {
             {
               this.prixtotalsearchgainrestaurant += +prixtotal.prixtotal; 
             }
-            console.log(this.showlivraisonbyresto);      
+            //console.log(this.showlivraisonbyresto);      
         this.listlivraisonresto = this.listlivraisonresto.filter((item, i, arr) => arr.findIndex((t) => t.id_restaurant=== item.id_restaurant) === i)
 
 
@@ -354,9 +373,8 @@ export class EkalyComponent implements OnInit {
   onChange(item:any)
   {
     this.livredelivered._id =item.target.value;
-    console.log(this.livredelivered._id);
+    //console.log(this.livredelivered._id);
   }
-
   ngOnInit(): void {
     this.showalllivraison();
     this.showlivraisonresto();

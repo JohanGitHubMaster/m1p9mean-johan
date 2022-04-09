@@ -20,6 +20,7 @@ export class ListLivraison {
     noteclient!:string;
     quantite!:number;
     image!:string;
+    
     lieudelivraison!:string;
     datedelivraison!:Date;
     heuredelivraison!:Time;

@@ -123,11 +123,15 @@
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let item of listcommand">
+                        <tbody *ngFor="let item of listcommand; let index=index;">
                             <tr>
                                 <th scope="row">{{item.nom}}</th>
                                 <td>Ar<span id="pr_{{item._id}}">{{item.prix}}</span></td>
-                                <td><div class="quantity"><input (input)="oninput($event,item._id)" type="number" value="1" id="qu_{{item._id}}"></div></td>
+                                <td>
+                                    <div class="quantity"><input (input)="oninput($event,item._id,item)" type="number" value="1" min="1" max="{{item.quantitevendu}}" id="qu_{{item._id}}"> 
+                                        <br><span class="text-danger" id="qumax_{{item._id}}"></span>
+                                    </div>
+                            </td>
                                 <td>Ar<span id="prqu_{{item._id}}">{{item.prix}}</span></td>
                                 <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td>                                                     
                             </tr>
@@ -166,6 +170,7 @@
                 <h4 *ngIf="isprixavalable">le prix de votre livraison est {{prixlivraison}} voir dans votre Email</h4>
                 <br>
                
+
                 <section *ngIf="isprixavalable">
                         <div class="container">
                             <div class="table-responsive-sm" id="facture">
@@ -183,13 +188,20 @@
                                             <th scope="row">{{itemclient.nom}}</th>
                                             <td>{{itemclient.prix}}</td>
                                             <td>{{itemclient.quantitetotalparplat}}</td>
-                                            <td>{{itemclient.prixtotalparplat}}</td>
+                                            <td>{{itemclient.prixtotalparplat}} Ar</td>
                                             <td><img [src]="itemclient.image" width="100px" height="100px"/></td>                                                                               
                                         </tr>                                          
                                     </tbody>
+                                    <tfoot>
+                                        <th scope="col">Menu</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">{{prixtotalcommande}} Ar</th> 
+                                        
+                                    </tfoot>
                                    
                                 </table>
-                                <h4>Le prix de livraison {{prixlivraison}}</h4>
+                                <h4>Le prix de livraison {{prixlivraison}} Ariary</h4>
                             </div>
                                        
                     

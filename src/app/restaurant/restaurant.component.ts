@@ -3,7 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ClientService } from 'clientservice/client.service';
+import * as _ from 'lodash';
 import { PlatService } from 'platservice/plat.service';
+import { __values } from 'tslib';
 import { plat } from '../plat/plat';
 import { adminresto } from './adminresto';
 import { joinadminrestoplat } from './joinadminrestoplat';
@@ -48,11 +50,11 @@ export class RestaurantComponent implements OnInit {
     const reader = new FileReader();
   reader.readAsDataURL(this.uploadedFiles[0]);
   reader.onload = () => {
-    console.log("ato le valeur base64");
+    //console.log("ato le valeur base64");
       
       if(reader.result!=null)
       {
-        console.log(reader.result);
+        //console.log(reader.result);
         this.imgbase64 = reader.result?.toString();
 
       }
@@ -66,11 +68,11 @@ fileupdate(files:any) {
 const reader = new FileReader();
 reader.readAsDataURL(this.uploadedUpdateFiles[0]);
 reader.onload = () => {
-  console.log("ato le valeur base64");
+  //console.log("ato le valeur base64");
     
     if(reader.result!=null)
     {
-      console.log(reader.result);
+      //console.log(reader.result);
       this.imguploadbase64 = reader.result?.toString();
     }
   }
@@ -81,23 +83,23 @@ upload() {
    let formData = new FormData();
   for (var i = 0; i < this.uploadedFiles.length; i++) {
        formData.append("thumbnail", this.uploadedFiles[i]);    
-       console.log(this.uploadedFiles[i].lastModified);
-      // console.log(this.uploadedFiles[i].name);  
+       //console.log(this.uploadedFiles[i].lastModified);
+      // //console.log(this.uploadedFiles[i].name);  
       
   } 
      
   
 
       this.platservice.postFile(formData).subscribe((response) => {
-          console.log('response received is ', response);
-          console.log(formData)
+          //console.log('response received is ', response);
+          //console.log(formData)
       })
 }
 
   handleFileInput(files: FileList) {
 
     this.fileToUpload = files.item(0);
-    console.log(this.fileToUpload?.text);
+    //console.log(this.fileToUpload?.text);
     
     
 }
@@ -117,6 +119,8 @@ upload() {
    ListPlatOrder:Array<joinadminrestoplat> = [];
    Prixtotalplatvendu = 0;
    Prixtotalbenefice = 0;
+   prixdepensetotal = 0;
+   beneficesalaireekaly = 0;
    showupdate=true;
    showcpmmandbenefice=true;
    adminconnected=true;
@@ -166,7 +170,8 @@ upload() {
               quantite: [''],
               recette:[''],
               id_restaurant: [''],
-              image: ['']             
+              image: [''],
+              quantitevendu:0,             
             }
           )
 
@@ -221,12 +226,12 @@ upload() {
     for (var i = 0; i < this.uploadedFiles.length; i++) {
         
         formData.append("thumbnail", this.uploadedFiles[i]);    
-        console.log(this.uploadedFiles[i].lastModified);
+        //console.log(this.uploadedFiles[i].lastModified);
 
     } 
       // this.platservice.postFile(formData).subscribe((response) => {
-      //     console.log('response received is ', response);
-      //     console.log(formData);
+      //     //console.log('response received is ', response);
+      //     //console.log(formData);
       //     this.imageuploadname = response;        
           this.setimage(el);
           
@@ -236,10 +241,10 @@ upload() {
   setimage(el:HTMLElement)
   {
     
-    console.log("ito "+this.imageuploadname);
+    //console.log("ito "+this.imageuploadname);
 
     var valueadd = this.BodyFormAddPlat.value;
-    console.log(valueadd);
+    //console.log(valueadd);
     if(valueadd.nom=='')this.nomplat="nom du plat obligatoire";
     else this.nomplat='';
 
@@ -261,16 +266,17 @@ upload() {
     if(valueadd.nom!=''&&valueadd.type!=''&&valueadd.prix!=''&&valueadd.quantite!=''&&valueadd.recette!=''&&valueadd.description!='')
     {
       this.BodyFormAddPlat.patchValue({image:this.imgbase64});
+      this.BodyFormAddPlat.patchValue({quantitevendu:valueadd.quantite});
 
-      console.log(this.imgbase64);
-      console.log(this.BodyFormAddPlat.value);
+      //console.log(this.imgbase64);
+      //console.log(this.BodyFormAddPlat.value);
   
       this.BodyFormAddPlat.patchValue({id_restaurant:this.userrestofind._id});
-      console.log(this.BodyFormAddPlat.value);
+      //console.log(this.BodyFormAddPlat.value);
       this.platservice.insertplat(this.BodyFormAddPlat.value).subscribe(()=>
       {
-        console.log(this.BodyFormAddPlat.value);   
-        console.log(this.plat);
+        //console.log(this.BodyFormAddPlat.value);   
+        //console.log(this.plat);
         this.platbyresto();   
         el.scrollIntoView();   
         this.insertionfait = "plat inseré avec succès"
@@ -285,7 +291,7 @@ upload() {
 
   setimageupdate()
   { 
-    console.log("miditra ato update");
+    //console.log("miditra ato update");
     if(this.BodyFormUpdatePlat.value.imagevide != '')
     {
       this.BodyFormUpdatePlat.patchValue({image:this.imguploadbase64});
@@ -294,7 +300,7 @@ upload() {
     
    
     this.BodyFormUpdatePlat.patchValue({_id:this.simpleplat._id});
-    console.log(this.BodyFormUpdatePlat.value);
+    //console.log(this.BodyFormUpdatePlat.value);
     this.platservice.updateplatresto(this.BodyFormUpdatePlat.value).subscribe(()=>
     {
       this.platbyresto(); 
@@ -309,10 +315,10 @@ upload() {
   AddAdmin()
   {
     
-    console.log("ajout de l'admin du restaurant");
+    //console.log("ajout de l'admin du restaurant");
     this.clientservice.insertadminresto(this.BodyFormFindAddAdmin.value).subscribe(()=>
     {
-      console.log("inscription fait");
+      //console.log("inscription fait");
       this.displayadmin = false;
     });
   }
@@ -324,10 +330,10 @@ upload() {
 
   platdescription(item:plat)
   {
-    console.log("miditra plat ato");
+    //console.log("miditra plat ato");
     this.simpleplat = item;
     this.imagenotchange = item.image;
-    console.log(item.image);
+    //console.log(item.image);
     this.showupdate = true;
     this.BodyFormUpdatePlat = this.formBuilder.group
           (
@@ -352,7 +358,7 @@ upload() {
   {
     
     this.showloaded=true;
-    console.log("show loaded");
+    //console.log("show loaded");
     this.clientservice.finduserrestoAdmintoconnect(this.BodyFormFindAdminResto.value).subscribe(result=>{
       if(result != null)
       {
@@ -362,9 +368,9 @@ upload() {
         if(userrestosession!=null)
         {
          
-          console.log(this.showcpmmandbenefice);
+          //console.log(this.showcpmmandbenefice);
           this.userrestofind = JSON.parse(userrestosession) as adminresto;
-          console.log(this.userrestofind);
+          //console.log(this.userrestofind);
            this.platbyresto();
            this.getplatofresto();
            this.displayadmin = false;
@@ -375,11 +381,11 @@ upload() {
            this.showcpmmandbenefice = true;
            this.adminconnected=false;
           
-           //console.log("show loaded");
+           ////console.log("show loaded");
           // this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;})
         }
       }
-      // console.log(result); 
+      // //console.log(result); 
       
     })
   
@@ -415,10 +421,10 @@ upload() {
     let formData = new FormData();
     for (var i = 0; i < this.uploadedFiles.length; i++) {
         formData.append("thumbnail", this.uploadedFiles[i]);    
-        console.log(this.uploadedFiles[i].lastModified);
+        //console.log(this.uploadedFiles[i].lastModified);
     } 
     this.setimageupdate();
-    console.log(this.BodyFormUpdatePlat.value);
+    //console.log(this.BodyFormUpdatePlat.value);
     this.descriptionplat = true;
     this.showupdate = false;
     this.Updatesucces = "plat mis a jour avec succès"
@@ -433,7 +439,7 @@ upload() {
     this.platservice.deleteplatresto(item).subscribe(result=>
       {
         this.platbyresto();
-        console.log("supprimer");
+        //console.log("supprimer");
       })
   }
   deconnection()
@@ -453,7 +459,7 @@ upload() {
         if(userrestosession!=null)
         {
           sessionStorage.removeItem('userresto');
-          console.log("deconnection fait");
+          //console.log("deconnection fait");
         }
   }
 
@@ -465,13 +471,13 @@ upload() {
   searchplat()
   {
     this.BodyFormSearchPlat.patchValue({id_restaurant:this.userrestofind._id});
-    console.log(this.BodyFormSearchPlat.value);
+    //console.log(this.BodyFormSearchPlat.value);
     this.platservice.searchplatresto(this.BodyFormSearchPlat.value).subscribe
     (
       result=>
       {
         this.plat = result;
-        console.log(result);
+        //console.log(result);
       }
     )
   }
@@ -480,13 +486,36 @@ upload() {
   {
     this.clientservice.getplatofrestaurant(this.userrestofind).subscribe(result=>
       {
-        console.log("miditra result restaurant");
-        console.log(result);
+        //console.log("miditra result restaurant");
+        //console.log(result);
         this.ListPlatOrder = result;
         this.recettetotal = [];
         this.Prixtotalplatvendu = 0;
         this.Prixtotalbenefice = 0;
         var index=0;
+        
+        var depensetotal =0;
+        var prixtotalvendu = 0;
+        var benefice = 0;
+
+        var resultatfilter = this.ListPlatOrder.filter((item, i, arr) => arr.findIndex((t) => t.nom=== item.nom) === i)
+         
+        for(var itemfilter of resultatfilter)
+        {
+          depensetotal+=itemfilter.quantite*itemfilter.recette;
+        }
+        for(var itemplat of this.ListPlatOrder)
+        {         
+          prixtotalvendu+=+itemplat.quantitetotalparplat*itemplat.prix;
+        }
+        benefice = prixtotalvendu-depensetotal;
+        //console.log(depensetotal)
+        //console.log(prixtotalvendu)
+        //console.log(benefice)
+        this.Prixtotalbenefice=benefice;
+        this.Prixtotalplatvendu=prixtotalvendu;
+        this.prixdepensetotal = depensetotal;
+        this.beneficesalaireekaly = (this.Prixtotalbenefice)-((this.Prixtotalbenefice*20)/100);
         for(var item of this.ListPlatOrder)
         {
           if(item.recette!=undefined && item.prixtotalparplat!=undefined)
@@ -497,8 +526,8 @@ upload() {
           else
           this.recettetotal.push(0);
 
-          this.Prixtotalplatvendu += 1*item.prixtotalparplat;
-          this.Prixtotalbenefice += 1*this.recettetotal[index];
+          // this.Prixtotalplatvendu += 1*item.prixtotalparplat;
+          // this.Prixtotalbenefice += 1*this.recettetotal[index];
           index++;
         }
         this.showloaded=false;
@@ -508,7 +537,7 @@ upload() {
   
   
   ngOnInit(): void {
-    // this.platservice.getplat().subscribe(result=>{this.plat = result; console.log(this.plat)})
+    // this.platservice.getplat().subscribe(result=>{this.plat = result; //console.log(this.plat)})
     var userrestosession = (sessionStorage.getItem('userresto'));
     if(userrestosession!=null)
     {

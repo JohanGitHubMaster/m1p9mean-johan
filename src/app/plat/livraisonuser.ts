@@ -9,4 +9,5 @@ export class livraisonuser {
     lieudelivraison!:string;
     datedelivraison!:Date;
     heuredelivraison!:Time;
+    prixcarburant!:number;
 }

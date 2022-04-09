@@ -42,6 +42,8 @@ export class InscriptionClientComponent implements OnInit {
   //valeur error
   passwordinfo = "";
   userinfo = "";
+  totallivraison = 0;
+  incorrectpassword = "";
 
   //show value
   showcommandbyuser = false;
@@ -61,7 +63,7 @@ export class InscriptionClientComponent implements OnInit {
               name: [''],
               lastname: [''],
               email:[''],
-              password:['']
+              password:[''],
             }
           )
           //find client
@@ -121,7 +123,7 @@ export class InscriptionClientComponent implements OnInit {
     this.clientservice.findusertoconnect(this.BodyFormFindClient.value).subscribe(result=>
       {
         this.userfind = result;
-        console.log(result);
+        //console.log(result);
         //action apres
         if(result==null)
         {
@@ -134,11 +136,11 @@ export class InscriptionClientComponent implements OnInit {
           this.userinfo="";
           this.displayform = false;
           this.display = false;
-          // console.log(this.plat?.verificationuser());    
+          // //console.log(this.plat?.verificationuser());    
           sessionStorage.setItem('user', JSON.stringify(this.userfind));
           var usersession = (sessionStorage.getItem('user'));  
           
-          // console.log(PlatComponent.prototype.verification);
+          // //console.log(PlatComponent.prototype.verification);
           //var v = this.plat?.verificationuser();
           
           
@@ -146,7 +148,7 @@ export class InscriptionClientComponent implements OnInit {
          {          
           this.flag = false;
           this.usersession = JSON.parse(usersession) as Client
-          console.log(JSON.parse(usersession));
+          //console.log(JSON.parse(usersession));
          }
          
         }
@@ -156,25 +158,49 @@ export class InscriptionClientComponent implements OnInit {
   setvaluesession()
   {
     var usersession = (sessionStorage.getItem('user'));    
-          // console.log(PlatComponent.prototype.verification);
+          // //console.log(PlatComponent.prototype.verification);
           //var v = this.plat?.verificationuser();
         
          if(usersession!=null)
          {
           this.usersession = JSON.parse(usersession) as Client
-          console.log(JSON.parse(usersession));
+          //console.log(JSON.parse(usersession));
          }
   }
   OnsubmitAdd():any
   {
-    this.clientservice.insertclient(this.BodyFormClientAdd.value).subscribe(()=>
+    // this.BodyFormClientAdd.patchValue({reapeatpassword:this.livraisonitem._id});
+    // console.log(this._elementRef.nativeElement.querySelector('#repeatpassword').value);
+    if(this.BodyFormClientAdd.value.password == this._elementRef.nativeElement.querySelector('#repeatpassword').value)
+    {
+      this.incorrectpassword = "";
+      this.clientservice.insertclient(this.BodyFormClientAdd.value).subscribe(()=>
       {
-        console.log("inscription fait");
+        //console.log("inscription fait");
         this.display=false;
         this.getclient();
       })
+    }
+    else
+    {
+      this.incorrectpassword = "mot de passe non identique";
+    }
+    
+    
   }
 
+  deconnection()
+  {
+    var usersession = (sessionStorage.getItem('user'));
+    if(usersession!=null)
+    {
+      sessionStorage.removeItem('user');
+      //console.log("deconnection fait");
+      this.display = true;
+      // this.displayinscriptiondeconnect = false;
+      
+    }
+  }
 
   showcommand(el:HTMLElement)
   {
@@ -187,8 +213,10 @@ export class InscriptionClientComponent implements OnInit {
         this.listalllivraison = result as livraisonuser[];
         this.listalllivraison = this.listalllivraison.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison) === i);
         
+        
+
         this.loadingcart = false;
-        console.log(this.listalllivraison);             
+        //console.log(this.listalllivraison);             
       });
 
     
@@ -201,9 +229,19 @@ export class InscriptionClientComponent implements OnInit {
     this.simpleclientlivraison = clientlivraison;
     this.clientservice.getplatofclient(this.simpleclientlivraison).subscribe(result=>
       {       
-        console.log("liste des plat par client effectuer");
-        console.log(result);
+        //console.log("liste des plat par client effectuer");
+        //console.log(result);
         this.ListPlatParclient = result;
+        this.totallivraison = 0;
+        if(this.ListPlatParclient!=null)
+        {
+            for(var item of this.ListPlatParclient)
+          {
+            this.totallivraison += +item.prixtotalparplat;
+          }
+        }
+        
+
         this.loadingdetail = false;
         this.showdetailsbyuser = true;
 
@@ -231,7 +269,7 @@ export class InscriptionClientComponent implements OnInit {
     )
     this.clientservice.sendemail(this.BodyFormSendMail.value).subscribe(result=>
       {
-        console.log(result);
+        //console.log(result);
       })
       
     }
@@ -239,7 +277,7 @@ export class InscriptionClientComponent implements OnInit {
 
     public convertToPDF()
     {
-      console.log("miditra");
+      //console.log("miditra");
     html2canvas(this._elementRef.nativeElement.querySelector("#savetopdf")).then(canvas => {
     // Few necessary setting options
     

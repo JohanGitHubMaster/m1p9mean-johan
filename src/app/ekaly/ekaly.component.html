@@ -117,7 +117,7 @@
                                 <tr>
                                     <td>{{item.nom}}</td> 
                                     <td>{{item.quantitetotalparplat}}</td>                                   
-                                    <td>{{item.prixtotalparplat}}</td>                               
+                                    <td>{{item.prixtotalparplat}} Ar</td>                               
                                 </tr>                           
                             </tbody>
                         </table>
@@ -128,12 +128,22 @@
     
                         <div class="row">
                             <div class="col-md-12">
-                                <form [formGroup]="BodyFormLivraison" (ngSubmit)="validationprix()">
-                                    <div class="form-row">                                                      
+                                <form [formGroup]="BodyFormLivraison" (ngSubmit)="validationprix(targetlivrraisonlist)">
+                                    <div class="form-row">   
+                                               
                                         <div class="control-group col-sm-3">
                                             <div class="form-group">
                                                 <div class="input-group date" id="time" data-target-input="nearest">
-                                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>                                                
+                                                    <input type="number" class="form-control datetimepicker-input" formControlName="prixcarburant" placeholder="Prix du carburant"/>                                                
+                                                </div>
+                                                                                           
+                                            </div>                                         
+                                        </div>    
+
+                                        <div class="control-group col-sm-3">
+                                            <div class="form-group">
+                                                <div class="input-group date" id="time" data-target-input="nearest">
+                                                    <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix du livraison"/>                                                
                                                 </div>
                                                                                            
                                             </div>                                         
@@ -148,8 +158,9 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="control-group col-sm-3">
-                                            <button class="btn btn-info" (click)="validationprix()">traiter et valider le prix de livraison<i class="fa fa-warning"></i></button>
+                                            <button class="btn btn-info">traiter et valider le prix de livraison<i class="fa fa-warning"></i></button>
                                         </div>
                                     </div>
                                 </form>
@@ -165,11 +176,11 @@
     </ng-template>
     </section>
 
-    <section id="cart">
+    <section id="cart" #targetlivrraisonlist>
     
         <div class="container">
             <header class="section-header">
-                <h3>Listes des livraisons</h3>
+                <h3>Listes des livraisons <i class="fa fa-refresh" (click)="showalllivraison()"></i> <span class="text-success">{{controlsavelivraison}}</span></h3>
             </header>
             <div class="row">
                 
@@ -209,7 +220,7 @@
     
         <div class="container">
             <header class="section-header">
-                <h3  #targetclient>Vos Bénefices par Client</h3>
+                <h3  #targetclient>Vos Bénefices par Client <i class="fa fa-refresh" (click)="showalllivraison()"></i></h3>
             </header>
 
 
@@ -243,6 +254,8 @@
                             </div> -->
                             <div class="control-group col-sm-3">
                                 <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                               
+                                
                             </div>
                         </div>
                     </form>
@@ -259,22 +272,28 @@
                                 <tr>
                                     <th scope="col">Numero livraison</th>
                                     <th>Nom du Client</th>
-                                    <th scope="col">prix du livraison</th>                                                                   
+                                    <th scope="col">prix du livraison</th>  
+                                    <th scope="col">prix du carburant</th> 
+                                    <th scope="col">bénéfice par livraison</th>                                                              
                                 </tr>
                             </thead>
                             <tbody *ngFor="let item of listallsearchlivraison; let index = index;">
                                 <tr>
                                     <th scope="row">{{index+1}}</th>
                                     <td>{{item.name}}</td>
-                                    <td>{{item.prix}}</td> 
-                                    <td><a (click)="showdesclivraison(targetlivraison,item)"><i class="fa fa-eye"></i></a></td>                              
+                                    <td>{{item.prix}} Ar</td> 
+                                    <td>{{item.prixcarburant}} Ar</td>
+                                    <td>{{+item.prix-item.prixcarburant}} Ar</td>
+                                    <!-- <td><a (click)="showdesclivraison(targetlivraison,item)"><i class="fa fa-eye"></i></a></td>                               -->
                                 </tr>
                             </tbody>
                             <tfoot class="thead-dark">
                                 <tr>
                                     <th scope="col">Numero livraison</th>
                                     <th></th>
-                                    <th scope="col">{{prixtotalsearchlivraison}}</th>                                                                   
+                                    <th scope="col">{{prixtotalsearchlivraison}} Ar</th> 
+                                    <th>{{prixtotalcarburantlivraison}} Ar</th> 
+                                    <th>{{prixtotalsearchlivraison-prixtotalcarburantlivraison}} Ar</th>                                                              
                                 </tr>
                             </tfoot>
                         </table>
@@ -288,7 +307,7 @@
     
         <div class="container">
             <header class="section-header">
-                <h3 #targetrestaurant>Vos Bénefices par Restaurant (20% du total des commandes vendus)</h3>
+                <h3 #targetrestaurant>Vos Bénefices par Restaurant (20% du total des commandes vendus) <i class="fa fa-refresh" (click)="showalllivraison()"></i></h3>
             </header>
 
             <div class="row">
@@ -343,14 +362,14 @@
                                 <tr>
                                     <th scope="row">{{index+1}}</th>
                                     <td>{{item.nom}}</td>
-                                    <td>{{item.prixtotal}}</td>                                                                 
+                                    <td>{{item.prixtotal}} Ar</td>                                                                 
                                 </tr>
                             </tbody>
                             <tfoot class="thead-dark">
                                 <tr>
                                     <th scope="col">Numero livraison</th>
                                     <th></th>
-                                    <th scope="col">{{prixtotalsearchgainrestaurant}}</th>                                                                   
+                                    <th scope="col">{{prixtotalsearchgainrestaurant}} Ar</th>                                                                   
                                 </tr>
                             </tfoot>
                         </table>
@@ -418,9 +437,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{prixtotalgainrestaurant}}</td>
-                                    <td>{{prixtotallivraison}}</td>   
-                                    <td>{{prixtotallivraison+prixtotalgainrestaurant}}</td>                                                              
+                                    <td>{{prixtotalgainrestaurant}} Ar</td>
+                                    <td>{{prixtotallivraison}} Ar</td>   
+                                    <td>{{prixtotallivraison+prixtotalgainrestaurant}} Ar</td>                                                              
                                 </tr>
                             </tbody>                           
                         </table>

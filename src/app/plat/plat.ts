@@ -9,4 +9,5 @@ export class plat {
     quantite!: number;
     id_restaurant!: number;
     image!: String;
+    quantitevendu!:number;
 }

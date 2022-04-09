@@ -21,7 +21,9 @@ export class LivreurComponent implements OnInit {
   livreursession!:livreurekaly;
   displayconfig=false;
   listlivraisonplat!:Array<ListLivraison>;
+  listlivraisonplattotreat!:Array<ListLivraison>;
   listlivraisonplatdone!:Array<ListLivraison>;
+  loadpage=false;
 
   constructor(private clientservice:ClientService,public formBuilder: FormBuilder,public platservice:PlatService) {
 
@@ -45,6 +47,7 @@ export class LivreurComponent implements OnInit {
     )
 
     this.setvaluesession();
+
    }
 
   showinscription()
@@ -55,7 +58,7 @@ export class LivreurComponent implements OnInit {
   insertlivreur()
   {
     this.clientservice.insertlivreurEkaly(this.BodyFormAddlivreur.value).subscribe(result=>{
-      console.log("utilisateur inserer");     
+      //console.log("utilisateur inserer");     
       })
   }
 
@@ -63,22 +66,23 @@ export class LivreurComponent implements OnInit {
   setvaluesession()
   {
     var usersession = (sessionStorage.getItem('userlivreur'));    
-          // console.log(PlatComponent.prototype.verification);
+          // //console.log(PlatComponent.prototype.verification);
           //var v = this.plat?.verificationuser();
         
          if(usersession!=null)
          {
           this.livreursession = JSON.parse(usersession) as livreurekaly
-          console.log(JSON.parse(usersession));
+          //console.log(JSON.parse(usersession));
           this.displayconfig = true;
           this.displaylogin = false; 
+          this.showlivraison();
          }
   }
 
   connectlivreur()
   {
     this.clientservice.findlivreurEkaly(this.BodyFormFindlivreur.value).subscribe(result=>{
-      console.log("findlivreurEkaly");
+      //console.log("findlivreurEkaly");
 
       this.livreursession = result as livreurekaly;
       if(result!=null)
@@ -99,7 +103,7 @@ export class LivreurComponent implements OnInit {
         if(userlivreursession!=null)
         {
           sessionStorage.removeItem('userlivreur');
-          console.log("deconnection fait");
+          //console.log("deconnection fait");
         }
 
   }
@@ -110,38 +114,47 @@ export class LivreurComponent implements OnInit {
 
   showlivraison()
   {
+    this.loadpage = true;
+    this.displayconfig = false;
     this.platservice.updatedeliveredplat(this.livreursession).subscribe(resultat=>
-      {
-        this.platservice.updatedeliveredplat(this.livreursession).subscribe(resultat=>
-          {
-            this.listlivraisonplat=resultat
-    
-            this.listlivraisonplat=this.listlivraisonplat.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison && t.etats==="traité") === i);
-            this.listlivraisonplatdone=this.listlivraisonplat.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison && t.etats==="livré") === i);
-            console.log(resultat);
-          });
+      {  
+
+            this.listlivraisonplattotreat = resultat
+
+            // this.listlivraisonplat.concat(this.listlivraisonplattotreat);
+            this.listlivraisonplat=this.listlivraisonplattotreat.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison && t.etats==="traité") === i);
+            //console.log(this.listlivraisonplat);   
+            
+            // this.listlivraisonplatdone.concat(this.listlivraisonplattotreat);
+            this.listlivraisonplatdone=this.listlivraisonplattotreat.filter((item, i, arr) => arr.findIndex((t) => t.id_livraison=== item.id_livraison && t.etats==="livré") === i);
+            //console.log(this.listlivraisonplatdone);
+            this.loadpage = false;
+            this.displayconfig = true;
       });
   }
 
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  // todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
 
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+  // done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
   
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<ListLivraison[]>) {
     if (event.previousContainer === event.container) {
+
      
       
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      this.listlivraisonplatdone=this.listlivraisonplat;
-      this.listlivraisonplat=[];
-      console.log("drag fait");
+      
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+      this.platservice.updatestatuslivraison(event.container.data[event.currentIndex]).subscribe(resultat=>{
+        //console.log("status mis a jour, livraison fait");
+      })
+      //console.log(event.container.data[event.currentIndex]);
     }
   }
 

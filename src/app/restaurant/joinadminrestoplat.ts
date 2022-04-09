@@ -16,4 +16,5 @@ export class joinadminrestoplat {
     prix!: number;
     type!: string;
     recette!: number;
+    quantitevendu!: number;
 }

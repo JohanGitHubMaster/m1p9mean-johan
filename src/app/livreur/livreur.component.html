@@ -16,11 +16,11 @@
                             <form [formGroup]="BodyFormFindlivreur" (ngSubmit)="connectlivreur()">
                                 <div class="form-group" >
                                     <!-- <span class="text-danger">{{userinfo}}</span> -->
-                                    <input type="text" class="form-control"  placeholder="Your Email" formControlName="nom"  required="required" />
+                                    <input type="text" class="form-control"  placeholder="Votre nom" formControlName="nom"  required="required" />
                                 </div>
                                 <div class="form-group">
                                     <!-- <span class="text-danger">{{passwordinfo}}</span> -->
-                                    <input type="password" class="form-control" placeholder="Your Password" formControlName="password" required="required" />
+                                    <input type="password" class="form-control" placeholder="Votre mot de passe" formControlName="password" required="required" />
                                 </div>
                                 <div><button type="submit">Se Connecter</button></div>
                             </form>
@@ -79,27 +79,28 @@
         </div>
 
         <section>
-            <div class="container">
+            <div class="col-md-12">
                 <div class="example-container">
                     <h2>A livrer</h2>                
                     <div
                       cdkDropList
                       #todoList="cdkDropList"
-                      [cdkDropListData]="todo"
+                      [cdkDropListData]="listlivraisonplat"
                       [cdkDropListConnectedTo]="[doneList]"
                       class="example-list"
                       (cdkDropListDropped)="drop($event)">
-                      <div class="example-box" *ngFor="let item of listlivraisonplat" cdkDrag>
+                      <div class="example-box bg-info" *ngFor="let item of listlivraisonplat" cdkDrag>
                          
-                          {{item.name}}
-                          <br>
-                          {{item.lieudelivraison}}
-                          <br>
-                          {{item.datedelivraison}}
-                          <br>
-                          {{item.heuredelivraison}}
-                          
+                    
+                        <div class="bg-info">
+                            <div class="container">
+                                <h4>Livraison pour  {{item.name}} pour le prix de {{item.prix}} Ariary</h4>                   
+                                <h5>commande à livré à {{item.lieudelivraison}} le {{item.datedelivraison}} à {{item.heuredelivraison}}</h5>                          
+                            </div>                   
                         </div>
+                          </div>
+                          
+                        
                     </div>
                   </div>
                   
@@ -109,11 +110,18 @@
                     <div
                       cdkDropList
                       #doneList="cdkDropList"
-                      [cdkDropListData]="done"
+                      [cdkDropListData]="listlivraisonplatdone"
                       [cdkDropListConnectedTo]="[todoList]"
                       class="example-list"
                       (cdkDropListDropped)="drop($event)">
-                      <div class="example-box" *ngFor="let item of listlivraisonplatdone" cdkDrag></div>
+                      <div class="container example-box bg-success" *ngFor="let item of listlivraisonplatdone" cdkDrag>                    
+                            <div class="bg-success">
+                                <div class="container">
+                                    <h4>Livraison pour  {{item.name}} pour le prix de {{item.prix}} Ariary</h4>                   
+                                    <h5>commande déja livré à {{item.lieudelivraison}} le {{item.datedelivraison}} à {{item.heuredelivraison}}</h5>                          
+                                </div>                   
+                            </div>
+                      </div>
                     </div>
                   </div>
             </div>
@@ -122,6 +130,17 @@
         
 
 
+    </section>
+    <section *ngIf="loadpage">
+        <div class="container">
+            <header class="section-header">
+                <h3>
+                    <div class="spinner-border text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </h3>
+            </header>      
+        </div>
     </section>
 
 

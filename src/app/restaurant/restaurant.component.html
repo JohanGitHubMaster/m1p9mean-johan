@@ -15,11 +15,11 @@
                         <form>
                             <div class="form-group">
                                 <!-- <span class="text-danger">{{userinfo}}</span> -->
-                                <input type="text" class="form-control" formControlName="nom" placeholder="Your Email"  required="required" />
+                                <input type="text" class="form-control" formControlName="nom" placeholder="votre nom"  required="required" />
                             </div>
                             <div class="form-group">
                                 <!-- <span class="text-danger">{{passwordinfo}}</span> -->
-                                <input type="password" class="form-control" formControlName="password" placeholder="Your Password" required="required" />
+                                <input type="password" class="form-control" formControlName="password" placeholder="votre mot de passe" required="required" />
                             </div>
                             <div><button type="submit">Se Connecter</button></div>
                         </form>
@@ -96,8 +96,6 @@
   
       </div>
       <section #targetplat></section>  
-      <!-- <section><h3 class="text-success" #targetplat></h3></section>   -->
-  <!-- </ng-template> -->
   
   
   
@@ -126,8 +124,13 @@
                           <div class="control-group col-sm-3">
                               <div class="form-group">
                                   <div class="input-group date" id="time" data-target-input="nearest">
-                                      <input type="text" class="form-control datetimepicker-input" formControlName="type" placeholder="Type"/>
-                                      
+                                      <!-- <input type="text" class="form-control datetimepicker-input" formControlName="type" placeholder="Type"/> -->
+                                      <select class="form-control datetimepicker-input" formControlName="type">
+                                        <option></option>
+                                        <option>Plat de résistence</option>                           
+                                          <option>Déssert</option>
+                                          <option>Entrée</option>
+                                      </select>
                                   </div>
                               </div>
                           </div>
@@ -285,7 +288,12 @@
                               </div>
                               <div class="form-group">
                                   <span class="text-danger">{{typeplat}}</span>
-                                  <input type="text" class="form-control" placeholder="Type du plat" formControlName="type" required="required" />
+                                  <select class="form-control" formControlName="type">          
+                                    <option>Plat de résistence</option>                           
+                                      <option>Déssert</option>
+                                      <option>Entrée</option>
+                                  </select>
+                                  <!-- <input type="text" class="form-control" placeholder="Type du plat" formControlName="type" required="required" /> -->
                               </div>                           
                                                     
                               <div class="form-row">
@@ -327,7 +335,7 @@
     <section id="cart" *ngIf="showcpmmandbenefice">
       <div class="container">
           <header class="section-header">
-              <h3>Liste de vos commandes</h3>
+              <h3>Benefices par commande vendu</h3>
           </header>
           <div class="row">
               <div class="col-md-12">
@@ -337,48 +345,46 @@
                               <tr>
                                   <th scope="col">Menu</th>
                                   <th scope="col">Prix</th>
-                                  <th scope="col">Quantité</th>
-                                  <th scope="col">Quantité par commande vendu</th>
-                                  <th scope="col">Total</th>
                                   <th scope="col">recette</th>
+                                  <th scope="col">Quantité initial</th>                             
+                                  <th scope="col">Quantité vendu</th>
+                                  <th scope="col">Quantité restant</th>    
+                                  <th scope="col">prix totale vendu</th>
+                                  <th scope="col">Depense recette totale</th>
+                                  <th scope="col">Bénefice</th>  
+                                  <th scope="col">Bénefice-salaire ekaly (20%)</th>                         
                               </tr>
                           </thead>
                           <tbody *ngFor="let item of ListPlatOrder; let index = index;">
-                              <!-- <tr>
-                                  <th scope="row">item.nom</th>
-                                  <td>item.prix</td>
-                                  <td><div class="quantity"><input type="number" value="1" id="qu_{{item._id}}"></div></td>
-                                  <td>Ar<span id="pr_{{item._id}}">item.prix</span></td>
-                                  <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td> -->
-                                  <!-- <td><a><i class="fa fa-trash-o"  (click)="details(demo)"></i></a></td> -->
-                                  
-                              <!-- </tr> -->
                               <tr>
                                   <th scope="row">{{item.nom}}</th>
                                   <td>{{item.prix}}</td>
+                                  <td>{{item.recette}}</td>
                                   <td><div class="quantity">{{item.quantite}}</div></td>
                                   <td><div class="quantity">{{item.quantitetotalparplat}}</div></td>
-                                  <td>{{item.prixtotalparplat}}</td>
-                                  <td>{{item.recette}}</td>
-                                  <td>{{recettetotal[index]}}</td>
-                                  <!-- <td><a href=""><i class="fa fa-trash-o"></i></a></td> -->
+                                  <td><div class="quantity">{{item.quantitevendu}}</div></td>
+                                  <td><div class="quantity">{{item.quantitetotalparplat*item.prix}} Ar</div></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <!-- <td><div class="quantity">{{item.quantite*item.recette}}</div></td> -->
+                                
+                                  <!-- <td><div class="quantity">{{(item.quantitetotalparplat*item.prix)-(item.quantite*item.recette)}}</div></td>                       -->
                               </tr>
-                              <!-- <tr>
-                                  <th scope="row">Aliquam Erat</th>
-                                  <td>$20</td>
-                                  <td><div class="quantity">ListPlatOrder.quantite</div></td>
-                                  <td>$60</td>
-                                  <td><a  (click)="getplatofresto()"><i class="fa fa-trash-o"></i></a></td>
-                              </tr> -->
                           </tbody>
                           <tfoot class="thead-dark">
-                              <th scope="col">Menu</th>
-                                  <th scope="col">Prix</th>
-                                  <th scope="col">Quantité</th>
-                                  <th scope="col">Quantité par commande vendu</th>
-                                  <th scope="col">{{Prixtotalplatvendu}}</th>
-                                  <th scope="col">Delete</th>
-                                  <th scope="col">{{Prixtotalbenefice}}</th>
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col">Prix</th>
+                                <th scope="col">recette</th>
+                                <th scope="col">Quantité initial</th>                             
+                                <th scope="col">Quantité vendu</th>
+                                <th scope="col">Quantité restant</th>
+                                <th scope="col">{{Prixtotalplatvendu}} Ar</th>
+                                <th scope="col">{{prixdepensetotal}} Ar</th>            
+                                <th scope="col">{{Prixtotalbenefice}} Ar</th>
+                                <th scope="col">{{beneficesalaireekaly}} Ar</th>
+                            </tr>
   
                                   
                           </tfoot>
