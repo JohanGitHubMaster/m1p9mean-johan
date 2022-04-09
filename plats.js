@@ -55,13 +55,33 @@ function updateplat(req, res,next){
             }
         },
         {
-            upsert: true
+            upsert: false
         }
         
     ).then(result=>{  res.json(result); console.log(result);})
     .catch(error=> console.error(error))
 }
 exports.updateplat = updateplat;
+
+
+function updatequantityplat(req, res,next){
+    res.header('Access-Control-Allow-Origin: *');
+    db.collection('plat').findOneAndUpdate(
+        {_id: MongoDb.ObjectId(req.body._id)},
+        {
+            $set:
+            {
+                quantitevendu: req.body.quantitevendu,             
+            }
+        },
+        {
+            upsert: false
+        }
+        
+    ).then(result=>{  res.json(result); console.log(result);})
+    .catch(error=> console.error(error))
+}
+exports.updatequantityplat = updatequantityplat;
 
 function deleteplat(req, res, next){
     

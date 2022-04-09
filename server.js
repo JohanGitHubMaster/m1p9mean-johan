@@ -301,6 +301,10 @@ app.post('/updatelivreur',order.updateallorder);
 
 app.post('/deliveredplat',cors(corsOptions),Ekaly.listplattodelivered);
 
+app.post('/livredlivraison',cors(corsOptions),order.updateorderlivredlivraison);
+
+app.post('/updatequantityplat',cors(corsOptions),plats.updatequantityplat);
+
 app.listen(process.env.PORT || 3000,function loadserver()
 {
     console.log('listening on 3000');

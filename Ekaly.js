@@ -127,11 +127,13 @@ function updateprixlivraison(req, res,next){
         {
             $set:
             {
-                prix:req.body.prix
+                prix:req.body.prix,
+                prixcarburant:req.body.prixcarburant
+
             }
         },
         {
-            upsert: true
+            upsert: false
         }
         
     ).then(result=>{  res.json(result); console.log(result);})

@@ -59,3 +59,22 @@ MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => 
           
         }   
     exports.updateallorder = updateallorder;
+
+
+    function updateorderlivredlivraison(req, res,next){ 
+        const filterid_livraison = { id_livraison:req.body.id_livraison};
+        // const filterid_livraison = { id_livraison:"625001ab99fce11c4151ae30"};
+
+        const updateid_livreur = {
+            $set: {
+                //id_livreur:req.body.id_livreur,
+                etats:"livré",
+                },
+              };  
+        db.collection('order').updateMany(filterid_livraison,updateid_livreur).then(result=>
+            {
+                console.log(result);
+                res.json(result)
+            });
+    }
+    exports.updateorderlivredlivraison = updateorderlivredlivraison;
