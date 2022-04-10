@@ -5,9 +5,7 @@ const res = require('express/lib/response');
 var MongoDb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 var connectionString = 'mongodb+srv://johan:johan@cluster0.yv7eh.mongodb.net/test?retryWrites=true&w=majority';
-// app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
-// app.use(bodyParser.json());
 app.set('view engine','ejs');
 var db = {};
 var cors = require('cors');
@@ -33,123 +31,111 @@ const multipart = require('connect-multiparty');
 app.use(cors());
 var corsOptions = {
     origin: ["http://localhost:4200","https://angularappekaly.herokuapp.com"],
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200
   }
 
 MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => {
     console.log('Connected to Database');
-    db = client.db('star-wars-quotes');
-    // var quotesCollection = db.collection('quotes');
+    // db = client.db('star-wars-quotes');
     });
 
-app.get('/',(req,res)=>
-{
-//  res.send('Hello world');
-//  res.sendFile(__dirname+'/index.html');
- db.collection('quotes').find().toArray().then(results =>
-    {
-        res.render('index.ejs',{quotes : results});
-        console.log(results);
-    }).catch(error=> console.error(error));
+// app.get('/',(req,res)=>
+// {
+//  db.collection('quotes').find().toArray().then(results =>
+//     {
+//         res.render('index.ejs',{quotes : results});
+//         console.log(results);
+//     }).catch(error=> console.error(error));
     
-});
+// });
 
-app.use('/listquotes',cors(corsOptions),(req,res)=>
-{
-    db.collection('quotes').find().toArray().then(results =>
-        {
-            res.json(results);
-            console.log(results);
-        }).catch(error=> console.error(error));
-})
+// app.use('/listquotes',cors(corsOptions),(req,res)=>
+// {
+//     db.collection('quotes').find().toArray().then(results =>
+//         {
+//             res.json(results);
+//             console.log(results);
+//         }).catch(error=> console.error(error));
+// })
 
-app.post('/quotes', (req, res) => {
-        db.collection('quotes').insertOne(req.body).then(result=>
-            {
-                res.redirect('/');
-                console.log(result);
-            }).catch(error=>{console.log(error)});
-        // console.log('insertion fait');
-        // console.log(req.body);
-    });
+// app.post('/quotes', (req, res) => {
+//         db.collection('quotes').insertOne(req.body).then(result=>
+//             {
+//                 res.redirect('/');
+//                 console.log(result);
+//             }).catch(error=>{console.log(error)});
+//     });
 
 
-    app.post('/quotesinsertangular', (req, res,next) => {
-        // const doc = {
-        //     name: req.body.quotes.name,
-        //     quote: req.body.quotes.quote,
-        //   }
-        db.collection('quotes').insertOne(req.body).then(result=>
-            {
-                console.log('insertion fait');
-                res.json(result);
-                // res.redirect("http://localhost:4200/");
-            }).catch(error=>{console.log(error)});       
-        console.log(req.body);
-    });
+//     app.post('/quotesinsertangular', (req, res,next) => {
+//         db.collection('quotes').insertOne(req.body).then(result=>
+//             {
+//                 console.log('insertion fait');
+//                 res.json(result);
+//             }).catch(error=>{console.log(error)});       
+//         console.log(req.body);
+//     });
 
-app.put('/quotes', (req, res) => {
+// app.put('/quotes', (req, res) => {
     
-    db.collection('quotes').findOneAndUpdate(
-        {name: req.body.name},
-        {
-            $set:
-            {
-                name: req.body.namenode,
-                quote: req.body.quote
-            }
-        },
-        {
-            upsert: true
-        }
+//     db.collection('quotes').findOneAndUpdate(
+//         {name: req.body.name},
+//         {
+//             $set:
+//             {
+//                 name: req.body.namenode,
+//                 quote: req.body.quote
+//             }
+//         },
+//         {
+//             upsert: true
+//         }
         
-    ).then(result=>{  res.redirect('/'); console.log(req.body.name);})
-    .catch(error=> console.error(error))
-});
+//     ).then(result=>{  res.redirect('/'); console.log(req.body.name);})
+//     .catch(error=> console.error(error))
+// });
 
-app.delete('/quotes',(req,res)=>
-{
-    console.log(req.body.name);
-    db.collection('quotes').deleteOne(
-        {name: req.body.name}
+// app.delete('/quotes',(req,res)=>
+// {
+//     console.log(req.body.name);
+//     db.collection('quotes').deleteOne(
+//         {name: req.body.name}
         
-    )
-    .then(result=>{
-    if(result.deletedCount ===0){
-        //return res.json('No quote to delete');
+//     )
+//     .then(result=>{
+//     if(result.deletedCount ===0){
+//         //return res.json('No quote to delete');
         
-        console.log("No quote to delete");
-    }
-    else
-    {
-        console.log("deleted quote");
-    }
-    res.redirect('/');
-})
-    .catch(error=> console.error(error))
-});
+//         console.log("No quote to delete");
+//     }
+//     else
+//     {
+//         console.log("deleted quote");
+//     }
+//     res.redirect('/');
+// })
+//     .catch(error=> console.error(error))
+// });
 
-app.delete('/deletequotes/:id',(req, res, next) => {
+// app.delete('/deletequotes/:id',(req, res, next) => {
     
-    console.log(req.params.id);
-    db.collection('quotes').deleteOne(
-        { _id: MongoDb.ObjectId(req.params.id)}
+//     console.log(req.params.id);
+//     db.collection('quotes').deleteOne(
+//         { _id: MongoDb.ObjectId(req.params.id)}
         
-    )
-    .then(result=>{
-    if(result.deletedCount ===0){
-        //return res.json('No quote to delete');
-        
-        console.log("No quote to delete");
-    }
-    else
-    {
-        console.log("deleted quote");
-    }
-    res.json(result);
-})
-    .catch(error=> console.error(error))
-})
+//     )
+//     .then(result=>{
+//     if(result.deletedCount ===0){      
+//         console.log("No quote to delete");
+//     }
+//     else
+//     {
+//         console.log("deleted quote");
+//     }
+//     res.json(result);
+// })
+//     .catch(error=> console.error(error))
+// })
 
 
 //inscriptionclient
@@ -167,14 +153,14 @@ app.get('/listplats',cors(corsOptions),plats.listplats);
 //api finduser to connect
 app.post('/finduser',cors(corsOptions),inscription.findUser);
 
-app.post('/insertorder',order.insertionorder);
+app.post('/insertorder',cors(corsOptions),order.insertionorder);
 
-app.get('/findorderUser',order.findOrderUser);
+app.get('/findorderUser',cors(corsOptions),order.findOrderUser);
 
 //api restaurant
-app.post('/insertadminresto',restoadmin.inscriptionadminresto);
+app.post('/insertadminresto',cors(corsOptions),restoadmin.inscriptionadminresto);
 
-app.post('/findUserAdminResto',restoadmin.findUserAdminResto);
+app.post('/findUserAdminResto',cors(corsOptions),restoadmin.findUserAdminResto);
 
 app.post('/platsbyresto',cors(corsOptions),plats.listplatsbyresto);
 
@@ -205,7 +191,6 @@ const multipartMiddleware = multipart({
 });
 
 app.post('/api/upload', multipartMiddleware, (req, res) => {
-    // console.log(multipartMiddleware.uploadDir);
     
     let file = req['files'].thumbnail;
     console.log(file.path.split('\\').slice(-1).pop());
@@ -228,19 +213,12 @@ app.use('/imagesupload', express.static('uploads'));
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {          
-        //   user: "rakotovaojohan516@gmail.com",
           user: req.body.useremail,
-          pass: req.body.password,
-
-        //   pass: "toujourplushaut",
-
-         
+          pass: req.body.password,         
         }
       });
     var mailOptions = {
         from: req.body.nomekaly,
-        // from: "Admintest",
-        // to: "rakotovaokaren5@gmail.com",
         to: req.body.emailtosend,
         subject: 'Mis a jour de votre prix de Livraison',
         text: 'Merci pour l\'attente monsieur(madame) '+req.body.nameclient+' le prix de votre livraison à ete mis à jour de '+req.body.prix+' ariary\n Cordialement L\'administrateur d\'Ekaly'
@@ -256,22 +234,11 @@ app.use('/imagesupload', express.static('uploads'));
       });
   })
 
-  
-  
-
-
-
-// app.get('/sendmail',function(req,res)
-// {
-   
-    
-// })
 
 app.post('/insertadminEkaly',cors(corsOptions),Ekaly.inscriptionadminEkaly);
 
 app.post('/findadminekaly',cors(corsOptions),Ekaly.findUserAdminEkaly);
 
-// app.get('/listplatlivraisontest',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser)
 
 app.post('/listplatlivraison',cors(corsOptions),Ekaly.listplatsalivrerbyrestoanduser);
 

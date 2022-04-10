@@ -4,7 +4,7 @@ var connectionString = 'mongodb+srv://johan:johan@cluster0.yv7eh.mongodb.net/tes
 var db = {};
 
 MongoClient.connect(connectionString,{useUnifiedTopology: true}).then(client => {
-    console.log('Connected to Database');
+    // console.log('Connected to Database');
     db = client.db('Ekaly');
     });
 
