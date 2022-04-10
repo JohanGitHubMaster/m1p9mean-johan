@@ -221,7 +221,7 @@ app.use('/imagesupload', express.static('uploads'));
         from: req.body.nomekaly,
         to: req.body.emailtosend,
         subject: 'Mis a jour du prix de Livraison',
-        text: 'Merci pour l\'attente monsieur(madame) '+req.body.nameclient+' le prix de votre livraison à ete mis à jour de '+req.body.prix+' ariary\n Cordialement L\'administrateur d\'Ekaly'
+        text: 'Bonjour monsieur(madame) '+req.body.nameclient+' le prix de votre livraison à ete mis à jour de '+req.body.prix+' ariary\n Merci pour votre attente, \n Cordialement L\'administrateur d\'Ekaly'
       };
       
       transporter.sendMail(mailOptions, function(error, info){
