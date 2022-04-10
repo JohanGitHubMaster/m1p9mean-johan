@@ -412,7 +412,7 @@ showdetails()
     var width = pdf.internal.pageSize.getWidth();
     var height = canvas.height * width / canvas.width;
     pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
-    pdf.save('output.pdf'); // Generated PDF
+    pdf.save('facture.pdf'); // Generated PDF
     });
     }
 
