@@ -1,227 +1,243 @@
-<section id="food-menu">
-    <div class="container">
-        <header class="section-header" #demo>
-            <h3>Liste des Menu disponible <i (click)="scroll(target)" class="fa fa-shopping-cart"></i></h3>
-        </header>
-
-              
-            <div class="row">
-                <div class="col-md-12">
-                    <form [formGroup]="BodyFormSearchPlat" (ngSubmit)="searchplatclient()">
-                        <div class="form-row">
-                            <div class="control-group col-sm-3">
-                                <div class="form-group">
-                                    <div class="input-group date" id="time" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" formControlName="nom" placeholder="menu"/>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group col-sm-3">
-                                <div class="form-group">
-                                    <div class="input-group date" id="time" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" formControlName="type"  placeholder="Type"/>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group col-sm-3">
-                                <div class="form-group">
-                                    <div class="input-group date" id="time" data-target-input="nearest">
-                                        <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="control-group col-sm-3">
-                                <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        
-        <div class="row">           
-            <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of listplat; let index = index;">
-                <div class="single-menu">
-                    <img class="img-fluid" [src]="item.image" />
-                    <div>Ar{{item.prix}}</div>
-                    <h4>{{item.nom}}</h4>
-                    <a (click)="AddPlat($event,item)"  id="pl_{{item._id}}">{{buttonplatcommand[index]}} </a>
-                    <i class="text-white fa fa-shopping-cart fa-lg" width="100" (click)="scroll(target)"></i>
-                   
-                    
-                </div>
-            </div>
-
+<section *ngIf="showuser else userloaded">
+    <section id="cart">
+        <div class="container">
+            <header class="section-header">
+                <h3>
+                    <div class="spinner-border text-center" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </h3>
+            </header>      
         </div>
-    </div>
+    </section>
 </section>
-
-
-<!-- Cart Section Start -->
-<section id="cart" #target>
-    <div class="container" *ngIf="verification">
-        <header class="section-header">
-            <h3>Liste de vos commandes {{userconnect.name}}</h3>
-        </header>
-        <div class="row">
-            <div class="col-md-12">
-
-    <form [formGroup]="BodyFormAddLivraison" (ngSubmit)="Insertcommand()">
-        <!-- Commande Section Start -->
-        <section id="login">
-            <div class="container">              
+<ng-template #userloaded>
+    <section id="food-menu">
+        <div class="container">
+            <header class="section-header" #demo>
+                <h3>Liste des Menu disponible <i (click)="scroll(target)" class="fa fa-shopping-cart"></i></h3>
+            </header>
+    
+                  
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-row">
-                            <div class="control-group col-sm-3">
-                                <div class="form-group">
-                                    <div class="input-group date" id="time" data-target-input="nearest">
-                                        <span class="text-danger">{{controldatedelivraison}}</span>
-                                        <input type="date" class="form-control datetimepicker-input" formControlName="datedelivraison"  placeholder="Date"/>
-                                        
+                        <form [formGroup]="BodyFormSearchPlat" (ngSubmit)="searchplatclient()">
+                            <div class="form-row">
+                                <div class="control-group col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="time" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" formControlName="nom" placeholder="menu"/>
+                                            
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="control-group col-sm-3">
-                                <div class="form-group">
-                                    <div class="input-group date" id="time" data-target-input="nearest">
-                                        <span class="text-danger">{{controlheuredelivraison}}</span>
-                                        <input type="time" class="form-control datetimepicker-input" formControlName="heuredelivraison" placeholder="Time"/>
-                                        
+                                <div class="control-group col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="time" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" formControlName="type"  placeholder="Type"/>
+                                            
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="control-group col-sm-3">
-                                <div class="form-group">
-                                    <div class="input-group" data-target-input="nearest">
-                                        <span class="text-danger">{{controllieudelivraison}}</span>                 
-                                        <input type="text" class="form-control datetimepicker-input" formControlName="lieudelivraison" placeholder="Lieu de livraison"/>          
+                                <div class="control-group col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="time" data-target-input="nearest">
+                                            <input type="number" class="form-control datetimepicker-input" formControlName="prix" placeholder="Prix"/>
+                                            
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="control-group col-sm-3">
+                                    <button class="btn btn-info">Recherche <i class="fa fa-search"></i></button>
+                                </div>
                             </div>
-                            <!-- <div class="control-group col-sm-3">
-                                <button class="btn btn-info">Book Now</button>
-                            </div> -->
-                        </div>
+                        </form>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- Reservations Section End -->
-           
-                <div class="table-responsive-sm">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Menu</th>
-                                <th scope="col">Prix</th>
-                                <th scope="col">Quantité</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let item of listcommand; let index=index;">
-                            <tr>
-                                <th scope="row">{{item.nom}}</th>
-                                <td>Ar<span id="pr_{{item._id}}">{{item.prix}}</span></td>
-                                <td>
-                                    <div class="quantity"><input (input)="oninput($event,item._id,item)" type="number" value="1" min="1" max="{{item.quantitevendu}}" id="qu_{{item._id}}"> 
-                                        <br><span class="text-danger" id="qumax_{{item._id}}"></span>
-                                    </div>
-                            </td>
-                                <td>Ar<span id="prqu_{{item._id}}">{{item.prix}}</span></td>
-                                <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td>                                                     
-                            </tr>
-                           
-                        </tbody>
-                        <tfoot class="thead-dark">
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Total</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
             
-        
-
-                <div class="button">
-                        <button type="submit" *ngIf="displaybuttoncommand">Commander</button>   
-                                                                
+            <div class="row">           
+                <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let item of listplat; let index = index;">
+                    <div class="single-menu">
+                        <img class="img-fluid" [src]="item.image" />
+                        <div>Ar{{item.prix}}</div>
+                        <h4>{{item.nom}}</h4>
+                        <a (click)="AddPlat($event,item)"  id="pl_{{item._id}}">{{buttonplatcommand[index]}} </a>
+                        <i class="text-white fa fa-shopping-cart fa-lg" width="100" (click)="scroll(target)"></i>
+                       
+                        
+                    </div>
                 </div>
-    </form>  
+    
             </div>
         </div>
-    </div>
-
-        <div id="welcome" *ngIf="commandsuccess">
-            <div class="container">
-                <h3>Commande ajouter avec succes</h3>    
-                         
-                <h4>une email va etre envoyez pour vous faire connaitre le prix de votre livraison </h4>
-                <button class="btn btn-success" (click)="newcommand(demo)">nouvelle commande</button>
-                <br>
-                <h4 *ngIf="isprixavalable">le prix de votre livraison est {{prixlivraison}} voir dans votre Email</h4>
-                <br>
-               
-
-                <section *ngIf="isprixavalable">
-                        <div class="container">
-                            <div class="table-responsive-sm" id="facture">
-                                <table class="table table-bordered table-hover">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Menu</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Total</th>                                     
-                                        </tr>
-                                    </thead>
-                                    <tbody *ngFor="let itemclient of ListPlatParclient">
-                                        <tr>                                      
-                                            <th scope="row">{{itemclient.nom}}</th>
-                                            <td>{{itemclient.prix}}</td>
-                                            <td>{{itemclient.quantitetotalparplat}}</td>
-                                            <td>{{itemclient.prixtotalparplat}} Ar</td>
-                                            <td><img [src]="itemclient.image" width="100px" height="100px"/></td>                                                                               
-                                        </tr>                                          
-                                    </tbody>
-                                    <tfoot>
-                                        <th scope="col">Menu</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">{{prixtotalcommande}} Ar</th> 
-                                        
-                                    </tfoot>
-                                   
-                                </table>
-                                <h4>Le prix de livraison {{prixlivraison}} Ariary</h4>
+    </section>
+    
+    
+    <!-- Cart Section Start -->
+    <section id="cart" #target>
+        <div class="container" *ngIf="verification">
+            <header class="section-header">
+                <h3>Liste de vos commandes {{userconnect.name}}</h3>
+            </header>
+            <div class="row">
+                <div class="col-md-12">
+    
+        <form [formGroup]="BodyFormAddLivraison" (ngSubmit)="Insertcommand()">
+            <!-- Commande Section Start -->
+            <section id="login">
+                <div class="container">              
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-row">
+                                <div class="control-group col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="time" data-target-input="nearest">
+                                            <span class="text-danger">{{controldatedelivraison}}</span>
+                                            <input type="date" class="form-control datetimepicker-input" formControlName="datedelivraison"  placeholder="Date"/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control-group col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="time" data-target-input="nearest">
+                                            <span class="text-danger">{{controlheuredelivraison}}</span>
+                                            <input type="time" class="form-control datetimepicker-input" formControlName="heuredelivraison" placeholder="Time"/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control-group col-sm-3">
+                                    <div class="form-group">
+                                        <div class="input-group" data-target-input="nearest">
+                                            <span class="text-danger">{{controllieudelivraison}}</span>                 
+                                            <input type="text" class="form-control datetimepicker-input" formControlName="lieudelivraison" placeholder="Lieu de livraison"/>          
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="control-group col-sm-3">
+                                    <button class="btn btn-info">Book Now</button>
+                                </div> -->
                             </div>
-                                       
-                    
-                    <div class="button">
-                        <button type="submit" (click)="convertToPDF()">Save To Pdf</button>    
-                        
-                                                            
-                
+                        </div>
                     </div>
                 </div>
             </section>
-                   
+            
+            <!-- Reservations Section End -->
+               
+                    <div class="table-responsive-sm">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Menu</th>
+                                    <th scope="col">Prix</th>
+                                    <th scope="col">Quantité</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of listcommand; let index=index;">
+                                <tr>
+                                    <th scope="row">{{item.nom}}</th>
+                                    <td>Ar<span id="pr_{{item._id}}">{{item.prix}}</span></td>
+                                    <td>
+                                        <div class="quantity"><input (input)="oninput($event,item._id,item)" type="number" value="1" min="1" max="{{item.quantitevendu}}" id="qu_{{item._id}}"> 
+                                            <br><span class="text-danger" id="qumax_{{item._id}}"></span>
+                                        </div>
+                                </td>
+                                    <td>Ar<span id="prqu_{{item._id}}">{{item.prix}}</span></td>
+                                    <td><a><i class="fa fa-trash-o"  (click)="RemovePlat(item._id)"></i></a></td>                                                     
+                                </tr>
+                               
+                            </tbody>
+                            <tfoot class="thead-dark">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 
+            
+    
+                    <div class="button">
+                            <button type="submit" *ngIf="displaybuttoncommand">Commander</button>   
+                                                                    
+                    </div>
+        </form>  
+                </div>
             </div>
-
-
         </div>
-  
-</section>
-<!-- Cart Section End -->
+    
+            <div id="welcome" *ngIf="commandsuccess">
+                <div class="container">
+                    <h3>Commande ajouter avec succes</h3>    
+                             
+                    <h4>une email va etre envoyez pour vous faire connaitre le prix de votre livraison </h4>
+                    <button class="btn btn-success" (click)="newcommand(demo)">nouvelle commande</button>
+                    <br>
+                    <h4 *ngIf="isprixavalable">le prix de votre livraison est {{prixlivraison}} voir dans votre Email</h4>
+                    <br>
+                   
+    
+                    <section *ngIf="isprixavalable">
+                            <div class="container">
+                                <div class="table-responsive-sm" id="facture">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Menu</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Total</th>                                     
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let itemclient of ListPlatParclient">
+                                            <tr>                                      
+                                                <th scope="row">{{itemclient.nom}}</th>
+                                                <td>{{itemclient.prix}}</td>
+                                                <td>{{itemclient.quantitetotalparplat}}</td>
+                                                <td>{{itemclient.prixtotalparplat}} Ar</td>
+                                                <td><img [src]="itemclient.image" width="100px" height="100px"/></td>                                                                               
+                                            </tr>                                          
+                                        </tbody>
+                                        <tfoot>
+                                            <th scope="col">Menu</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">{{prixtotalcommande}} Ar</th> 
+                                            
+                                        </tfoot>
+                                       
+                                    </table>
+                                    <h4>Le prix de livraison {{prixlivraison}} Ariary</h4>
+                                </div>
+                                           
+                        
+                        <div class="button">
+                            <button type="submit" (click)="convertToPDF()">Save To Pdf</button>    
+                            
+                                                                
+                    
+                        </div>
+                    </div>
+                </section>
+                       
+                    
+                </div>
+    
+    
+            </div>
+      
+    </section>
+    <!-- Cart Section End -->
+</ng-template>
+
 
 
 

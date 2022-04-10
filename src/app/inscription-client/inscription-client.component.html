@@ -327,6 +327,10 @@
       <!-- Login Section End -->
       <!-- <hr> -->
       <!-- les plats disponibles-->
+   
+        
+        
+            <app-plat  *ngIf="flag; else templatechange"></app-plat>
+            <ng-template #templatechange> <app-plat></app-plat> </ng-template>
+        
       
-      <app-plat  *ngIf="flag; else templatechange"></app-plat>
-      <ng-template #templatechange> <app-plat></app-plat> </ng-template>

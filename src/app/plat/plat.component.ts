@@ -5,9 +5,7 @@ import { ClientService } from 'clientservice/client.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { PlatService } from 'platservice/plat.service';
-import { Subject } from 'rxjs';
 import { Client } from '../inscription-client/client';
-import { InscriptionClientComponent } from '../inscription-client/inscription-client.component';
 import { listorderbyclient } from '../inscription-client/listorderbyclient';
 import { livraison } from './livraison';
 import { livraisonuser } from './livraisonuser';
@@ -46,6 +44,7 @@ export class PlatComponent implements OnInit {
   simpleclientlivraison = new livraisonuser();
   ListPlatParclient?:listorderbyclient[];
   prixtotalcommande = 0;
+  showuser = true;
 
   @Input()imgpath = 'https://nodemongotestapp.herokuapp.com/imagesupload/';
 
@@ -109,7 +108,7 @@ export class PlatComponent implements OnInit {
         this.listplat = result;
 
         this.incrementationcommand();
-
+        this.showuser = false;
       });
 
   }

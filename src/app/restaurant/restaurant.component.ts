@@ -42,6 +42,7 @@ export class RestaurantComponent implements OnInit {
   formData = new FormData();
   uploadimage:string ="";
   recettetotal:Array<number>=[];
+  showplat = false;
   
 
   fileChange(files:any) {
@@ -128,6 +129,7 @@ upload() {
    Updatesucces="";
    insertionfait="";
    imagenotchange:String = "";
+   initialize=false;
 
    //control de valeur
    nomplat="";
@@ -215,12 +217,13 @@ upload() {
 
  platbyresto()
  {
-  this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;  this.showloaded=false;})
+   this.showplat = true;
+  this.platservice.listplatsbyresto(this.userrestofind).subscribe(result=>{ this.plat = result;  this.showloaded=false; this.showplat=false;})
  }
 
   AddPlat(el:HTMLElement)
   {
-    
+    this.showplat = true;
     //ajout du photos
     let formData = new FormData();
     for (var i = 0; i < this.uploadedFiles.length; i++) {
@@ -233,14 +236,12 @@ upload() {
       //     //console.log('response received is ', response);
       //     //console.log(formData);
       //     this.imageuploadname = response;        
-          this.setimage(el);
-          
+          this.setimage(el);       
       // })
   }
 
   setimage(el:HTMLElement)
   {
-    
     //console.log("ito "+this.imageuploadname);
 
     var valueadd = this.BodyFormAddPlat.value;
@@ -356,7 +357,7 @@ upload() {
 
   Onsubmitlogged()
   {
-    
+    this.initialize = true;
     this.showloaded=true;
     //console.log("show loaded");
     this.clientservice.finduserrestoAdmintoconnect(this.BodyFormFindAdminResto.value).subscribe(result=>{
@@ -397,6 +398,7 @@ upload() {
     var userrestosession = (sessionStorage.getItem('userresto'));
     if(userrestosession!=null)
       {
+        this.initialize = true;
         this.displayadmin = false;
         this.displayconfigadmin = true;
         this.displaylogin = false;
@@ -434,8 +436,10 @@ upload() {
     
 
   }
-  deleteplat(item:plat)
+  deleteplat(item:plat,el:HTMLElement)
   {
+    el.scrollIntoView();
+    this.showplat = true;
     this.platservice.deleteplatresto(item).subscribe(result=>
       {
         this.platbyresto();
@@ -484,6 +488,7 @@ upload() {
 
   getplatofresto()
   {
+    this.showloaded = true;
     this.clientservice.getplatofrestaurant(this.userrestofind).subscribe(result=>
       {
         //console.log("miditra result restaurant");
