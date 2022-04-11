@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-root',
@@ -67,6 +67,10 @@ deconnecter()
     console.log("deconnection fait");
   }
   console.log("test lien");
+}
+downloadFile() {
+  const pdfUrl = './assets/Readme.txt';
+  saveAs(pdfUrl,"Readme.txt");
 }
             
             
