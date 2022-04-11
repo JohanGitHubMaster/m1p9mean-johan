@@ -20,6 +20,7 @@ a:active,
 a:focus {
     color: #353535;
     outline: none;
+    cursor: pointer;
     text-decoration: none;
 }
 
